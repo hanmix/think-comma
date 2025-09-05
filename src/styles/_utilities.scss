@@ -1,0 +1,98 @@
+// Programmatic utilities built from tokens
+@use "./_variables" as *;
+@use "./_mixins" as *;
+
+// Container width variants
+.tc-container--narrow {
+  @include container(narrow);
+}
+.tc-container--default {
+  @include container(default);
+}
+.tc-container--wide {
+  @include container(wide);
+}
+.tc-container--full {
+  @include container(full);
+}
+
+// Spacing scale map
+$space-scale: (
+  0: $spacing-0,
+  1: $spacing-1,
+  2: $spacing-2,
+  3: $spacing-3,
+  4: $spacing-4,
+  6: $spacing-6,
+  8: $spacing-8,
+  12: $spacing-12,
+  16: $spacing-16,
+);
+
+// Margin/Padding utilities
+@each $k, $v in $space-scale {
+  // All sides
+  .tc-m-#{$k} {
+    margin: $v;
+  }
+  .tc-p-#{$k} {
+    padding: $v;
+  }
+
+  // Axis
+  .tc-mx-#{$k} {
+    margin-left: $v;
+    margin-right: $v;
+  }
+  .tc-my-#{$k} {
+    margin-top: $v;
+    margin-bottom: $v;
+  }
+  .tc-px-#{$k} {
+    padding-left: $v;
+    padding-right: $v;
+  }
+  .tc-py-#{$k} {
+    padding-top: $v;
+    padding-bottom: $v;
+  }
+
+  // Individual sides
+  .tc-mt-#{$k} {
+    margin-top: $v;
+  }
+  .tc-mr-#{$k} {
+    margin-right: $v;
+  }
+  .tc-mb-#{$k} {
+    margin-bottom: $v;
+  }
+  .tc-ml-#{$k} {
+    margin-left: $v;
+  }
+  .tc-pt-#{$k} {
+    padding-top: $v;
+  }
+  .tc-pr-#{$k} {
+    padding-right: $v;
+  }
+  .tc-pb-#{$k} {
+    padding-bottom: $v;
+  }
+  .tc-pl-#{$k} {
+    padding-left: $v;
+  }
+}
+
+// Gap utilities for flex/grid
+@each $k, $v in $space-scale {
+  .tc-gap-#{$k} {
+    gap: $v;
+  }
+  .tc-row-gap-#{$k} {
+    row-gap: $v;
+  }
+  .tc-col-gap-#{$k} {
+    column-gap: $v;
+  }
+}

@@ -1,0 +1,80 @@
+// Responsive mixins and helpers
+@use "./_variables" as *;
+@use "sass:map";
+@use "sass:math";
+
+// Breakpoint map
+$breakpoints: (
+  xs: 375px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1440px,
+);
+
+@function bp($key) {
+  @return map.get($breakpoints, $key);
+}
+
+// For "down" queries we commonly include the upper bound minus 1px
+@function bp-down($key) {
+  $value: bp($key);
+  @if math.unit($value) == px {
+    @return ($value - 1px);
+  }
+  @return $value; // fallback
+}
+
+// Usage: @include respond(sm);          // max-width: 767px
+//        @include respond(md, up) { }   // min-width: 1024px
+@mixin respond($key, $direction: down) {
+  @if $direction == down {
+    @media (max-width: bp-down($key)) {
+      @content;
+    }
+  } @else if $direction == up {
+    @media (min-width: bp($key)) {
+      @content;
+    }
+  } @else {
+    @warn 'Unknown direction #{$direction}. Use up|down.';
+    @content;
+  }
+}
+
+// Visually hidden utility
+@mixin sr-only() {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Container helper
+// Usage: .tc-container { @include container(); } // default width
+//        .tc-container--narrow { @include container(narrow); }
+//        .tc-container--wide { @include container(wide); }
+@mixin container($size: default) {
+  $sizes: (
+    narrow: 720px,
+    default: 1200px,
+    wide: 1440px,
+    full: none,
+  );
+
+  $max: map.get($sizes, $size);
+  @if $max == null {
+    @warn 'Unknown container size: #{$size}. Falling back to default.';
+    $max: map.get($sizes, default);
+  }
+
+  max-width: $max;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+}

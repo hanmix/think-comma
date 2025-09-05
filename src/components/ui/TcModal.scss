@@ -1,0 +1,51 @@
+/* variables & mixins auto-injected via Vite */
+.tc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: $z-modal;
+}
+
+.tc-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.tc-modal__container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  background: $surface-primary;
+  color: $text-primary;
+  border-radius: 12px;
+  box-shadow: $shadow-xl;
+  outline: none;
+}
+
+.tc-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid $border-primary;
+}
+
+.tc-modal__title { font-weight: 700; color: $color-primary-navy; }
+
+.tc-modal__close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: $color-secondary-gray;
+}
+.tc-modal__close:hover { color: $color-primary-blue; }
+
+.tc-modal__body { padding: $spacing-lg; }
+.tc-modal__footer { padding: $spacing-md $spacing-lg; border-top: 1px solid $border-primary; display: flex; gap: $spacing-md; justify-content: flex-end; }
+
+.tc-modal__sentinel { width: 0; height: 0; overflow: hidden; position: absolute; }
+

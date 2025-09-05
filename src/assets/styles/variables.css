@@ -1,0 +1,106 @@
+/* ThinkComma Design System v2.0 */
+:root {
+  /* Primary Colors */
+  --tc-color-primary-blue: #3498db;
+  --tc-color-primary-green: #27ae60;
+  --tc-color-primary-navy: #2c3e50;
+
+  /* Secondary Colors - WCAG AA Compliant */
+  --tc-color-secondary-light-blue: #2E86C1;
+  --tc-color-secondary-mint: #16A085;
+  --tc-color-secondary-gray: #7F8C8D;
+
+  /* Status Colors - WCAG AA Compliant */
+  --tc-color-status-success: #27ae60;
+  --tc-color-status-warning: #E67E22;
+  --tc-color-status-error: #e74c3c;
+  --tc-color-status-info: #3498db;
+
+  /* Neutral Colors */
+  --tc-color-neutral-white: #ffffff;
+  --tc-color-neutral-light: #f8f9fa;
+  --tc-color-neutral-medium: #e9ecef;
+  --tc-color-neutral-dark: #495057;
+
+  /* Font Families */
+  --tc-font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Pretendard', sans-serif;
+  --tc-font-family-mono: 'Monaco', 'Menlo', 'Consolas', monospace;
+
+  /* Font Sizes */
+  --tc-font-size-xs: 0.75rem;
+  --tc-font-size-sm: 0.875rem;
+  --tc-font-size-base: 1rem;
+  --tc-font-size-lg: 1.125rem;
+  --tc-font-size-xl: 1.25rem;
+  --tc-font-size-2xl: 1.5rem;
+  --tc-font-size-3xl: 1.875rem;
+  --tc-font-size-4xl: 2.25rem;
+
+  /* Spacing Scale */
+  --tc-spacing-0: 0;
+  --tc-spacing-1: 0.25rem;
+  --tc-spacing-2: 0.5rem;
+  --tc-spacing-3: 0.75rem;
+  --tc-spacing-4: 1rem;
+  --tc-spacing-6: 1.5rem;
+  --tc-spacing-8: 2rem;
+  --tc-spacing-12: 3rem;
+  --tc-spacing-16: 4rem;
+
+  /* Semantic Spacing */
+  --tc-spacing-xs: var(--tc-spacing-1);
+  --tc-spacing-sm: var(--tc-spacing-2);
+  --tc-spacing-md: var(--tc-spacing-4);
+  --tc-spacing-lg: var(--tc-spacing-6);
+  --tc-spacing-xl: var(--tc-spacing-8);
+
+  /* Shadow Tokens */
+  --tc-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --tc-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --tc-shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
+  --tc-shadow-xl: 0 15px 35px rgba(0, 0, 0, 0.2);
+
+  /* Focus shadows for accessibility */
+  --tc-shadow-focus-primary: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  --tc-shadow-focus-success: 0 0 0 3px rgba(39, 174, 96, 0.1);
+  --tc-shadow-focus-error: 0 0 0 3px rgba(231, 76, 60, 0.1);
+
+  /* Breakpoints (reference values; cannot use var() in @media) */
+  --tc-bp-xs: 375px;   /* iPhone SE (3rd gen) and similar */
+  --tc-bp-sm: 768px;   /* Tablet portrait threshold */
+  --tc-bp-md: 1024px;  /* Small laptop */
+  --tc-bp-lg: 1440px;  /* Large desktop */
+
+  /* Surface / Border / Text tokens (mapped to existing palette) */
+  --tc-color-surface-primary: var(--tc-color-neutral-white);
+  --tc-color-surface-muted: var(--tc-color-neutral-light);
+  --tc-color-surface-success: #eaf7f0;
+  --tc-color-surface-warning: #fff3e6;
+  --tc-color-surface-error: #fdecec;
+  --tc-color-border-primary: var(--tc-color-neutral-medium);
+  --tc-color-border-strong: var(--tc-color-primary-navy);
+  --tc-color-text-primary: var(--tc-color-neutral-dark);
+  --tc-color-text-secondary: var(--tc-color-secondary-gray);
+  --tc-color-text-tertiary: #9aa3a7; /* slightly lighter than secondary */
+
+  /* Motion tokens */
+  --tc-motion-fast: 120ms;
+  --tc-motion-normal: 200ms;
+  --tc-motion-slow: 320ms;
+  --tc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --tc-ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
+
+  /* Radius scale */
+  --tc-radius-sm: 6px;
+  --tc-radius-md: 8px;
+  --tc-radius-lg: 12px;
+  --tc-radius-xl: 20px;
+
+  /* Z-index scale */
+  --tc-z-dropdown: 900;
+  --tc-z-navbar: 100;
+  --tc-z-modal: 1000;
+  --tc-z-toast: 1100;
+}
+
+/* Dark theme overrides removed — will revisit later */

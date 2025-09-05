@@ -1,0 +1,208 @@
+/* variables & mixins are auto-injected via Vite */
+
+/* Base Logo Styles */
+.tc-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-family: $font-family-primary;
+  border-radius: $radius-lg;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &--clickable {
+    cursor: pointer;
+  }
+  &--clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+  }
+  &__comma {
+    margin-left: 1px;
+  }
+
+  /* Size Variants */
+  &--sm {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+    border-radius: 7px;
+  }
+  &--md {
+    width: 48px;
+    height: 48px;
+    font-size: 14px;
+    border-radius: 11px;
+  }
+  &--lg {
+    width: 80px;
+    height: 80px;
+    font-size: 18px;
+    border-radius: 18px;
+  }
+  &--xl {
+    width: 140px;
+    height: 140px;
+    font-size: 2.4rem;
+    border-radius: 30px;
+  }
+
+  /* Basic Variant - Main Recommended */
+  &--basic {
+    background: linear-gradient(
+      135deg,
+      $color-primary-blue,
+      $color-primary-navy
+    );
+    color: $color-neutral-white;
+    box-shadow: $shadow-md;
+  }
+  &--basic &__comma {
+    color: $color-primary-green;
+  }
+
+  /* Minimal Variant - Light Theme */
+  &--minimal {
+    background: linear-gradient(
+      135deg,
+      $color-neutral-white,
+      $color-neutral-light
+    );
+    border: 3px solid $color-primary-blue;
+    color: $color-primary-navy;
+    box-shadow: $shadow-sm;
+  }
+  &--minimal &__comma {
+    color: $color-primary-green;
+  }
+
+  /* Emphasis Variant - Comma Focus */
+  &--emphasis {
+    background: linear-gradient(
+      135deg,
+      $color-primary-green,
+      $color-primary-blue
+    );
+    color: $color-neutral-white;
+    box-shadow: $shadow-lg;
+  }
+  &--emphasis &__comma {
+    color: $color-neutral-white;
+    font-size: 1.25em;
+    margin-left: 3px;
+  }
+
+  /* Gradient Variant - Premium */
+  &--gradient {
+    background: linear-gradient(
+      45deg,
+      $color-neutral-white,
+      $color-neutral-light
+    );
+    border: 3px solid $color-neutral-medium;
+    box-shadow: $shadow-md;
+  }
+  &--gradient &__text {
+    background: linear-gradient(
+      45deg,
+      $color-primary-blue,
+      $color-primary-green
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Animations */
+@keyframes gentle-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+@keyframes subtle-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 8px rgba(39, 174, 96, 0.4);
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(39, 174, 96, 0.7);
+    opacity: 0.9;
+  }
+}
+@keyframes comma-bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background: linear-gradient(
+      45deg,
+      $color-primary-blue,
+      $color-primary-green
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  50% {
+    background: linear-gradient(
+      45deg,
+      $color-primary-green,
+      $color-primary-blue
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+.tc-logo--basic.tc-logo--animated .tc-logo__comma {
+  animation: gentle-pulse 2s ease-in-out infinite;
+}
+.tc-logo--minimal.tc-logo--animated .tc-logo__comma {
+  animation: subtle-glow 2s ease-in-out infinite;
+}
+.tc-logo--emphasis.tc-logo--animated .tc-logo__comma {
+  animation: comma-bounce 2s ease-in-out infinite;
+}
+.tc-logo--gradient.tc-logo--animated .tc-logo__text {
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@include respond(sm) {
+  .tc-logo--xl {
+    width: 100px;
+    height: 100px;
+    font-size: 1.8rem;
+  }
+  .tc-logo--lg {
+    width: 64px;
+    height: 64px;
+    font-size: 16px;
+  }
+}

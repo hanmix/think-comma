@@ -1,0 +1,69 @@
+/* ThinkComma Card System (migrated to SCSS) */
+
+/* Base Card */
+.tc-card {
+  background: var(--tc-color-neutral-white);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--tc-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.tc-card--hoverable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--tc-shadow-lg);
+  cursor: pointer;
+}
+
+/* Card Header */
+.tc-card__header {
+  margin-bottom: var(--tc-spacing-md);
+  padding-bottom: var(--tc-spacing-sm);
+  border-bottom: 1px solid var(--tc-color-neutral-medium);
+}
+
+.tc-card__title {
+  font-size: var(--tc-font-size-xl);
+  font-weight: 600;
+  color: var(--tc-color-primary-navy);
+  margin: 0;
+}
+
+.tc-card__subtitle {
+  font-size: var(--tc-font-size-sm);
+  color: var(--tc-color-secondary-gray);
+  margin: var(--tc-spacing-1) 0 0 0;
+}
+
+/* Card Body */
+.tc-card__body {
+  color: var(--tc-color-neutral-dark);
+  line-height: 1.625;
+}
+
+/* Card Footer */
+.tc-card__footer {
+  margin-top: var(--tc-spacing-md);
+  padding-top: var(--tc-spacing-sm);
+  border-top: 1px solid var(--tc-color-neutral-medium);
+}
+
+/* Card Variants */
+.tc-card--primary { border-left: 4px solid var(--tc-color-primary-blue); }
+.tc-card--secondary { border-left: 4px solid var(--tc-color-primary-green); }
+.tc-card--info { border-left: 4px solid var(--tc-color-secondary-light-blue); }
+.tc-card--success { border-left: 4px solid var(--tc-color-status-success); background: var(--tc-color-surface-success); }
+.tc-card--warning { border-left: 4px solid var(--tc-color-status-warning); background: var(--tc-color-surface-warning); }
+.tc-card--error { border-left: 4px solid var(--tc-color-status-error); background: var(--tc-color-surface-error); }
+
+/* Card Sizes */
+.tc-card--sm { padding: var(--tc-spacing-md); }
+.tc-card--md { padding: var(--tc-spacing-lg); }
+.tc-card--lg { padding: var(--tc-spacing-xl); }
+
+/* Mobile-first adjustments (small phones, <= 375px) */
+@media (max-width: 375px) {
+  .tc-card { padding: var(--tc-spacing-md); border-radius: 10px; }
+  .tc-card--lg { padding: var(--tc-spacing-lg); }
+}
+

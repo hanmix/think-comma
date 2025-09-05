@@ -1,0 +1,97 @@
+// SCSS Design Tokens for ThinkComma
+// Mirrors existing CSS variables in src/assets/styles/variables.css
+
+// Colors
+$color-primary-blue: #3498db;
+$color-primary-green: #27ae60;
+$color-primary-navy: #2c3e50;
+
+$color-secondary-light-blue: #2e86c1;
+$color-secondary-mint: #16a085;
+$color-secondary-gray: #7f8c8d;
+
+$color-status-success: #27ae60;
+$color-status-warning: #e67e22;
+$color-status-error: #e74c3c;
+$color-status-info: #3498db;
+
+$color-neutral-white: #ffffff;
+$color-neutral-light: #f8f9fa;
+$color-neutral-medium: #e9ecef;
+$color-neutral-dark: #495057;
+
+// Surfaces / Borders / Text
+$surface-primary: $color-neutral-white;
+$surface-muted: $color-neutral-light;
+$surface-success: #eaf7f0;
+$surface-warning: #fff3e6;
+$surface-error: #fdecec;
+
+$border-primary: $color-neutral-medium;
+$border-strong: $color-primary-navy;
+
+$text-primary: $color-neutral-dark;
+$text-secondary: $color-secondary-gray;
+$text-tertiary: #9aa3a7;
+
+// Fonts
+$font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Pretendard", sans-serif;
+$font-family-mono: "Monaco", "Menlo", "Consolas", monospace;
+
+// Font sizes
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+
+// Spacing scale
+$spacing-0: 0;
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+
+// Semantic spacing
+$spacing-xs: $spacing-1;
+$spacing-sm: $spacing-2;
+$spacing-md: $spacing-4;
+$spacing-lg: $spacing-6;
+$spacing-xl: $spacing-8;
+
+// Shadows
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
+$shadow-xl: 0 15px 35px rgba(0, 0, 0, 0.2);
+
+$shadow-focus-primary: 0 0 0 3px rgba(52, 152, 219, 0.1);
+$shadow-focus-success: 0 0 0 3px rgba(39, 174, 96, 0.1);
+$shadow-focus-error: 0 0 0 3px rgba(231, 76, 60, 0.1);
+
+// Radii
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 20px;
+
+// Z-index
+$z-dropdown: 900;
+$z-navbar: 100;
+$z-modal: 1000;
+$z-toast: 1100;
+
+// Motion
+$motion-fast: 120ms;
+$motion-normal: 200ms;
+$motion-slow: 320ms;
+$ease-standard: cubic-bezier(0.2, 0, 0, 1);
+$ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);

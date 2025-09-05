@@ -1,0 +1,98 @@
+@use './_variables' as *;
+@use './_mixins' as *;
+
+// Common layout sections
+.tc-section { margin-bottom: $spacing-16; }
+
+// Auto-fit grid helper mixin
+@mixin auto-grid($min, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
+  gap: $gap;
+}
+
+// Showcase card (surface block with top gradient bar)
+.tc-showcase-card {
+  background: $color-neutral-white;
+  border-radius: 20px;
+  padding: $spacing-xl;
+  box-shadow: $shadow-lg;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+  &:hover { transform: translateY(-4px); }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $color-primary-blue, $color-primary-green);
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+// Showcase header row
+.tc-showcase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+// Badge style for recommended labels
+.tc-badge-recommended {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  color: $color-neutral-white;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  padding: $spacing-1 $spacing-2;
+  border-radius: 15px;
+  box-shadow: $shadow-sm;
+}
+
+// Logo sizes strip
+.tc-logo-sizes {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-md;
+  margin: $spacing-lg 0;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+// Hero section (landing-style)
+.tc-hero {
+  text-align: center;
+  padding: $spacing-16 0;
+  margin-bottom: $spacing-16;
+}
+.tc-hero-heading { max-width: 28ch; margin-left: auto; margin-right: auto; }
+.tc-hero-actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: $spacing-xl;
+}
+
+// Section heading helper
+.tc-section-heading { text-align: center; margin-bottom: $spacing-xl; }
+
+// Gradient divider
+.tc-divider {
+  height: 1px; width: 100%;
+  background: linear-gradient(to right, transparent, $color-neutral-medium, transparent);
+}
+.tc-divider--spaced { margin: $spacing-16 0; }
+.tc-sub-divider { height: 1px; width: 100%; background-color: $color-neutral-medium; opacity: 0.5; }
+
+// Two-column form row that collapses on small screens
+.tc-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+  @include respond(sm) { grid-template-columns: 1fr; }
+}
+
+// Generic actions row
+.tc-actions-row { display: flex; gap: $spacing-md; justify-content: center; flex-wrap: wrap; }

@@ -1,0 +1,70 @@
+/* ThinkComma Typography System (migrated to SCSS) */
+
+/* Headings */
+.tc-heading-1 {
+  font-size: clamp(1.5rem, 6vw + 0.5rem, 2.25rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--tc-color-primary-navy);
+  font-family: var(--tc-font-family-primary);
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.tc-heading-2 {
+  font-size: clamp(1.25rem, 5vw + 0.25rem, 1.875rem);
+  font-weight: 700;
+  line-height: 1.325;
+  color: var(--tc-color-primary-navy);
+  font-family: var(--tc-font-family-primary);
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.tc-heading-3 {
+  font-size: clamp(1.125rem, 4vw + 0.25rem, 1.5rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--tc-color-primary-navy);
+  font-family: var(--tc-font-family-primary);
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Body Text */
+.tc-body-text {
+  font-size: clamp(0.95rem, 0.9rem + 0.4vw, 1rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--tc-color-neutral-dark);
+  font-family: var(--tc-font-family-primary);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.tc-small-text {
+  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 0.875rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--tc-color-secondary-gray);
+  font-family: var(--tc-font-family-primary);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Brand Comma Highlighting */
+.tc-brand-comma {
+  color: var(--tc-color-primary-green);
+  font-weight: inherit;
+}
+
+/* Mobile typography adjustments (iPhone SE and similar) */
+@media (max-width: 375px) {
+  .tc-heading-1 { line-height: 1.2; }
+  .tc-heading-2 { line-height: 1.25; }
+  .tc-heading-3 { line-height: 1.3; }
+}
+

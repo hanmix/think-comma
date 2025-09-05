@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "christian-kohler.path-intellisense",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

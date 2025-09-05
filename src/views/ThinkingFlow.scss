@@ -1,0 +1,24 @@
+/* variables & mixins are auto-injected via Vite */
+
+.flow-root {
+  width: 100%;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+
+  /* Remove horizontal paddings/margins on flow screens */
+  :deep(.worry-input),
+  :deep(.question-flow),
+  :deep(.analysis-result) {
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* XS phones */
+@include respond(xs) {
+  .flow-root {
+    padding-left: $spacing-sm;
+    padding-right: $spacing-sm;
+  }
+}

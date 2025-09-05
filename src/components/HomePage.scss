@@ -1,0 +1,66 @@
+/* variables & mixins are auto-injected via Vite */
+@use "@/styles/_components.scss" as *;
+
+.features-section { @extend .tc-section; margin-top: 40px; }
+
+.section-heading { @extend .tc-section-heading; max-width: 28ch; margin-left: auto; margin-right: auto; }
+
+.sub-messages {
+  list-style: none;
+  padding: 0;
+  margin: $spacing-md auto $spacing-lg;
+  max-width: 980px;
+  color: $color-secondary-gray;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-md;
+
+  li {
+    background: $color-neutral-light;
+    border-left: 4px solid $color-primary-green;
+    border-radius: 8px;
+    padding: $spacing-2 $spacing-3;
+    font-style: italic;
+  }
+}
+
+.flow-caption { text-align: center; margin: $spacing-md auto $spacing-lg; }
+
+.features-grid { @include auto-grid(260px, $spacing-lg); margin-top: $spacing-lg; }
+
+/* Four-step flow cards */
+.flow-grid { @include auto-grid(240px, $spacing-xl); max-width: 1000px; margin: 0 auto; }
+
+@include respond(md) {
+  .flow-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include respond(sm) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-grid {
+    grid-template-columns: 1fr;
+  }
+  .sub-messages {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dividers */
+.section-divider { @extend .tc-divider; @extend .tc-divider--spaced; }
+
+.sub-divider { @extend .tc-sub-divider; max-width: 920px; margin: $spacing-xl auto $spacing-lg; }
+
+.hero-heading {
+  max-width: 20ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-divider--end {
+  margin-top: $spacing-16;
+  margin-bottom: $spacing-16;
+}

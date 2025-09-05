@@ -1,0 +1,117 @@
+/* ThinkComma Button System (migrated to SCSS) */
+
+/* Base Button */
+.tc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: var(--tc-font-family-primary);
+  font-size: var(--tc-font-size-base);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  min-height: 44px; /* Accessibility: minimum touch target */
+}
+
+.tc-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Primary Button */
+.tc-button--primary {
+  background: var(--tc-color-primary-blue);
+  color: var(--tc-color-neutral-white);
+}
+
+.tc-button--primary:hover:not(:disabled) {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: var(--tc-shadow-lg);
+}
+
+.tc-button--primary:focus {
+  outline: none;
+  box-shadow: var(--tc-shadow-focus-primary);
+}
+
+/* Secondary Button */
+.tc-button--secondary {
+  background: var(--tc-color-primary-green);
+  color: var(--tc-color-neutral-white);
+}
+
+.tc-button--secondary:hover:not(:disabled) {
+  background: #229954;
+  transform: translateY(-2px);
+  box-shadow: var(--tc-shadow-lg);
+}
+
+.tc-button--secondary:focus {
+  outline: none;
+  box-shadow: var(--tc-shadow-focus-success);
+}
+
+/* Outline Button */
+.tc-button--outline {
+  background: transparent;
+  color: var(--tc-color-primary-blue);
+  border: 2px solid var(--tc-color-primary-blue);
+}
+
+.tc-button--outline:hover:not(:disabled) {
+  background: var(--tc-color-primary-blue);
+  color: var(--tc-color-neutral-white);
+}
+
+.tc-button--outline:focus {
+  outline: none;
+  box-shadow: var(--tc-shadow-focus-primary);
+}
+
+/* Ghost Button */
+.tc-button--ghost {
+  background: transparent;
+  color: var(--tc-color-secondary-gray);
+  border: 1px solid var(--tc-color-neutral-medium);
+}
+
+.tc-button--ghost:hover:not(:disabled) {
+  background: var(--tc-color-neutral-light);
+  color: var(--tc-color-neutral-dark);
+}
+
+.tc-button--ghost:focus {
+  outline: none;
+  box-shadow: var(--tc-shadow-focus-primary);
+}
+
+/* Button Sizes */
+.tc-button--sm {
+  padding: 8px 16px;
+  font-size: var(--tc-font-size-sm);
+  min-height: 36px;
+}
+
+.tc-button--md {
+  padding: 12px 24px;
+  font-size: var(--tc-font-size-base);
+  min-height: 44px;
+}
+
+.tc-button--lg {
+  padding: 16px 32px;
+  font-size: var(--tc-font-size-lg);
+  min-height: 52px;
+}
+
+/* Mobile-first adjustments */
+@media (max-width: 375px) {
+  .tc-button { width: 100%; }
+}
+

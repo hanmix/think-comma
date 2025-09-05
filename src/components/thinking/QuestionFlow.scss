@@ -1,0 +1,379 @@
+@use "@/styles/_variables.scss" as *;
+@use "@/styles/_mixins.scss" as *;
+
+.question-flow {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+  position: relative;
+
+  .progress-header {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+  }
+  .progress-header h2 {
+    margin-bottom: $spacing-sm;
+  }
+  .progress-header p {
+    color: $color-secondary-gray;
+    margin-bottom: $spacing-md;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: $color-neutral-light;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: $spacing-sm;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      $color-primary-blue,
+      $color-primary-green
+    );
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  .time-estimate {
+    font-size: $font-size-sm;
+    color: $color-secondary-gray;
+  }
+
+  .question-card {
+    margin-bottom: $spacing-lg;
+  }
+
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+  .question-number {
+    background: $color-primary-blue;
+    color: $color-neutral-white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: $font-size-lg;
+    flex-shrink: 0;
+  }
+  .question-text {
+    flex: 1;
+    color: $color-primary-navy;
+    font-size: $font-size-xl;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin: $spacing-xl 0;
+  }
+
+  .choice-option {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    border: 2px solid $color-neutral-medium;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: $surface-primary;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .choice-option:hover {
+      border-color: $color-primary-blue;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+    &.no-hover .choice-option:hover {
+      border-color: $color-neutral-medium;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  &.fresh .choice-option {
+    transition: none;
+  }
+  .choice-option.selected {
+    border-color: $color-primary-green;
+    background: $surface-muted;
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+  .choice-option.choice-a.selected {
+    border-left: 6px solid $color-primary-blue;
+  }
+  .choice-option.choice-b.selected {
+    border-left: 6px solid $color-primary-green;
+  }
+
+  .choice-label {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: $font-size-lg;
+    flex-shrink: 0;
+    color: $color-neutral-white;
+  }
+  .choice-a .choice-label {
+    background: $color-primary-blue;
+  }
+  .choice-b .choice-label {
+    background: $color-primary-green;
+  }
+  .choice-content {
+    flex: 1;
+    font-size: $font-size-base;
+    color: $color-neutral-dark;
+    line-height: 1.5;
+    padding-top: $spacing-2;
+  }
+  .choice-indicator {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .selected-icon {
+    width: 20px;
+    height: 20px;
+    background: $color-status-success;
+    border-radius: 50%;
+    color: $color-neutral-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-sm;
+    font-weight: 700;
+  }
+
+  .navigation-footer {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+  .spacer {
+    flex: 1;
+  }
+
+  .question-dots {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+  .question-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: $color-neutral-light;
+    color: $color-secondary-gray;
+  }
+
+  .question-dot.completed {
+    background: $color-status-success;
+    color: $color-neutral-white;
+  }
+  .question-dot.current {
+    background: $color-primary-blue;
+    color: $color-neutral-white;
+  }
+  .question-dot.pending {
+    background: $color-neutral-light;
+    color: $color-secondary-gray;
+  }
+
+  .answers-summary {
+    position: sticky;
+    top: $spacing-xl;
+    right: 0;
+    max-width: 300px;
+    margin-left: auto;
+    background: $color-neutral-light;
+    border: 1px solid $color-neutral-medium;
+    border-radius: 12px;
+    padding: $spacing-md;
+    box-shadow: $shadow-sm;
+  }
+  .answers-summary-title {
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $color-primary-navy;
+    margin-bottom: $spacing-sm;
+  }
+  .answers-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 300px;
+    overflow: auto;
+    padding-right: $spacing-2;
+  }
+  .answers-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    background: $color-neutral-light;
+    border: 1px solid $color-neutral-medium;
+    border-radius: 8px;
+    padding: $spacing-2;
+  }
+  .answers-item .answer-number {
+    background: $color-primary-blue;
+    color: $color-neutral-white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-size-xs;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .summary-choice {
+    font-size: $font-size-xs;
+    color: $color-neutral-dark;
+    line-height: 1.4;
+  }
+
+  .analyzing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .analyzing-card {
+    max-width: 500px;
+    margin: $spacing-lg;
+  }
+  .analyzing-content {
+    text-align: center;
+    padding: $spacing-xl;
+  }
+  .thinking-animation {
+    margin-bottom: $spacing-lg;
+  }
+  .thinking-dots {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-sm;
+  }
+  .thinking-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: $color-primary-blue;
+    animation: thinking 1.4s ease-in-out infinite both;
+  }
+  .thinking-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  .thinking-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  @keyframes thinking {
+    0%,
+    80%,
+    100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+
+  .analysis-progress {
+    width: 100%;
+    height: 6px;
+    background: $color-neutral-light;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: $spacing-md;
+  }
+  .analysis-progress-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      $color-primary-blue,
+      $color-primary-green
+    );
+    border-radius: 3px;
+    transition: width 0.2s ease;
+  }
+
+  @include respond(sm) {
+    padding: $spacing-md;
+    .question-header {
+      flex-direction: column;
+      gap: $spacing-sm;
+      text-align: center;
+    }
+    .choice-option {
+      flex-direction: column;
+      text-align: center;
+      gap: $spacing-sm;
+    }
+    .nav-buttons {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+    .answers-summary {
+      position: static;
+      transform: none;
+      max-width: none;
+      margin-top: $spacing-lg;
+    }
+  }
+}
+
+/* Teleported modal content styling (outside .question-flow) */
+.tc-dialog-card {
+  .analyzing-content { text-align: center; padding: $spacing-xl; }
+  .thinking-animation { margin-bottom: $spacing-lg; }
+  .thinking-dots { display: flex; justify-content: center; gap: $spacing-sm; }
+  .thinking-dots span { width: 12px; height: 12px; border-radius: 50%; background: $color-primary-blue; animation: thinking 1.4s ease-in-out infinite both; }
+  .analysis-progress { width: 100%; height: 6px; background: $color-neutral-light; border-radius: 3px; overflow: hidden; margin-top: $spacing-md; }
+  .analysis-progress-fill { height: 100%; background: linear-gradient(90deg, $color-primary-blue, $color-primary-green); border-radius: 3px; transition: width 0.2s ease; }
+}
+
+@keyframes thinking {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
