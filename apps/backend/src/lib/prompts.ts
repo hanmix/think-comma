@@ -131,5 +131,13 @@ ${qLines}
 - recommendedChoice는 사용자 응답 경향을 반영해 일관되게 산출합니다.
 - confidence는 0~100(퍼센트)로 산정하는 것을 권장합니다.
 - scoreA/scoreB는 합이 100이 되도록 백분율로 산정합니다.
-- actionSteps는 2~4개 간결한 실행 항목으로 작성합니다.`;
+- actionSteps는 2~4개 간결한 실행 항목으로 작성합니다.
+- choiceALabel / choiceBLabel은 사용자의 고민 내용에서 파생된 서로 상반된(반대 축) 선택지 라벨이어야 합니다.
+- 예: “안정 유지” vs “변화 도전”, “재정 보수” vs “성장 투자”, “관계 회복” vs “새 출발” 등. 단, 실제 고민 맥락에 맞는 축을 정의하세요.
+- “A”, “B” 같은 단일 문자, 혹은 문자 A/B를 포함한 형식(“A 선택”, “선택 B”)은 금지합니다.
+- 한국어로 간결하고 명확하게 작성하세요(권장 길이: 6~10자). 카테고리가 있다면 어휘/맥락을 반영하세요.
+- recommendedChoiceLabel과 otherChoiceLabel은 반드시 choiceALabel/choiceBLabel과 매핑되어야 합니다.
+- recommendedChoice가 "A"이면 recommendedChoiceLabel = choiceALabel, otherChoiceLabel = choiceBLabel.
+- recommendedChoice가 "B"이면 recommendedChoiceLabel = choiceBLabel, otherChoiceLabel = choiceALabel.
+- 라벨은 위 질문 목록의 톤/맥락과 모순되지 않도록 하세요.`;
 }

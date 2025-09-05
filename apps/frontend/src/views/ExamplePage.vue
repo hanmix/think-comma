@@ -5,7 +5,7 @@
         Think<span class="tc-comma-highlight">,</span> 고민을 간단하게
       </h1>
       <p class="tc-body-text hero-description tc-readable">
-        고민 때문에 잠 못 이루는 3시간을 15분으로 단축시켜주는 서비스
+        고민 때문에 잠 못 이루는 3시간을 3분으로 단축시켜주는 서비스
         <br />
         <span class="tc-text-muted"
           >AI 기반 의사결정 도구 · 체계적 사고 프레임워크</span
@@ -13,7 +13,7 @@
       </p>
       <div class="hero-actions">
         <TcButton variant="primary" size="lg" @click="handleGetStarted"
-          >15분 고민 해결하기</TcButton
+          >3분 만에 고민 해결하기</TcButton
         >
         <TcButton variant="outline" size="lg" @click="handleLearnMore"
           >고민 해결 과정 보기</TcButton
@@ -22,7 +22,7 @@
     </header>
 
     <section class="features-section">
-      <h2 class="tc-heading-2">3시간 → 15분, 어떻게 가능할까요?</h2>
+      <h2 class="tc-heading-2">3시간 → 3분, 어떻게 가능할까요?</h2>
       <div class="features-grid">
         <TcCard
           variant="primary"
@@ -35,7 +35,7 @@
             머릿속 복잡한 고민을 5단계 프레임워크로 정리합니다. 무엇이 진짜
             문제인지 명확하게 파악하세요.
           </p>
-          <div class="tc-text-muted tc-mt-2">평균 5분 소요</div>
+          <div class="tc-text-muted tc-mt-2">평균 1분 소요</div>
         </TcCard>
 
         <TcCard
@@ -48,7 +48,7 @@
           <p class="tc-readable">
             구조화된 고민을 바탕으로 AI가 실행 가능한 3가지 해결책을 제시합니다.
           </p>
-          <div class="tc-text-muted tc-mt-2">평균 3분 소요</div>
+          <div class="tc-text-muted tc-mt-2">평균 1분 소요</div>
         </TcCard>
 
         <TcCard
@@ -63,7 +63,7 @@
             않아요.
           </p>
           <div class="tc-text-success tc-mt-2">
-            ✨ 평균 7분 소요 → 총 15분 완성!
+            ✨ 평균 1분 소요 → 총 3분 완성!
           </div>
         </TcCard>
       </div>
@@ -117,7 +117,7 @@
               ><span class="after">현재: 25분</span>
             </div>
             <p class="tc-small-text tc-text-muted">
-              15분만에 명확한 계획을 세울 수 있었어요
+              3분만에 명확한 계획을 세울 수 있었어요
             </p>
           </div>
         </div>
@@ -129,7 +129,7 @@
         <template #header>
           <h2 class="tc-heading-2">지금 바로 고민 해결해보기</h2>
           <p class="tc-small-text">
-            15분만 투자하면 오늘 밤부터 편안하게 잠들 수 있어요
+            3분만 투자하면 오늘 밤부터 편안하게 잠들 수 있어요
           </p>
         </template>
 
@@ -181,12 +181,12 @@
           <div class="form-actions">
             <TcButton variant="ghost" @click="resetForm"> 초기화 </TcButton>
             <TcButton variant="primary" @click="handleSubmit">
-              🚀 15분 고민 해결 시작하기
+              🚀 3분 고민 해결 시작하기
             </TcButton>
           </div>
           <div class="guarantee-text">
             <p class="tc-small-text tc-text-muted">
-              ✅ 15분 안에 해결되지 않으면 전액 환불 (무료 베타 기간 중)
+              ✅ 3분 안에 해결되지 않으면 전액 환불 (무료 베타 기간 중)
             </p>
           </div>
         </template>

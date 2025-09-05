@@ -1,12 +1,21 @@
 <template>
   <div class="tc-container" style="padding-top: 64px; padding-bottom: 64px">
-    <header style="text-align: center; margin-bottom: 40px">
+    <header
+      style="
+        text-align: center;
+        margin-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
       <h1 class="tc-heading-1 hero-heading">
         Think<span class="tc-comma-highlight">,</span> 고민을 15분으로
       </h1>
       <p
         class="tc-body-text tc-text-muted tc-readable"
-        style="margin-top: 12px"
+        style="margin-top: 12px; text-align: center"
       >
         ThinkComma는 복잡한 고민을 구조화하고, 상황 맞춤형 질문과 분석을 통해
         오늘 바로 실행 가능한 해결책을 제시합니다. 아래 버튼을 눌러
@@ -26,6 +35,16 @@
         @keydown.space.prevent="prefetchExampleOnIntent"
       >
         체험하기
+      </TcButton>
+      <TcButton
+        variant="secondary"
+        size="lg"
+        @click="goChat"
+        @pointerdown="prefetchDesignOnIntent"
+        @keydown.enter="prefetchDesignOnIntent"
+        @keydown.space.prevent="prefetchDesignOnIntent"
+      >
+        AI와 대화하기
       </TcButton>
       <TcButton
         variant="outline"
@@ -108,6 +127,7 @@ import "./HomePage.scss";
 const router = useRouter();
 const goExample = () => router.push({ name: "example" });
 const goDesign = () => router.push({ name: "design" });
+const goChat = () => router.push({ name: "chat" });
 
 type NetworkInformation = { saveData?: boolean; effectiveType?: string };
 const shouldPrefetch = (): boolean => {

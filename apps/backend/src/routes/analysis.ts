@@ -18,6 +18,23 @@ const WorrySchema = z.object({
   category: z.string().optional(),
 });
 
+function deriveChoiceLabels(category?: string, _content?: string) {
+  const defaults = {
+    labelA: "현재 방식 유지하기",
+    labelB: "적극적인 변화 추구하기",
+  } as const;
+  const byCat: Record<string, { labelA: string; labelB: string }> = {
+    career: { labelA: "현 직장 안정성 추구", labelB: "새 기회로 도전" },
+    relationship: { labelA: "현재 관계 개선", labelB: "새로운 결단/변화" },
+    business: { labelA: "리스크 최소화·보수적", labelB: "작게 시작해 실험" },
+    money: { labelA: "지출 최적화·안정", labelB: "수익 확대·투자" },
+    study: { labelA: "기초 다지기·안정 학습", labelB: "도전 과제·성장" },
+    life: { labelA: "현 생활 유지·균형", labelB: "새로운 변화·확장" },
+    family: { labelA: "가족 고려·안정", labelB: "자기 결정·전환" },
+  };
+  return byCat[(category || "").toLowerCase()] || defaults;
+}
+
 function analyze(
   worry: z.infer<typeof WorrySchema>,
   responses: z.infer<typeof ResponseSchema>[]
@@ -39,10 +56,12 @@ function analyze(
         ]
       : ["작게 시작할 실험 1개 선정", "2주간 실행 계획 수립"];
   const summary = `당신의 고민: ${worry.content}\n추천 선택: ${recommendedChoice}`;
+  const labels = deriveChoiceLabels(worry.category, worry.content);
   return {
     recommendedChoice,
-    recommendedChoiceLabel: recommendedChoice === "A" ? "A 선택" : "B 선택",
-    otherChoiceLabel: recommendedChoice === "A" ? "B 선택" : "A 선택",
+    recommendedChoiceLabel:
+      recommendedChoice === "A" ? labels.labelA : labels.labelB,
+    otherChoiceLabel: recommendedChoice === "A" ? labels.labelB : labels.labelA,
     confidence: Number(
       (Math.max(scoreA, scoreB) / Math.max(1, responses.length)).toFixed(2)
     ),
@@ -109,10 +128,43 @@ analysisRouter.post("/analyze", async (req, res) => {
         }>;
       }>(prompt);
       const conf = ai.confidence > 1 ? ai.confidence / 100 : ai.confidence;
-      const choiceALabel = ai.choiceALabel || 'A 선택';
-      const choiceBLabel = ai.choiceBLabel || 'B 선택';
-      const recommendedChoiceLabel = ai.recommendedChoiceLabel || (ai.recommendedChoice === 'A' ? choiceALabel : choiceBLabel);
-      const otherChoiceLabel = ai.otherChoiceLabel || (ai.recommendedChoice === 'A' ? choiceBLabel : choiceALabel);
+      const labels = deriveChoiceLabels(
+        body.worry.category,
+        body.worry.content
+      );
+
+      // Normalize labels to avoid trivial "A"/"B" outputs from AI
+      const isTrivial = (s?: string) => {
+        if (!s) return true;
+        const t = String(s).trim();
+        if (!t) return true;
+        if (t.length <= 2) return /^[AB]$/i.test(t);
+        // remove non-letters (영문 외 제거) and check if only A/B remains (예: "선택 A", "A 선택")
+        const letters = t.replace(/[^A-Za-z]/g, "").toUpperCase();
+        return letters === "A" || letters === "B";
+      };
+
+      const rawALabel = ai.choiceALabel;
+      const rawBLabel = ai.choiceBLabel;
+      const choiceALabel = isTrivial(rawALabel)
+        ? labels.labelA
+        : String(rawALabel);
+      const choiceBLabel = isTrivial(rawBLabel)
+        ? labels.labelB
+        : String(rawBLabel);
+
+      const rawRec = ai.recommendedChoiceLabel;
+      const rawOther = ai.otherChoiceLabel;
+      const recommendedChoiceLabel = isTrivial(rawRec)
+        ? ai.recommendedChoice === "A"
+          ? choiceALabel
+          : choiceBLabel
+        : String(rawRec);
+      const otherChoiceLabel = isTrivial(rawOther)
+        ? ai.recommendedChoice === "A"
+          ? choiceBLabel
+          : choiceALabel
+        : String(rawOther);
 
       const result = {
         recommendedChoice: ai.recommendedChoice,
