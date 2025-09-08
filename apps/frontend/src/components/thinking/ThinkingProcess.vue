@@ -1,23 +1,40 @@
 <template>
   <div class="thinking-process">
     <!-- Step 1: Worry Input -->
-    <WorryInput v-if="state.currentStep === 'input'" @submit="handleWorrySubmit" />
+    <WorryInput
+      v-if="state.currentStep === 'input'"
+      @submit="handleWorrySubmit"
+    />
 
-    <!-- Step 2: Question Flow -->
+    <!-- Step 2: Intro Framing before questions -->
+    <IntroFraming
+      v-else-if="
+        state.currentStep === 'intro' && state.framingIntro && state.worryInput
+      "
+      :framing="state.framingIntro"
+      @start="startQuestions"
+      @back="goToStep('input')"
+    />
+
+    <!-- Step 3: Question Flow -->
     <QuestionFlow
-      v-else-if="state.currentStep === 'questions' && state.questions.length > 0"
+      v-else-if="
+        state.currentStep === 'questions' && state.questions.length > 0
+      "
       :questions="state.questions"
       :initial-responses="state.responses"
       @complete="handleQuestionsComplete"
       @back="goToStep('input')"
     />
 
-    <!-- Step 3: Analysis Result -->
+    <!-- Step 4: Analysis Result -->
     <AnalysisResult
       v-else-if="state.currentStep === 'result' && state.analysisResult"
       :result="state.analysisResult"
       :original-worry="state.worryInput?.content || ''"
       :questions="state.questions"
+      :choice-a-label="state.framingIntro?.choiceALabel"
+      :choice-b-label="state.framingIntro?.choiceBLabel"
       @restart="restartProcess"
       @back="goToStep('questions')"
     />
@@ -54,8 +71,15 @@
     </div>
     <!-- Generating Questions Modal: same look-and-feel as QuestionFlow -->
     <TcDialog
-      :modelValue="state.isLoading && state.currentStep === 'input'"
-      title="🤔 AI가 질문을 생성 중입니다"
+      :modelValue="
+        state.isLoading &&
+        (state.currentStep === 'input' || state.currentStep === 'intro')
+      "
+      :title="
+        state.currentStep === 'input'
+          ? '🧭 AI가 고민을 구조화하고 있어요'
+          : '🤔 AI가 질문을 생성 중입니다'
+      "
       :closable="false"
       :closeOnBackdrop="false"
     >
@@ -68,7 +92,7 @@
           </div>
         </div>
         <p class="tc-body-text tc-readable">
-          {{ genStages[genStageIndex] || '맞춤형 질문을 준비하고 있어요...' }}
+          {{ genStages[genStageIndex] || "맞춤형 질문을 준비하고 있어요..." }}
         </p>
         <div class="analysis-progress">
           <div
@@ -82,16 +106,24 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted, ref } from "vue";
-import { WorryInput, QuestionFlow, AnalysisResult } from "@/components/thinking";
+import {
+  AnalysisResult,
+  QuestionFlow,
+  WorryInput,
+} from "@/components/thinking";
 import { TcButton, TcCard, TcDialog } from "@/components/ui";
-import type { WorryInput as WorryInputType, UserResponse } from "@/types/thinking";
 import { useThinkingFlow } from "@/composables/useThinkingFlow";
-import './ThinkingProcess.scss';
+import type { WorryInput as WorryInputType } from "@/types/thinking";
+import { onMounted, ref, watch } from "vue";
+import IntroFraming from "./IntroFraming.vue";
+import "./ThinkingProcess.scss";
 // Import QuestionFlow styles to reuse analyzing modal look
-import './QuestionFlow.scss';
+import "./QuestionFlow.scss";
 
-const props = defineProps<{ initialWorry?: WorryInputType | null; autoStart?: boolean }>();
+const props = defineProps<{
+  initialWorry?: WorryInputType | null;
+  autoStart?: boolean;
+}>();
 
 const {
   state,
@@ -99,6 +131,7 @@ const {
   goToStep,
   handleWorrySubmit,
   handleQuestionsComplete,
+  startQuestions,
   retryCurrentStep,
   restartProcess,
   saveSession,
@@ -109,11 +142,11 @@ const {
 const genStageIndex = ref<number>(0);
 const genProgress = ref<number>(0);
 const genStages = [
-  '고민의 핵심을 파악하고 있습니다...',
-  '맥락과 우선순위를 정리하고 있습니다...',
-  '맞춤형 질문 후보를 생성하고 있습니다...',
-  '질문의 흐름과 난이도를 구성하고 있습니다...',
-  '완성 중입니다... 곧 시작할게요!',
+  "고민의 핵심을 파악하고 있습니다...",
+  "맥락과 우선순위를 정리하고 있습니다...",
+  "맞춤형 질문 후보를 생성하고 있습니다...",
+  "질문의 흐름과 난이도를 구성하고 있습니다...",
+  "완성 중입니다... 곧 시작할게요!",
 ];
 const startGeneratingProgress = async () => {
   genStageIndex.value = 0;
@@ -121,7 +154,13 @@ const startGeneratingProgress = async () => {
   // staged, gradual animation (same pacing as QuestionFlow)
   const totalStages = genStages.length;
   for (let i = 0; i < totalStages; i++) {
-    if (!(state.isLoading && state.currentStep === 'input')) break;
+    if (
+      !(
+        state.isLoading &&
+        (state.currentStep === "input" || state.currentStep === "intro")
+      )
+    )
+      break;
     genStageIndex.value = i;
     const start = (i / totalStages) * 100;
     const end = ((i + 1) / totalStages) * 100;
@@ -130,7 +169,13 @@ const startGeneratingProgress = async () => {
     const stepDuration = duration / steps;
     const stepDelta = (end - start) / steps;
     for (let j = 0; j < steps; j++) {
-      if (!(state.isLoading && state.currentStep === 'input')) break;
+      if (
+        !(
+          state.isLoading &&
+          (state.currentStep === "input" || state.currentStep === "intro")
+        )
+      )
+        break;
       await new Promise((r) => setTimeout(r, stepDuration));
       genProgress.value = Math.min(99, start + stepDelta * (j + 1));
     }
@@ -147,7 +192,9 @@ const stopGeneratingProgress = () => {
 };
 
 watch(
-  () => state.isLoading && state.currentStep === 'input',
+  () =>
+    state.isLoading &&
+    (state.currentStep === "input" || state.currentStep === "intro"),
   (active) => {
     if (active) startGeneratingProgress();
     else stopGeneratingProgress();
@@ -155,7 +202,12 @@ watch(
 );
 
 const tryAutoStart = () => {
-  if (props.autoStart && props.initialWorry && state.currentStep === 'input' && !state.isLoading) {
+  if (
+    props.autoStart &&
+    props.initialWorry &&
+    state.currentStep === "input" &&
+    !state.isLoading
+  ) {
     handleWorrySubmit(props.initialWorry);
   }
 };
@@ -163,5 +215,11 @@ const tryAutoStart = () => {
 onMounted(tryAutoStart);
 watch(() => [props.autoStart, props.initialWorry], tryAutoStart);
 
-defineExpose({ restartProcess, goToStep, currentSession, saveSession, loadSession });
+defineExpose({
+  restartProcess,
+  goToStep,
+  currentSession,
+  saveSession,
+  loadSession,
+});
 </script>

@@ -8,6 +8,7 @@ import type {
   Question,
   UserResponse,
   WorryInput,
+  FramingIntro,
 } from "@/types/thinking";
 
 class AIService {
@@ -36,15 +37,25 @@ class AIService {
     return data.questions;
   }
 
+  async generateFraming(worry: WorryInput, sessionId?: string): Promise<FramingIntro> {
+    const data = await this.post<{ framing: FramingIntro }>(
+      "/api/framing",
+      { worry, sessionId }
+    );
+    return data.framing;
+  }
+
   async generateAnalysis(
     worry: WorryInput,
     questions: Question[],
-    responses: UserResponse[]
+    responses: UserResponse[],
+    labels?: { choiceALabel?: string; choiceBLabel?: string },
+    sessionId?: string,
   ): Promise<AnalysisResult> {
     const payloadResponses = responses.map(r => ({ questionId: r.questionId, answer: r.selectedChoice }));
     const data = await this.post<{ result: AnalysisResult }>(
       "/api/analyze",
-      { worry, questions, responses: payloadResponses }
+      { worry, questions, responses: payloadResponses, labels, sessionId }
     );
     return { ...data.result, responses };
   }

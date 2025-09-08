@@ -6,7 +6,11 @@ export function buildQuestionsPrompt({ worry }: BuildQuestionsInput) {
   const category = worry.category ? `\n- 카테고리: ${worry.category}` : "";
   const content = worry.content.replace(/\n/g, " ");
 
-  return `다음 사용자의 고민을 바탕으로 A/B 이지선다 질문 10개를 한국어로 생성하세요.
+  return `
+  당신은 사용자의 고민을 들어주는 고민상담사 입니다.
+  당신은 친절하고 따뜻하며 때로는 냉철하고 분석적인 상담 내용을 제공합니다.
+
+  다음 사용자의 고민을 바탕으로 A/B 이지선다 질문 10개를 한국어로 생성하세요.
 
 [구조화된 질문 세트 규칙]
 - 반드시 10문항을 생성합니다.
@@ -114,11 +118,22 @@ UI에 바로 매핑 가능한 JSON만 출력하세요(추가 텍스트 금지). 
   "scoreB": number,     // B 점수(정수). 가능하면 0~100 퍼센트로 산정
   "summary": string,    // 한 줄 요약(카드의 부제목처럼 간결하게)
   "actionSteps": string[],
+  "actionGuide": {
+    "steps": [
+      { "title": string, "description": string },
+      { "title": string, "description": string },
+      { "title": string, "description": string }
+    ],
+    "nextSuggestion": string // 다음 기회를 위한 제안(한 줄)
+  },
+  "rationale": {
+    "overview": string,
+    "keyReasons": [ { "name": string, "detail": string, "weight": number, "relatedQuestions": number[] } ]
+  },
   "personalityTraits": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ],
   "decisionFactors": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ]
-}
-
-고민 내용: ${worry.content.replace(/\n/g, " ")}${
+  ;
+  고민 내용: ${worry.content.replace(/\n/g, " ")}${
     worry.category ? `\n카테고리: ${worry.category}` : ""
   }
 
@@ -132,6 +147,10 @@ ${qLines}
 - confidence는 0~100(퍼센트)로 산정하는 것을 권장합니다.
 - scoreA/scoreB는 합이 100이 되도록 백분율로 산정합니다.
 - actionSteps는 2~4개 간결한 실행 항목으로 작성합니다.
+- actionGuide.steps는 UI에 바로 사용 가능한 3단계 계획으로, 각 단계는 굵은 한 줄 제목(title)과 그에 대한 간단한 보충 설명(description)으로 구성합니다.
+- actionGuide.nextSuggestion은 사용자가 무리 없이 다음 기회를 만들 수 있도록 돕는 한 줄 제안으로 작성합니다.
+ - rationale.keyReasons.weight는 0~100 백분율로, 판단에 기여한 상대적 영향력을 나타냅니다.
+ - rationale.keyReasons.relatedQuestions에는 관련된 질문 번호 배열(1~3개)을 넣습니다.
 - choiceALabel / choiceBLabel은 사용자의 고민 내용에서 파생된 서로 상반된(반대 축) 선택지 라벨이어야 합니다.
 - 예: “안정 유지” vs “변화 도전”, “재정 보수” vs “성장 투자”, “관계 회복” vs “새 출발” 등. 단, 실제 고민 맥락에 맞는 축을 정의하세요.
 - “A”, “B” 같은 단일 문자, 혹은 문자 A/B를 포함한 형식(“A 선택”, “선택 B”)은 금지합니다.
@@ -140,4 +159,33 @@ ${qLines}
 - recommendedChoice가 "A"이면 recommendedChoiceLabel = choiceALabel, otherChoiceLabel = choiceBLabel.
 - recommendedChoice가 "B"이면 recommendedChoiceLabel = choiceBLabel, otherChoiceLabel = choiceALabel.
 - 라벨은 위 질문 목록의 톤/맥락과 모순되지 않도록 하세요.`;
+}
+
+export interface BuildFramingInput {
+  worry: { content: string; category?: string };
+}
+
+export function buildFramingPrompt({ worry }: BuildFramingInput) {
+  const content = worry.content.replace(/\n/g, " ");
+  const category = worry.category ? `\n카테고리: ${worry.category}` : "";
+  return `당신은 사용자의 고민을 A vs B 구조로 명확히 잡아주는 코치입니다. 한국어로 간결하게 작성하세요.
+
+아래 JSON 스키마에 맞춘 JSON만 출력하세요(추가 텍스트 금지):
+{
+  "summary": string,           // 예: 이 상황을 구조화해보면 "A vs B"로 정리할 수 있어요.
+  "choiceALabel": string,      // 6~20자 권장, A/B 문자는 금지. 선택지의 구조에 맞는 문장으로 서술.
+  "choiceBLabel": string,      // 6~20자 권장, A/B 문자는 금지. 선택지의 구조에 맞는 문장으로 서술.
+  "aHint": string,             // 한 줄 보조 설명(예: 자리 비어있으면 합석 제안 등)
+  "bHint": string,             // 한 줄 보조 설명(예: 무리하지 않고 자연스럽게 등)
+  "cta": string                // 예: 이렇게 설정해서 10개 질문으로 같이 분석해볼까요?
+}
+
+[지침]
+- summary에는 choiceALabel/choiceBLabel을 그대로 포함해 "\"{A} vs {B}\"" 형식으로 자연스럽게 기술합니다.
+- choice 라벨은 문제의 맥락에서 서로 반대 축이 되도록 만듭니다.
+- 힌트는 각 선택의 실행 방향을 직관적으로 떠올릴 수 있게 짧게 작성합니다.
+- 카테고리가 주어지면 어휘를 해당 맥락에 맞게 조정합니다.
+
+[입력]
+내용: ${content}${category}`;
 }

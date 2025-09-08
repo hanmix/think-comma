@@ -26,23 +26,36 @@ export function useThinkingFlow() {
 
   const handleWorrySubmit = async (worry: WorryInputType) => {
     try {
-      state.isLoading = true;
-      state.loadingMessage =
-        "AI가 당신의 고민을 분석하여 맞춤형 질문을 생성하고 있습니다...";
-
       state.worryInput = worry;
       state.sessionId = generateSessionId();
-
-      const generatedQuestions = await aiService.generateQuestions(worry);
-      state.questions = generatedQuestions;
-
-      state.currentStep = "questions";
+      state.isLoading = true;
+      state.loadingMessage = 'AI가 고민을 구조화하고 있어요...';
+      const framing = await aiService.generateFraming(worry, state.sessionId);
+      state.framingIntro = framing;
+      state.currentStep = 'intro';
     } catch (err) {
-      state.error = "질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.";
-      console.error("Question generation error:", err);
+      state.error = '초기 구성 중 오류가 발생했습니다. 다시 시도해주세요.';
+      console.error('Intro framing error:', err);
     } finally {
       state.isLoading = false;
-      state.loadingMessage = "";
+      state.loadingMessage = '';
+    }
+  };
+
+  const startQuestions = async () => {
+    try {
+      if (!state.worryInput) throw new Error('고민 정보가 없습니다.');
+      state.isLoading = true;
+      state.loadingMessage = "AI가 질문을 준비하고 있습니다...";
+      const generatedQuestions = await aiService.generateQuestions(state.worryInput);
+      state.questions = generatedQuestions;
+      state.currentStep = 'questions';
+    } catch (err) {
+      state.error = "질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.";
+      console.error('Question generation error:', err);
+    } finally {
+      state.isLoading = false;
+      state.loadingMessage = '';
     }
   };
 
@@ -58,7 +71,12 @@ export function useThinkingFlow() {
       const result = await aiService.generateAnalysis(
         state.worryInput,
         state.questions,
-        userResponses
+        userResponses,
+        {
+          choiceALabel: state.framingIntro?.choiceALabel,
+          choiceBLabel: state.framingIntro?.choiceBLabel,
+        },
+        state.sessionId
       );
 
       state.analysisResult = result;
@@ -118,6 +136,7 @@ export function useThinkingFlow() {
     currentSession,
     goToStep,
     handleWorrySubmit,
+    startQuestions,
     handleQuestionsComplete,
     retryCurrentStep,
     restartProcess,

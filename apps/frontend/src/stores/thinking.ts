@@ -8,7 +8,7 @@ import type {
   ThinkingSession,
 } from '@/types/thinking';
 
-export type ProcessStep = 'input' | 'questions' | 'result';
+export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';
 
 /**
  * 고민/질문/분석 플로우 상태 스토어 (Pinia / Setup Store)
@@ -28,6 +28,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     questions: [] as Question[],
     responses: [] as UserResponse[],
     analysisResult: null as AnalysisResultType | null,
+    framingIntro: null as import('@/types/thinking').FramingIntro | null,
   });
 
   const currentSession = computed<Partial<ThinkingSession>>(() => ({
@@ -50,6 +51,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     state.questions = [];
     state.responses = [];
     state.analysisResult = null;
+    state.framingIntro = null;
   };
 
   return { state, currentSession, reset };

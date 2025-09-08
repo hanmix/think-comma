@@ -46,6 +46,7 @@
           </div>
           <div class="choice-content">
             {{ choice.content }}
+            <div class="choice-description">- {{ choice.description }}</div>
           </div>
           <div class="choice-indicator">
             <div v-if="selectedChoice === choice.id" class="selected-icon">
@@ -89,7 +90,7 @@
 import { TcCard, TcDialog } from "@/components/ui";
 import { useQuestionProgress } from "@/composables/useQuestionProgress";
 import type { Question, UserResponse } from "@/types/thinking";
-import { ref, watch, onBeforeUnmount } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import "./QuestionFlow.scss";
 
 interface Props {

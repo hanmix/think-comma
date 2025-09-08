@@ -9,6 +9,7 @@ import { healthRouter } from './routes/health';
 import { chatRouter } from './routes/chat';
 import { questionsRouter } from './routes/questions';
 import { analysisRouter } from './routes/analysis';
+import { framingRouter } from './routes/framing';
 
 const app = express();
 const port = 4000;
@@ -23,6 +24,7 @@ app.use('/api', healthRouter);
 app.use('/api', chatRouter);
 app.use('/api', questionsRouter);
 app.use('/api', analysisRouter);
+app.use('/api', framingRouter);
 
 app.get('/', (_req, res) => {
   res.send('Hello from Express backend!');
