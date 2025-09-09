@@ -11,7 +11,7 @@
       "
     >
       <h1 class="tc-heading-1 hero-heading">
-        Think<span class="tc-comma-highlight">,</span> 고민을 15분으로
+        Think<span class="tc-comma-highlight">,</span> 고민을 3분으로
       </h1>
       <p
         class="tc-body-text tc-text-muted tc-readable"

@@ -48,8 +48,11 @@
 
   .question-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: $spacing-md;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .question-number {
     background: $color-primary-blue;
@@ -145,7 +148,7 @@
     font-weight: 700;
     color: $color-neutral-dark;
     line-height: 1.5;
-    white-space: nowrap;
+    white-space: pre-wrap;
     word-break: keep-all;
     overflow-wrap: break-word;
   }

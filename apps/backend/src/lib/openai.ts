@@ -58,48 +58,32 @@ export async function generateText(params: GenerateParams): Promise<string> {
   }
 }
 
-export async function* streamText(
-  params: GenerateParams
-): AsyncIterable<string> {
-  const client = getClient();
-  const stream = await client.chat.completions.create({
-    model: params.model || env.OPENAI_MODEL,
-    messages: params.messages,
-    temperature: params.temperature ?? 0.5,
-    stream: true,
-  });
-  for await (const chunk of stream) {
-    const delta = chunk.choices[0]?.delta?.content;
-    if (delta) yield delta;
-  }
-}
-
 // Generate JSON via Responses API with JSON response_format when available
 export async function generateJSON<T>(
   input: string,
-  model?: string,
-  temperature?: number
+  model?: string
 ): Promise<T> {
   const client = getClient();
   const useModel = model || env.OPENAI_MODEL;
+
+  // Instruction hardening to discourage fenced blocks
+  const hardenedPrompt = `${input}\n\nIMPORTANT: Return ONLY a JSON object. Do not wrap the JSON in code fences or add any extra text.`;
+
+  // Prefer Responses API with JSON mode when available
   try {
-    const requestParams = {
+    const requestParams: any = {
       model: useModel,
-      input,
+      input: hardenedPrompt,
+      // Enable JSON mode (older mode) which forces valid JSON
+      text: { format: { type: "json_object" } },
     };
 
     const resp: any = await (client as any).responses.create(requestParams);
-    console.log("Responses API raw response:", {
-      model: useModel,
-      hasOutputText: !!resp.output_text,
-      outputText: resp.output_text,
-      fullResponse: JSON.stringify(resp, null, 2),
-    });
     const txt: string = resp.output_text ?? "";
-    if (!txt.trim()) {
-      throw new Error("Empty response from Responses API");
-    }
-    return JSON.parse(txt) as T;
+    if (!txt.trim()) throw new Error("Empty response from Responses API");
+
+    const jsonStr = extractJson(txt);
+    return JSON.parse(jsonStr) as T;
   } catch (jsonErr: any) {
     console.error("Responses API JSON failed:", {
       model: useModel,
@@ -107,11 +91,77 @@ export async function generateJSON<T>(
       status: jsonErr?.status,
       code: jsonErr?.code,
     });
-    // Fallback: plain text then JSON.parse
-    const txt = await generateText({
-      messages: [{ role: "user", content: input }],
-      model: useModel,
-    });
-    return JSON.parse(txt) as T;
+
+    // Fallback #1: Chat Completions with JSON mode
+    try {
+      const chatResp = await client.chat.completions.create({
+        model: useModel,
+        messages: [
+          {
+            role: "system",
+            content: "You only ever respond with a single valid JSON object.",
+          },
+          { role: "user", content: input },
+        ],
+        response_format: { type: "json_object" },
+        // temperature omitted to reduce variability for JSON structure
+      } as any);
+
+      const content = chatResp.choices?.[0]?.message?.content || "";
+      const jsonStr = extractJson(content);
+      return JSON.parse(jsonStr) as T;
+    } catch (chatErr: any) {
+      console.error("Chat Completions JSON failed:", {
+        model: useModel,
+        error: chatErr?.message || String(chatErr),
+        status: chatErr?.status,
+        code: chatErr?.code,
+      });
+
+      // Fallback #2: Plain text generation then best-effort extraction
+      const txt = await generateText({
+        messages: [{ role: "user", content: hardenedPrompt }],
+        model: useModel,
+        // keep temperature default from generateText
+      });
+      const jsonStr = extractJson(txt);
+      return JSON.parse(jsonStr) as T;
+    }
   }
+}
+
+// Helper: Extract JSON string from possibly noisy/fenced output
+function extractJson(raw: string): string {
+  const text = raw.trim();
+  // 1) Prefer fenced code blocks ```json ... ``` or ``` ... ```
+  const fence =
+    text.match(/```json[\s\S]*?\n([\s\S]*?)```/i) ||
+    text.match(/```\s*\n([\s\S]*?)```/i);
+  const body = fence ? fence[1] : text;
+
+  // 2) Slice from the first JSON-looking char ({ or [)
+  const firstObj = body.indexOf("{");
+  const firstArr = body.indexOf("[");
+  const start =
+    [firstObj, firstArr].filter((i) => i >= 0).sort((a, b) => a - b)[0] ?? -1;
+  if (start < 0) throw new Error("No JSON start token found");
+
+  const candidate = body.slice(start).trim();
+
+  // 3) Try full parse; if it fails, truncate to the last closing token and try again
+  try {
+    JSON.parse(candidate);
+    return candidate;
+  } catch {}
+
+  const endObj = candidate.lastIndexOf("}");
+  const endArr = candidate.lastIndexOf("]");
+  const end = Math.max(endObj, endArr);
+  if (end >= 0) {
+    const sliced = candidate.slice(0, end + 1);
+    JSON.parse(sliced); // throws if invalid
+    return sliced;
+  }
+
+  throw new Error("Unable to extract valid JSON");
 }

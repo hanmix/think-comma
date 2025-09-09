@@ -4,7 +4,10 @@
   "scripts": {
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:backend": "pnpm --filter backend dev",
-    "dev": "pnpm -r run dev"
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "build:frontend": "pnpm --filter frontend build",
+    "build:backend": "pnpm --filter backend build"
   },
   "dependencies": {
     "zod": "^4.1.5"

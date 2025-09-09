@@ -197,7 +197,7 @@
       <TcCard variant="success" class="success-message">
         <h3>고민 분석 시작! 🎉</h3>
         <p class="tc-readable">
-          고민이 접수되었습니다. AI가 지금 분석 중이며, 15분 내에 구조화된
+          고민이 접수되었습니다. AI가 지금 분석 중이며, 3분 내에 구조화된
           해결책을 이메일로 보내드립니다.
         </p>
         <div class="tc-small-text tc-text-muted tc-mt-2">

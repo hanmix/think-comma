@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
 import { generateJSON } from "../lib/openai";
-import { logger } from "../middlewares/logger";
 import { buildAnalysisPrompt } from "../lib/prompts";
 
 const ChoiceSchema = z.object({ id: z.enum(["A", "B"]), content: z.string() });
@@ -60,14 +59,32 @@ function analyze(
     steps:
       recommendedChoice === "A"
         ? [
-            { title: "자연스러운 인사", description: "눈이 마주치면 미소와 가벼운 인사" },
-            { title: "짧은 대화", description: '"맛있게 드세요" 정도의 간단한 말' },
-            { title: "각자 시간", description: "무리하지 않고 편안하게 자신의 시간" },
+            {
+              title: "자연스러운 인사",
+              description: "눈이 마주치면 미소와 가벼운 인사",
+            },
+            {
+              title: "짧은 대화",
+              description: '"맛있게 드세요" 정도의 간단한 말',
+            },
+            {
+              title: "각자 시간",
+              description: "무리하지 않고 편안하게 자신의 시간",
+            },
           ]
         : [
-            { title: "작게 시작", description: "가장 쉬운 첫 행동 1가지만 정하기" },
-            { title: "짧은 피드백", description: "시행 후 짧게 돌아보고 개선 1가지" },
-            { title: "다음 약속", description: "다음 실행 날짜를 캘린더에 고정" },
+            {
+              title: "작게 시작",
+              description: "가장 쉬운 첫 행동 1가지만 정하기",
+            },
+            {
+              title: "짧은 피드백",
+              description: "시행 후 짧게 돌아보고 개선 1가지",
+            },
+            {
+              title: "다음 약속",
+              description: "다음 실행 날짜를 캘린더에 고정",
+            },
           ],
     nextSuggestion:
       recommendedChoice === "A"
@@ -78,13 +95,30 @@ function analyze(
   const labels = deriveChoiceLabels(worry.category, worry.content);
   const rationale = {
     overview:
-      recommendedChoice === 'A'
-        ? '응답에서 안정·현상 유지 선호가 상대적으로 높았습니다. 리스크를 줄이며 개선하는 접근이 적합합니다.'
-        : '응답에서 변화 필요성과 새로운 시도 의지가 강하게 나타났습니다. 단계적 실행을 통해 기회를 넓히는 편이 좋습니다.',
+      recommendedChoice === "A"
+        ? "응답에서 안정·현상 유지 선호가 상대적으로 높았습니다. 리스크를 줄이며 개선하는 접근이 적합합니다."
+        : "응답에서 변화 필요성과 새로운 시도 의지가 강하게 나타났습니다. 단계적 실행을 통해 기회를 넓히는 편이 좋습니다.",
     keyReasons: [
-      { name: '응답 패턴', detail: `A:${scoreA} vs B:${scoreB} 선택 분포`, weight: 60, relatedQuestions: [] },
-      { name: '핵심 가치', detail: recommendedChoice === 'A' ? '안정·책임감 중시' : '성장·도전 중시', weight: 25, relatedQuestions: [] },
-      { name: '리스크 태도', detail: recommendedChoice === 'A' ? '리스크 회피 성향' : '실험 수용 성향', weight: 15, relatedQuestions: [] },
+      {
+        name: "응답 패턴",
+        detail: `A:${scoreA} vs B:${scoreB} 선택 분포`,
+        weight: 60,
+        relatedQuestions: [],
+      },
+      {
+        name: "핵심 가치",
+        detail:
+          recommendedChoice === "A" ? "안정·책임감 중시" : "성장·도전 중시",
+        weight: 25,
+        relatedQuestions: [],
+      },
+      {
+        name: "리스크 태도",
+        detail:
+          recommendedChoice === "A" ? "리스크 회피 성향" : "실험 수용 성향",
+        weight: 15,
+        relatedQuestions: [],
+      },
     ],
   } as const;
   return {
@@ -130,7 +164,10 @@ analysisRouter.post("/analyze", async (req, res) => {
         questions: z.array(QuestionSchema),
         responses: z.array(ResponseSchema),
         labels: z
-          .object({ choiceALabel: z.string().optional(), choiceBLabel: z.string().optional() })
+          .object({
+            choiceALabel: z.string().optional(),
+            choiceBLabel: z.string().optional(),
+          })
           .optional(),
         sessionId: z.string().optional(),
       })
@@ -156,7 +193,15 @@ analysisRouter.post("/analyze", async (req, res) => {
           steps: Array<{ title: string; description: string }>;
           nextSuggestion?: string;
         };
-        rationale?: { overview: string; keyReasons: Array<{ name: string; detail: string; weight: number; relatedQuestions?: number[] }> };
+        rationale?: {
+          overview: string;
+          keyReasons: Array<{
+            name: string;
+            detail: string;
+            weight: number;
+            relatedQuestions?: number[];
+          }>;
+        };
         personalityTraits: Array<{
           name: string;
           score: number;
@@ -169,9 +214,13 @@ analysisRouter.post("/analyze", async (req, res) => {
         }>;
       }>(prompt);
       const conf = ai.confidence > 1 ? ai.confidence / 100 : ai.confidence;
-      const labels = body.labels?.choiceALabel && body.labels?.choiceBLabel
-        ? { labelA: body.labels.choiceALabel, labelB: body.labels.choiceBLabel }
-        : deriveChoiceLabels(body.worry.category, body.worry.content);
+      const labels =
+        body.labels?.choiceALabel && body.labels?.choiceBLabel
+          ? {
+              labelA: body.labels.choiceALabel,
+              labelB: body.labels.choiceBLabel,
+            }
+          : deriveChoiceLabels(body.worry.category, body.worry.content);
 
       // Normalize labels to avoid trivial "A"/"B" outputs from AI
       const isTrivial = (s?: string) => {
@@ -199,16 +248,26 @@ analysisRouter.post("/analyze", async (req, res) => {
 
       const rawRec = ai.recommendedChoiceLabel;
       const rawOther = ai.otherChoiceLabel;
-      const recommendedChoiceLabel = body.labels?.choiceALabel || body.labels?.choiceBLabel
-        ? (ai.recommendedChoice === 'A' ? choiceALabel : choiceBLabel)
-        : isTrivial(rawRec)
-        ? ai.recommendedChoice === "A" ? choiceALabel : choiceBLabel
-        : String(rawRec);
-      const otherChoiceLabel = body.labels?.choiceALabel || body.labels?.choiceBLabel
-        ? (ai.recommendedChoice === 'A' ? choiceBLabel : choiceALabel)
-        : isTrivial(rawOther)
-        ? ai.recommendedChoice === "A" ? choiceBLabel : choiceALabel
-        : String(rawOther);
+      const recommendedChoiceLabel =
+        body.labels?.choiceALabel || body.labels?.choiceBLabel
+          ? ai.recommendedChoice === "A"
+            ? choiceALabel
+            : choiceBLabel
+          : isTrivial(rawRec)
+          ? ai.recommendedChoice === "A"
+            ? choiceALabel
+            : choiceBLabel
+          : String(rawRec);
+      const otherChoiceLabel =
+        body.labels?.choiceALabel || body.labels?.choiceBLabel
+          ? ai.recommendedChoice === "A"
+            ? choiceBLabel
+            : choiceALabel
+          : isTrivial(rawOther)
+          ? ai.recommendedChoice === "A"
+            ? choiceBLabel
+            : choiceALabel
+          : String(rawOther);
 
       const result = {
         recommendedChoice: ai.recommendedChoice,
@@ -224,40 +283,8 @@ analysisRouter.post("/analyze", async (req, res) => {
         rationale: ai.rationale,
         summary: ai.summary,
       } as const;
-      logger.info({
-        id: (req as any).requestId,
-        sessionId: body.sessionId,
-        route: 'analyze',
-        providedLabels: body.labels,
-        aiLabels: {
-          choiceALabel: ai.choiceALabel,
-          choiceBLabel: ai.choiceBLabel,
-          recommendedChoiceLabel: ai.recommendedChoiceLabel,
-          otherChoiceLabel: ai.otherChoiceLabel,
-        },
-        trivial: {
-          a: isTrivial(ai.choiceALabel),
-          b: isTrivial(ai.choiceBLabel),
-          rec: isTrivial(ai.recommendedChoiceLabel),
-          oth: isTrivial(ai.otherChoiceLabel),
-        },
-        final: {
-          choiceALabel,
-          choiceBLabel,
-          recommendedChoice: ai.recommendedChoice,
-          recommendedChoiceLabel,
-          otherChoiceLabel,
-        },
-      }, 'analysis.result');
       return res.status(200).json({ source: "ai", result });
     } catch (aiErr: any) {
-      logger.error({
-        id: (req as any).requestId,
-        sessionId: body.sessionId,
-        route: 'analyze',
-        error: aiErr?.message || String(aiErr),
-        stack: aiErr?.stack,
-      }, 'analysis.ai_error');
       const result = analyze(body.worry, body.responses);
       return res.status(200).json({ source: "fallback", result });
     }
