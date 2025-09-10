@@ -22,7 +22,7 @@
       "@/*": ["src/*"],
       "@myorg/shared": ["../../packages/shared/src/index.ts"]
     },
-    
+
     // Import preferences
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
