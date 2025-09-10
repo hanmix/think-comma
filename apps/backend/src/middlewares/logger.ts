@@ -1,14 +1,14 @@
-import { randomUUID } from "crypto";
-import type { RequestHandler } from "express";
-import fs from "fs";
-import path from "path";
-import pino from "pino";
+import { randomUUID } from 'crypto';
+import type { RequestHandler } from 'express';
+import fs from 'fs';
+import path from 'path';
+import pino from 'pino';
 
 // ----------------------------
 // Config
 // ----------------------------
-const LOG_DIR = path.join(process.cwd(), "logs");
-const LOG_LEVEL = process.env.LOG_LEVEL || "info";
+const LOG_DIR = path.join(process.cwd(), 'logs');
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 // KST is UTC+9 (no DST)
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
@@ -25,8 +25,8 @@ function formatKSTDateStamp(dateUTC = new Date()): string {
   // Convert "now" to KST by adding fixed offset, then format YYYY-MM-DD
   const kst = new Date(dateUTC.getTime() + KST_OFFSET_MS);
   const yyyy = kst.getUTCFullYear();
-  const mm = String(kst.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(kst.getUTCDate()).padStart(2, "0");
+  const mm = String(kst.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(kst.getUTCDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
 }
 
@@ -73,19 +73,24 @@ export const loggerMiddleware: RequestHandler = (req, res, next) => {
   (req as any).requestId = id;
 
   baseLogger.info(
-    { id, method: req.method, url: req.originalUrl || req.url },
-    "request start"
+    {
+      id,
+      method: req.method,
+      url: req.originalUrl || req.url,
+      ReportBody: req.body,
+    },
+    'request start'
   );
 
-  res.on("finish", () => {
+  res.on('finish', () => {
     const ms = Date.now() - start;
-    baseLogger.info({ id, status: res.statusCode, ms }, "request end");
+    baseLogger.info({ id, status: res.statusCode, ms }, 'request end');
   });
 
-  res.on("close", () => {
+  res.on('close', () => {
     if (!res.writableEnded) {
       const ms = Date.now() - start;
-      baseLogger.warn({ id, aborted: true, ms }, "request aborted");
+      baseLogger.warn({ id, aborted: true, ms }, 'request aborted');
     }
   });
 
