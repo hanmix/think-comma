@@ -120,21 +120,21 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard } from "@/components/ui";
-import { useRouter } from "vue-router";
-import "./HomePage.scss";
+import { TcButton, TcCard } from '@/components/ui';
+import { useRouter } from 'vue-router';
+import './HomePage.scss';
 
 const router = useRouter();
-const goExample = () => router.push({ name: "example" });
-const goDesign = () => router.push({ name: "design" });
-const goChat = () => router.push({ name: "chat" });
+const goExample = () => router.push({ name: 'example' });
+const goDesign = () => router.push({ name: 'design' });
+const goChat = () => router.push({ name: 'chat' });
 
 type NetworkInformation = { saveData?: boolean; effectiveType?: string };
 const shouldPrefetch = (): boolean => {
   const conn = (navigator as any).connection as NetworkInformation | undefined;
   if (!conn) return true; // Unknown network: assume ok
   if (conn.saveData) return false; // Respect data saver
-  const slowTypes = new Set(["slow-2g", "2g"]);
+  const slowTypes = new Set(['slow-2g', '2g']);
   if (conn.effectiveType && slowTypes.has(conn.effectiveType)) return false;
   return true;
 };
@@ -142,12 +142,12 @@ const shouldPrefetch = (): boolean => {
 const prefetchExampleOnIntent = () => {
   if (!shouldPrefetch()) return;
   // Prefetch route and the heavy flow component on user intent
-  void import("@/views/ExamplePage.vue");
-  void import("@/components/thinking/ThinkingProcess.vue");
+  void import('@/views/ExamplePage.vue');
+  void import('@/components/thinking/ThinkingProcess.vue');
 };
 
 const prefetchDesignOnIntent = () => {
   if (!shouldPrefetch()) return;
-  void import("@/views/DesignSystem.vue");
+  void import('@/views/DesignSystem.vue');
 };
 </script>

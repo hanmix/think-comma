@@ -63,8 +63,13 @@
 
 /* Mobile typography adjustments (iPhone SE and similar) */
 @media (max-width: 375px) {
-  .tc-heading-1 { line-height: 1.2; }
-  .tc-heading-2 { line-height: 1.25; }
-  .tc-heading-3 { line-height: 1.3; }
+  .tc-heading-1 {
+    line-height: 1.2;
+  }
+  .tc-heading-2 {
+    line-height: 1.25;
+  }
+  .tc-heading-3 {
+    line-height: 1.3;
+  }
 }
-

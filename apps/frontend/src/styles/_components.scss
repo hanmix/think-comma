@@ -2,7 +2,9 @@
 @use './_mixins' as *;
 
 // Common layout sections
-.tc-section { margin-bottom: $spacing-16; }
+.tc-section {
+  margin-bottom: $spacing-16;
+}
 
 // Auto-fit grid helper mixin
 @mixin auto-grid($min, $gap: $spacing-lg) {
@@ -20,13 +22,21 @@
   text-align: center;
   position: relative;
   transition: transform 0.3s ease;
-  &:hover { transform: translateY(-4px); }
+  &:hover {
+    transform: translateY(-4px);
+  }
   &::before {
-    content: "";
+    content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 4px;
-    background: linear-gradient(90deg, $color-primary-blue, $color-primary-green);
+    background: linear-gradient(
+      90deg,
+      $color-primary-blue,
+      $color-primary-green
+    );
     border-radius: 20px 20px 0 0;
   }
 }
@@ -66,7 +76,11 @@
   padding: $spacing-16 0;
   margin-bottom: $spacing-16;
 }
-.tc-hero-heading { max-width: 28ch; margin-left: auto; margin-right: auto; }
+.tc-hero-heading {
+  max-width: 28ch;
+  margin-left: auto;
+  margin-right: auto;
+}
 .tc-hero-actions {
   display: flex;
   gap: $spacing-md;
@@ -76,23 +90,46 @@
 }
 
 // Section heading helper
-.tc-section-heading { text-align: center; margin-bottom: $spacing-xl; }
+.tc-section-heading {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
 
 // Gradient divider
 .tc-divider {
-  height: 1px; width: 100%;
-  background: linear-gradient(to right, transparent, $color-neutral-medium, transparent);
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    $color-neutral-medium,
+    transparent
+  );
 }
-.tc-divider--spaced { margin: $spacing-16 0; }
-.tc-sub-divider { height: 1px; width: 100%; background-color: $color-neutral-medium; opacity: 0.5; }
+.tc-divider--spaced {
+  margin: $spacing-16 0;
+}
+.tc-sub-divider {
+  height: 1px;
+  width: 100%;
+  background-color: $color-neutral-medium;
+  opacity: 0.5;
+}
 
 // Two-column form row that collapses on small screens
 .tc-form-row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: $spacing-md;
-  @include respond(sm) { grid-template-columns: 1fr; }
+  @include respond(sm) {
+    grid-template-columns: 1fr;
+  }
 }
 
 // Generic actions row
-.tc-actions-row { display: flex; gap: $spacing-md; justify-content: center; flex-wrap: wrap; }
+.tc-actions-row {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  flex-wrap: wrap;
+}

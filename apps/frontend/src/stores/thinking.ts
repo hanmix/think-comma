@@ -1,12 +1,12 @@
-import { reactive, computed } from 'vue';
-import { defineStore } from 'pinia';
-import type { 
-  WorryInput as WorryInputType,
-  Question,
-  UserResponse,
+import type {
   AnalysisResult as AnalysisResultType,
+  Question,
   ThinkingSession,
+  UserResponse,
+  WorryInput as WorryInputType,
 } from '@/types/thinking';
+import { defineStore } from 'pinia';
+import { computed, reactive } from 'vue';
 
 export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';
 

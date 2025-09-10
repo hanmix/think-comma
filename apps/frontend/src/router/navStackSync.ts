@@ -1,6 +1,6 @@
-import type { Router, RouteLocationNormalized } from "vue-router";
-import { useNavStackStore } from "@/stores/navStack";
-import { DEFAULT_STACK_ID } from "@/types/navigation";
+import { useNavStackStore } from '@/stores/navStack';
+import { DEFAULT_STACK_ID } from '@/types/navigation';
+import type { RouteLocationNormalized, Router } from 'vue-router';
 
 /**
  * 네비게이션 스택 동기화 훅
@@ -47,7 +47,8 @@ export function installNavStackSync(router: Router) {
    */
   const sync = (to: RouteLocationNormalized) => {
     const { stackId, isRoot } = getStackMeta(to);
-    const pos = (window.history.state && (window.history.state as any).position) || 0;
+    const pos =
+      (window.history.state && (window.history.state as any).position) || 0;
     store.ensureStack(stackId);
 
     const positions = store.positions[stackId];
@@ -62,7 +63,7 @@ export function installNavStackSync(router: Router) {
       // Seed: if there is a known root, add it with pos-1 for stable back detection
       const root = router
         .getRoutes()
-        .find((r) => r.meta?.stackId === stackId && r.meta?.isRoot);
+        .find(r => r.meta?.stackId === stackId && r.meta?.isRoot);
       if (root && root.name !== to.name) {
         store.setRoot(stackId, { name: root.name as string }, pos - 1);
         store.push(stackId, toLoc(to), pos);
@@ -80,7 +81,7 @@ export function installNavStackSync(router: Router) {
       store.replace(stackId, toLoc(to), pos);
     } else {
       // back: trim to this position if it exists; otherwise reset
-      const idx = positions.findIndex((p) => p === pos);
+      const idx = positions.findIndex(p => p === pos);
       if (idx !== -1) {
         store.trimToLength(stackId, idx + 1);
         store.replace(stackId, toLoc(to), pos);
@@ -98,7 +99,7 @@ export function installNavStackSync(router: Router) {
     sync(router.currentRoute.value);
   }
 
-  router.afterEach((to) => {
+  router.afterEach(to => {
     sync(to);
   });
 }

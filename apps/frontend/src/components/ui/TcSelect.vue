@@ -18,8 +18,8 @@
         :aria-haspopup="'listbox'"
         @click="toggle"
         @keydown="onTriggerKeydown"
-        @focus="(e) => $emit('focus', e)"
-        @blur="(e) => $emit('blur', e)"
+        @focus="e => $emit('focus', e)"
+        @blur="e => $emit('blur', e)"
       >
         <span
           class="tc-dropdown__text"
@@ -83,9 +83,9 @@
 </template>
 
 <script setup lang="ts">
-import { useDropdown, type DropdownOption } from "@/composables/useDropdown";
-import { computed } from "vue";
-import "./TcSelect.scss";
+import { useDropdown, type DropdownOption } from '@/composables/useDropdown';
+import { computed } from 'vue';
+import './TcSelect.scss';
 
 interface Props {
   modelValue?: string;
@@ -103,27 +103,27 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: "",
+  modelValue: '',
   disabled: false,
   required: false,
   options: () => [],
-  placeholderLabel: "선택",
-  placeholderValue: "",
+  placeholderLabel: '선택',
+  placeholderValue: '',
   showPlaceholder: true,
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
+  'update:modelValue': [value: string];
   focus: [event: FocusEvent];
   blur: [event: FocusEvent];
 }>();
 
 const dropdown = useDropdown({
   options: () => props.options,
-  value: () => props.modelValue || "",
+  value: () => props.modelValue || '',
   disabled: () => !!props.disabled,
   maxHeight: () => 320,
-  onSelect: (val) => emit("update:modelValue", val),
+  onSelect: val => emit('update:modelValue', val),
 });
 
 const rootEl = dropdown.rootEl;
@@ -140,11 +140,11 @@ const onOverlayKeydown = dropdown.onOverlayKeydown;
 const selectValue = dropdown.selectValue;
 
 const selectedLabel = computed(
-  () => dropdown.selectedOption.value?.label || ""
+  () => dropdown.selectedOption.value?.label || ''
 );
 
 const labelClasses = computed(() => [
-  "tc-form-label",
-  { "tc-form-label--required": props.required },
+  'tc-form-label',
+  { 'tc-form-label--required': props.required },
 ]);
 </script>

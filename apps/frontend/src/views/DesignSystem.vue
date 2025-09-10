@@ -94,9 +94,13 @@
     <!-- Modal Showcase -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Modal</h2>
-      <TcButton variant="primary" @click="showModal = true">Open Modal</TcButton>
+      <TcButton variant="primary" @click="showModal = true"
+        >Open Modal</TcButton
+      >
       <TcModal v-model="showModal" title="예시 모달">
-        <p class="tc-body-text">디자인 시스템에서 공용 모달을 확인할 수 있습니다.</p>
+        <p class="tc-body-text">
+          디자인 시스템에서 공용 모달을 확인할 수 있습니다.
+        </p>
         <template #footer>
           <TcButton variant="ghost" @click="showModal = false">닫기</TcButton>
         </template>
@@ -173,8 +177,8 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcInput, TcLogo, TcModal } from "@/components/ui";
+import { TcButton, TcCard, TcInput, TcLogo, TcModal } from '@/components/ui';
 import { ref } from 'vue';
-import "./DesignSystem.scss";
+import './DesignSystem.scss';
 const showModal = ref(false);
 </script>

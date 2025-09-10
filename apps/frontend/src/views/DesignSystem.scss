@@ -1,11 +1,13 @@
 /* variables & mixins are auto-injected via Vite */
-@use "@/styles/_components.scss" as *;
+@use '@/styles/_components.scss' as *;
 
 .ds-header {
   text-align: center;
   margin-bottom: $spacing-xl;
 }
-.ds-section { @extend .tc-section; }
+.ds-section {
+  @extend .tc-section;
+}
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -20,8 +22,12 @@
   gap: $spacing-md;
   flex-wrap: wrap;
 }
-.cards-grid { @include auto-grid(260px, $spacing-lg); }
-.inputs-row { @include auto-grid(260px, $spacing-lg); }
+.cards-grid {
+  @include auto-grid(260px, $spacing-lg);
+}
+.inputs-row {
+  @include auto-grid(260px, $spacing-lg);
+}
 
 .logo-showcase-section {
   margin-bottom: $spacing-16;
@@ -35,17 +41,28 @@
   margin-bottom: $spacing-xl;
   color: $color-secondary-gray;
 }
-.logo-showcase-grid { @include auto-grid(280px, $spacing-xl); margin-bottom: $spacing-xl; }
-.logo-showcase-item { @extend .tc-showcase-card; }
-.showcase-header { @extend .tc-showcase-header; }
+.logo-showcase-grid {
+  @include auto-grid(280px, $spacing-xl);
+  margin-bottom: $spacing-xl;
+}
+.logo-showcase-item {
+  @extend .tc-showcase-card;
+}
+.showcase-header {
+  @extend .tc-showcase-header;
+}
 .showcase-header h4 {
   font-size: $font-size-lg;
   font-weight: 600;
   color: $color-primary-navy;
   margin: 0;
 }
-.recommended-badge { @extend .tc-badge-recommended; }
-.logo-sizes { @extend .tc-logo-sizes; }
+.recommended-badge {
+  @extend .tc-badge-recommended;
+}
+.logo-sizes {
+  @extend .tc-logo-sizes;
+}
 
 @include respond(sm) {
   .row {

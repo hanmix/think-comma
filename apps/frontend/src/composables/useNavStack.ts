@@ -1,10 +1,10 @@
-import { computed } from "vue";
-import type { RouteLocationRaw, Router } from "vue-router";
-import router from "@/router";
-import { useNavStackStore } from "@/stores/navStack";
-import type { StackId } from "@/types/navigation";
-import { DEFAULT_STACK_ID } from "@/types/navigation";
-import { storeToRefs } from "pinia";
+import router from '@/router';
+import { useNavStackStore } from '@/stores/navStack';
+import type { StackId } from '@/types/navigation';
+import { DEFAULT_STACK_ID } from '@/types/navigation';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import type { RouteLocationRaw, Router } from 'vue-router';
 
 /**
  * SwiftUI NavigationStack 유사 동작을 제공하는 경량 컴포저블
@@ -35,7 +35,7 @@ const getRootFor = (stackId: StackId): RouteLocationRaw | null => {
   // Find a route with meta { stackId, isRoot: true }
   const root = router
     .getRoutes()
-    .find((r) => r.meta?.stackId === stackId && r.meta?.isRoot);
+    .find(r => r.meta?.stackId === stackId && r.meta?.isRoot);
   return root ? { name: root.name as string } : null;
 };
 
@@ -66,7 +66,8 @@ const api = (r: Router) => {
   /** 한 단계 뒤로가기 (히스토리 go(-1)과 동기) */
   const pop = async (stackId?: StackId) => {
     const current = r.currentRoute.value;
-    const activeStackId = (current.meta?.stackId as string) || stackId || DEFAULT_STACK_ID;
+    const activeStackId =
+      (current.meta?.stackId as string) || stackId || DEFAULT_STACK_ID;
     ensureStack(activeStackId);
     const stack = store.stacks[activeStackId] || [];
     if (stack.length <= 1) return; // nothing to pop
@@ -77,7 +78,8 @@ const api = (r: Router) => {
   /** 루트까지 모두 뒤로가기 (현재 스택 깊이만큼 go(-(n-1))) */
   const popToRoot = async (stackId?: StackId) => {
     const current = r.currentRoute.value;
-    const activeStackId = (current.meta?.stackId as string) || stackId || DEFAULT_STACK_ID;
+    const activeStackId =
+      (current.meta?.stackId as string) || stackId || DEFAULT_STACK_ID;
     ensureStack(activeStackId);
     const depth = store.stacks[activeStackId]?.length || 1;
     if (depth <= 1) return;

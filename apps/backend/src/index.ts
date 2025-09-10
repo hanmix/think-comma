@@ -1,15 +1,14 @@
 import express from 'express';
-import { env } from './config/env';
 import { corsMiddleware } from './middlewares/cors';
+import { errorMiddleware } from './middlewares/error';
+import { loggerMiddleware } from './middlewares/logger';
 import { rateLimitMiddleware } from './middlewares/rateLimit';
 import { requestIdMiddleware } from './middlewares/requestId';
-import { loggerMiddleware } from './middlewares/logger';
-import { errorMiddleware } from './middlewares/error';
-import { healthRouter } from './routes/health';
-import { chatRouter } from './routes/chat';
-import { questionsRouter } from './routes/questions';
 import { analysisRouter } from './routes/analysis';
+import { chatRouter } from './routes/chat';
 import { framingRouter } from './routes/framing';
+import { healthRouter } from './routes/health';
+import { questionsRouter } from './routes/questions';
 
 const app = express();
 const port = 4000;

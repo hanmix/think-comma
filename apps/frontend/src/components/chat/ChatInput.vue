@@ -8,7 +8,11 @@
       :disabled="disabled"
     />
     <div class="actions">
-      <button class="tc-button" type="submit" :disabled="disabled || !input.trim()">
+      <button
+        class="tc-button"
+        type="submit"
+        :disabled="disabled || !input.trim()"
+      >
         보내기
       </button>
     </div>
@@ -32,7 +36,14 @@ function onSubmit() {
 </script>
 
 <style scoped>
-.chat-input { display: grid; gap: 8px; }
-.actions { text-align: right; }
-.tc-button { padding: 8px 12px; }
+.chat-input {
+  display: grid;
+  gap: 8px;
+}
+.actions {
+  text-align: right;
+}
+.tc-button {
+  padding: 8px 12px;
+}
 </style>

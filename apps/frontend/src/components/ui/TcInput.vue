@@ -3,7 +3,7 @@
     <label v-if="label" :for="inputId" :class="labelClasses">
       {{ label }}
     </label>
-    
+
     <input
       :id="inputId"
       v-model="inputValue"
@@ -17,15 +17,15 @@
       @blur="handleBlur"
       @input="handleInput"
     />
-    
+
     <div v-if="helpText && !error" class="tc-form-help">
       {{ helpText }}
     </div>
-    
+
     <div v-if="error" class="tc-form-error">
       {{ error }}
     </div>
-    
+
     <div v-if="success" class="tc-form-success">
       {{ success }}
     </div>

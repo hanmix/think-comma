@@ -87,11 +87,11 @@
 </template>
 
 <script setup lang="ts">
-import { TcCard, TcDialog } from "@/components/ui";
-import { useQuestionProgress } from "@/composables/useQuestionProgress";
-import type { Question, UserResponse } from "@/types/thinking";
-import { onBeforeUnmount, ref, watch } from "vue";
-import "./QuestionFlow.scss";
+import { TcCard, TcDialog } from '@/components/ui';
+import { useQuestionProgress } from '@/composables/useQuestionProgress';
+import type { Question, UserResponse } from '@/types/thinking';
+import { onBeforeUnmount, ref, watch } from 'vue';
+import './QuestionFlow.scss';
 
 interface Props {
   questions: Question[];
@@ -99,8 +99,8 @@ interface Props {
 }
 
 interface Emits {
-  (event: "complete", responses: UserResponse[]): void;
-  (event: "back"): void;
+  (event: 'complete', responses: UserResponse[]): void;
+  (event: 'back'): void;
 }
 
 const props = defineProps<Props>();
@@ -127,11 +127,11 @@ const suppressHover = ref<boolean>(false);
 const freshMount = ref<boolean>(false);
 
 const analysisStages = [
-  "답변 패턴을 분석하고 있습니다...",
-  "성향과 우선순위를 파악하고 있습니다...",
-  "최적의 해결책을 찾고 있습니다...",
-  "개인화된 행동 가이드를 생성하고 있습니다...",
-  "분석 완료! 결과를 준비 중입니다...",
+  '답변 패턴을 분석하고 있습니다...',
+  '성향과 우선순위를 파악하고 있습니다...',
+  '최적의 해결책을 찾고 있습니다...',
+  '개인화된 행동 가이드를 생성하고 있습니다...',
+  '분석 완료! 결과를 준비 중입니다...',
 ];
 
 const goToNextQuestion = async () => {
@@ -139,16 +139,16 @@ const goToNextQuestion = async () => {
   if (shouldComplete) {
     // Show Thinking Modal while parent runs analyze API
     isAnalyzing.value = true;
-    emit("complete", responses.value);
+    emit('complete', responses.value);
   }
 };
 
 // Select and immediately advance
-const onSelect = async (choice: "A" | "B") => {
+const onSelect = async (choice: 'A' | 'B') => {
   // Play select animation briefly, then advance; suppress hover carry-over
   suppressHover.value = true;
   selectChoice(choice);
-  await new Promise((r) => setTimeout(r, 180));
+  await new Promise(r => setTimeout(r, 180));
   freshMount.value = true; // disable transitions for the next question's first paint
   await goToNextQuestion();
   // allow next DOM paint then re-enable transitions/hover
@@ -176,20 +176,20 @@ const runAnalysisProgress = async () => {
     const delta = (end - start) / steps;
     for (let j = 0; j < steps; j++) {
       if (!isAnalyzing.value) break;
-      await new Promise((r) => setTimeout(r, stepDuration));
+      await new Promise(r => setTimeout(r, stepDuration));
       analysisProgress.value = Math.min(99, start + delta * (j + 1));
     }
   }
   // hold near-complete if still analyzing
   while (isAnalyzing.value) {
-    await new Promise((r) => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 200));
     analysisProgress.value = Math.min(99, analysisProgress.value + 0.3);
   }
 };
 
 watch(
   () => isAnalyzing.value,
-  (active) => {
+  active => {
     if (active) runAnalysisProgress();
     else {
       // finalize progress and reset for next time

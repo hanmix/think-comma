@@ -1,12 +1,12 @@
-import type { Question, UserResponse } from "@/types/thinking";
-import { computed, nextTick, ref, watch } from "vue";
+import type { Question, UserResponse } from '@/types/thinking';
+import { computed, nextTick, ref, watch } from 'vue';
 
 export function useQuestionProgress(
   questions: Question[],
   initialResponses: UserResponse[] = []
 ) {
   const currentQuestionIndex = ref<number>(0);
-  const selectedChoice = ref<"A" | "B" | null>(null);
+  const selectedChoice = ref<'A' | 'B' | null>(null);
   const responses = ref<UserResponse[]>([...initialResponses]);
 
   const currentQuestion = computed(() => questions[currentQuestionIndex.value]);
@@ -28,29 +28,29 @@ export function useQuestionProgress(
     [currentQuestionIndex, () => responses.value],
     () => {
       const existingResponse = responses.value.find(
-        (r) => r.questionId === currentQuestion.value.id
+        r => r.questionId === currentQuestion.value.id
       );
       selectedChoice.value = existingResponse?.selectedChoice || null;
     },
     { immediate: true }
   );
 
-  const selectChoice = (choice: "A" | "B") => {
+  const selectChoice = (choice: 'A' | 'B') => {
     selectedChoice.value = choice;
   };
 
   const saveCurrentResponse = () => {
     if (!selectedChoice.value) return;
     const choiceContent =
-      currentQuestion.value.choices.find((c) => c.id === selectedChoice.value)
-        ?.content || "";
+      currentQuestion.value.choices.find(c => c.id === selectedChoice.value)
+        ?.content || '';
     const response: UserResponse = {
       questionId: currentQuestion.value.id,
       selectedChoice: selectedChoice.value,
       choiceContent,
     };
     const existingIndex = responses.value.findIndex(
-      (r) => r.questionId === currentQuestion.value.id
+      r => r.questionId === currentQuestion.value.id
     );
     if (existingIndex >= 0) responses.value[existingIndex] = response;
     else responses.value.push(response);

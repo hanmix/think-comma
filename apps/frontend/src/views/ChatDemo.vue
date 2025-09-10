@@ -15,15 +15,15 @@
 </template>
 
 <script setup lang="ts">
-import { ChatInput, ChatMessages } from "@/components/ui";
-import { useChat } from "@/composables/useChat";
+import { ChatInput, ChatMessages } from '@/components/ui';
+import { useChat } from '@/composables/useChat';
 
 const { messages, isLoading, error, send, stop } = useChat({
-  baseUrl: "http://localhost:4000",
+  baseUrl: 'http://localhost:4000',
   stream: true,
 });
 
 function onSubmit(text: string) {
-  send(text, { stream: true });
+  send(text);
 }
 </script>

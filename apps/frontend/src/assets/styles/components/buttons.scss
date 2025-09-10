@@ -112,6 +112,7 @@
 
 /* Mobile-first adjustments */
 @media (max-width: 375px) {
-  .tc-button { width: 100%; }
+  .tc-button {
+    width: 100%;
+  }
 }
-

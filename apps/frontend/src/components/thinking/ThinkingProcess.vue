@@ -92,7 +92,7 @@
           </div>
         </div>
         <p class="tc-body-text tc-readable">
-          {{ genStages[genStageIndex] || "맞춤형 질문을 준비하고 있어요..." }}
+          {{ genStages[genStageIndex] || '맞춤형 질문을 준비하고 있어요...' }}
         </p>
         <div class="analysis-progress">
           <div
@@ -110,15 +110,15 @@ import {
   AnalysisResult,
   QuestionFlow,
   WorryInput,
-} from "@/components/thinking";
-import { TcButton, TcCard, TcDialog } from "@/components/ui";
-import { useThinkingFlow } from "@/composables/useThinkingFlow";
-import type { WorryInput as WorryInputType } from "@/types/thinking";
-import { onMounted, ref, watch } from "vue";
-import IntroFraming from "./IntroFraming.vue";
-import "./ThinkingProcess.scss";
+} from '@/components/thinking';
+import { TcButton, TcCard, TcDialog } from '@/components/ui';
+import { useThinkingFlow } from '@/composables/useThinkingFlow';
+import type { WorryInput as WorryInputType } from '@/types/thinking';
+import { onMounted, ref, watch } from 'vue';
+import IntroFraming from './IntroFraming.vue';
+import './ThinkingProcess.scss';
 // Import QuestionFlow styles to reuse analyzing modal look
-import "./QuestionFlow.scss";
+import './QuestionFlow.scss';
 
 const props = defineProps<{
   initialWorry?: WorryInputType | null;
@@ -142,11 +142,11 @@ const {
 const genStageIndex = ref<number>(0);
 const genProgress = ref<number>(0);
 const genStages = [
-  "고민의 핵심을 파악하고 있습니다...",
-  "맥락과 우선순위를 정리하고 있습니다...",
-  "맞춤형 질문 후보를 생성하고 있습니다...",
-  "질문의 흐름과 난이도를 구성하고 있습니다...",
-  "완성 중입니다... 곧 시작할게요!",
+  '고민의 핵심을 파악하고 있습니다...',
+  '맥락과 우선순위를 정리하고 있습니다...',
+  '맞춤형 질문 후보를 생성하고 있습니다...',
+  '질문의 흐름과 난이도를 구성하고 있습니다...',
+  '완성 중입니다... 곧 시작할게요!',
 ];
 const startGeneratingProgress = async () => {
   genStageIndex.value = 0;
@@ -157,7 +157,7 @@ const startGeneratingProgress = async () => {
     if (
       !(
         state.isLoading &&
-        (state.currentStep === "input" || state.currentStep === "intro")
+        (state.currentStep === 'input' || state.currentStep === 'intro')
       )
     )
       break;
@@ -172,11 +172,11 @@ const startGeneratingProgress = async () => {
       if (
         !(
           state.isLoading &&
-          (state.currentStep === "input" || state.currentStep === "intro")
+          (state.currentStep === 'input' || state.currentStep === 'intro')
         )
       )
         break;
-      await new Promise((r) => setTimeout(r, stepDuration));
+      await new Promise(r => setTimeout(r, stepDuration));
       genProgress.value = Math.min(99, start + stepDelta * (j + 1));
     }
   }
@@ -194,8 +194,8 @@ const stopGeneratingProgress = () => {
 watch(
   () =>
     state.isLoading &&
-    (state.currentStep === "input" || state.currentStep === "intro"),
-  (active) => {
+    (state.currentStep === 'input' || state.currentStep === 'intro'),
+  active => {
     if (active) startGeneratingProgress();
     else stopGeneratingProgress();
   }
@@ -205,7 +205,7 @@ const tryAutoStart = () => {
   if (
     props.autoStart &&
     props.initialWorry &&
-    state.currentStep === "input" &&
+    state.currentStep === 'input' &&
     !state.isLoading
   ) {
     handleWorrySubmit(props.initialWorry);

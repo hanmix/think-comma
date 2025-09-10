@@ -31,10 +31,10 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
-const emit = defineEmits<{ "update:modelValue": [value: string | number] }>();
+const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
 
 const onChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
-  emit("update:modelValue", target.value);
+  emit('update:modelValue', target.value);
 };
 </script>

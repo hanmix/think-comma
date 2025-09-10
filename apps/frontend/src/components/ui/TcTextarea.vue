@@ -16,8 +16,8 @@
       :maxlength="maxlength"
       :aria-describedby="ariaDescribedby || undefined"
       :aria-invalid="ariaInvalid === true ? 'true' : undefined"
-      @focus="(e) => $emit('focus', e)"
-      @blur="(e) => $emit('blur', e)"
+      @focus="e => $emit('focus', e)"
+      @blur="e => $emit('blur', e)"
     />
 
     <div v-if="helpText && !error" class="tc-form-help">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 
 interface Props {
   modelValue?: string;
@@ -55,7 +55,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: "",
+  modelValue: '',
   disabled: false,
   readonly: false,
   required: false,
@@ -63,11 +63,11 @@ const props = withDefaults(defineProps<Props>(), {
   maxlength: undefined,
   ariaDescribedby: undefined,
   ariaInvalid: undefined,
-  textareaClass: "",
+  textareaClass: '',
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
+  'update:modelValue': [value: string];
   focus: [event: FocusEvent];
   blur: [event: FocusEvent];
 }>();
@@ -76,16 +76,13 @@ const textareaId = ref(`tc-textarea-${Math.random().toString(36).slice(2, 9)}`);
 
 const localValue = computed({
   get: () => props.modelValue,
-  set: (val: string) => emit("update:modelValue", val),
+  set: (val: string) => emit('update:modelValue', val),
 });
 
 const labelClasses = computed(() => [
-  "tc-form-label",
-  { "tc-form-label--required": props.required },
+  'tc-form-label',
+  { 'tc-form-label--required': props.required },
 ]);
 
-const textareaClasses = computed(() => [
-  "tc-textarea",
-  props.textareaClass,
-]);
+const textareaClasses = computed(() => ['tc-textarea', props.textareaClass]);
 </script>

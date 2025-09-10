@@ -1,11 +1,11 @@
-import { aiService } from "@/services/aiService";
-import { useThinkingStore, type ProcessStep } from "@/stores/thinking";
+import { aiService } from '@/services/aiService';
+import { useThinkingStore, type ProcessStep } from '@/stores/thinking';
 import type {
   ThinkingSession,
   UserResponse,
   WorryInput as WorryInputType,
-} from "@/types/thinking";
-import { storeToRefs } from "pinia";
+} from '@/types/thinking';
+import { storeToRefs } from 'pinia';
 
 export function useThinkingFlow() {
   const store = useThinkingStore();
@@ -21,7 +21,7 @@ export function useThinkingFlow() {
 
   const goToStep = (step: ProcessStep) => {
     state.currentStep = step;
-    state.error = "";
+    state.error = '';
   };
 
   const handleWorrySubmit = async (worry: WorryInputType) => {
@@ -46,12 +46,14 @@ export function useThinkingFlow() {
     try {
       if (!state.worryInput) throw new Error('고민 정보가 없습니다.');
       state.isLoading = true;
-      state.loadingMessage = "AI가 질문을 준비하고 있습니다...";
-      const generatedQuestions = await aiService.generateQuestions(state.worryInput);
+      state.loadingMessage = 'AI가 질문을 준비하고 있습니다...';
+      const generatedQuestions = await aiService.generateQuestions(
+        state.worryInput
+      );
       state.questions = generatedQuestions;
       state.currentStep = 'questions';
     } catch (err) {
-      state.error = "질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.";
+      state.error = '질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.';
       console.error('Question generation error:', err);
     } finally {
       state.isLoading = false;
@@ -62,11 +64,11 @@ export function useThinkingFlow() {
   const handleQuestionsComplete = async (userResponses: UserResponse[]) => {
     try {
       state.isLoading = true;
-      state.loadingMessage = "AI가 당신의 답변을 종합 분석하고 있습니다...";
+      state.loadingMessage = 'AI가 당신의 답변을 종합 분석하고 있습니다...';
 
       state.responses = userResponses;
 
-      if (!state.worryInput) throw new Error("고민 정보를 찾을 수 없습니다.");
+      if (!state.worryInput) throw new Error('고민 정보를 찾을 수 없습니다.');
 
       const result = await aiService.generateAnalysis(
         state.worryInput,
@@ -80,27 +82,27 @@ export function useThinkingFlow() {
       );
 
       state.analysisResult = result;
-      state.currentStep = "result";
+      state.currentStep = 'result';
     } catch (err) {
-      state.error = "분석 중 오류가 발생했습니다. 다시 시도해주세요.";
-      console.error("Analysis generation error:", err);
+      state.error = '분석 중 오류가 발생했습니다. 다시 시도해주세요.';
+      console.error('Analysis generation error:', err);
     } finally {
       state.isLoading = false;
-      state.loadingMessage = "";
+      state.loadingMessage = '';
     }
   };
 
   const retryCurrentStep = () => {
-    state.error = "";
+    state.error = '';
     switch (state.currentStep) {
-      case "input":
+      case 'input':
         break;
-      case "questions":
+      case 'questions':
         if (state.worryInput) {
           handleWorrySubmit(state.worryInput);
         }
         break;
-      case "result":
+      case 'result':
         if (state.worryInput && state.responses.length > 0) {
           handleQuestionsComplete(state.responses);
         }
@@ -126,7 +128,7 @@ export function useThinkingFlow() {
       const savedSession = localStorage.getItem(`thinking-session-${id}`);
       return savedSession ? JSON.parse(savedSession) : null;
     } catch (err) {
-      console.error("Error loading session:", err);
+      console.error('Error loading session:', err);
       return null;
     }
   };

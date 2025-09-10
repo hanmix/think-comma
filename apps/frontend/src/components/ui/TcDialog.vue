@@ -25,8 +25,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import TcModal from './TcModal.vue';
 import TcCard from './TcCard.vue';
+import TcModal from './TcModal.vue';
 
 interface Props {
   modelValue: boolean;
@@ -39,7 +39,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   closable: true,
   closeOnBackdrop: true,
-  width: 'min(92vw, 600px)'
+  width: 'min(92vw, 600px)',
 });
 
 const emit = defineEmits<{ 'update:modelValue': [val: boolean] }>();
@@ -48,4 +48,3 @@ const proxyValue = computed({
   set: (v: boolean) => emit('update:modelValue', v),
 });
 </script>
-

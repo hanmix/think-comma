@@ -12,10 +12,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
-import "./ThinkingFlow.scss";
+import { defineAsyncComponent } from 'vue';
+import './ThinkingFlow.scss';
 
 const ThinkingProcess = defineAsyncComponent(
-  () => import("@/components/thinking/ThinkingProcess.vue")
+  () => import('@/components/thinking/ThinkingProcess.vue')
 );
 </script>

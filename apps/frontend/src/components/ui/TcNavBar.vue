@@ -30,17 +30,17 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcLogo } from "@/components/ui";
-import { useRouter } from "vue-router";
-import { useNavStack } from "@/composables/useNavStack";
-import "./TcNavBar.scss";
+import { TcButton, TcLogo } from '@/components/ui';
+import { useNavStack } from '@/composables/useNavStack';
+import { useRouter } from 'vue-router';
+import './TcNavBar.scss';
 
 const router = useRouter();
 const { canGoBack, pop, popToRoot } = useNavStack();
 
 const goBack = () => {
   if (canGoBack.value) pop();
-  else router.push({ name: "home" });
+  else router.push({ name: 'home' });
 };
 
 const goHome = () => {

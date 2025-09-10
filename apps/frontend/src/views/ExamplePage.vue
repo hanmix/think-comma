@@ -209,10 +209,10 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcInput } from "@/components/ui";
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import "./ExamplePage.scss";
+import { TcButton, TcCard, TcInput } from '@/components/ui';
+import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import './ExamplePage.scss';
 
 type WorryForm = {
   name: string;
@@ -223,49 +223,49 @@ type WorryForm = {
 type FormErrors = Partial<Record<keyof WorryForm, string>>;
 
 const form = reactive<WorryForm>({
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
 });
 const errors = reactive<FormErrors>({});
 const showSuccessMessage = ref(false);
 const router = useRouter();
 
 const validateForm = (): boolean => {
-  (Object.keys(errors) as (keyof WorryForm)[]).forEach((k) => delete errors[k]);
-  if (!form.name.trim()) errors.name = "이름을 입력해주세요.";
-  if (!form.email.trim()) errors.email = "이메일을 입력해주세요.";
+  (Object.keys(errors) as (keyof WorryForm)[]).forEach(k => delete errors[k]);
+  if (!form.name.trim()) errors.name = '이름을 입력해주세요.';
+  if (!form.email.trim()) errors.email = '이메일을 입력해주세요.';
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-    errors.email = "올바른 이메일 형식을 입력해주세요.";
-  if (!form.subject.trim()) errors.subject = "고민 카테고리를 입력해주세요.";
-  if (!form.message.trim()) errors.message = "현재 고민을 입력해주세요.";
+    errors.email = '올바른 이메일 형식을 입력해주세요.';
+  if (!form.subject.trim()) errors.subject = '고민 카테고리를 입력해주세요.';
+  if (!form.message.trim()) errors.message = '현재 고민을 입력해주세요.';
   return Object.keys(errors).length === 0;
 };
 
 const handleSubmit = () => {
   if (!validateForm()) return;
-  console.log("Worry analysis started:", { ...form });
-  router.push({ name: "flow" });
+  console.log('Worry analysis started:', { ...form });
+  router.push({ name: 'flow' });
   resetForm();
   showSuccessMessage.value = true;
 };
 
 const resetForm = () => {
-  form.name = "";
-  form.email = "";
-  form.subject = "";
-  form.message = "";
-  (Object.keys(errors) as (keyof WorryForm)[]).forEach((k) => delete errors[k]);
+  form.name = '';
+  form.email = '';
+  form.subject = '';
+  form.message = '';
+  (Object.keys(errors) as (keyof WorryForm)[]).forEach(k => delete errors[k]);
 };
 
 const handleGetStarted = () => {
-  router.push({ name: "flow" });
+  router.push({ name: 'flow' });
 };
 const handleLearnMore = () => {
   document
-    .querySelector(".features-section")
-    ?.scrollIntoView({ behavior: "smooth" });
+    .querySelector('.features-section')
+    ?.scrollIntoView({ behavior: 'smooth' });
 };
 const handleFeatureClick = (feature: string) => {
   console.log(`Feature clicked: ${feature}`);

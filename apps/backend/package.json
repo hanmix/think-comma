@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "@types/node": "^24.3.1",
     "@types/pino": "^7.0.5",
     "ts-node": "*",
-    "typescript": "*"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
   }
 }

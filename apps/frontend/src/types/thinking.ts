@@ -6,7 +6,7 @@ export interface WorryInput {
 }
 
 export interface Choice {
-  id: "A" | "B";
+  id: 'A' | 'B';
   content: string;
   description?: string;
 }
@@ -19,20 +19,20 @@ export interface Question {
 
 export interface UserResponse {
   questionId: number;
-  selectedChoice: "A" | "B";
+  selectedChoice: 'A' | 'B';
   choiceContent: string;
 }
 
 export interface PersonalityTrait {
   name: string;
   score: number;
-  level: "low" | "medium" | "high";
+  level: 'low' | 'medium' | 'high';
 }
 
 export interface DecisionFactor {
   name: string;
   score: number;
-  level: "low" | "medium" | "high";
+  level: 'low' | 'medium' | 'high';
 }
 
 export interface ActionGuideStep {
@@ -46,7 +46,7 @@ export interface ActionGuide {
 }
 
 export interface AnalysisResult {
-  recommendedChoice: "A" | "B";
+  recommendedChoice: 'A' | 'B';
   recommendedChoiceLabel: string;
   otherChoiceLabel: string;
   confidence: number;
@@ -58,7 +58,12 @@ export interface AnalysisResult {
   actionGuide?: ActionGuide;
   rationale?: {
     overview: string;
-    keyReasons: Array<{ name: string; detail: string; weight?: number; relatedQuestions?: number[] }>;
+    keyReasons: Array<{
+      name: string;
+      detail: string;
+      weight?: number;
+      relatedQuestions?: number[];
+    }>;
   };
   summary: string;
   responses: UserResponse[];

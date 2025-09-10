@@ -1,5 +1,5 @@
-import type { WorryInput } from "@/types/thinking";
-import { computed, reactive, ref } from "vue";
+import type { WorryInput } from '@/types/thinking';
+import { computed, reactive, ref } from 'vue';
 
 interface WorryRules {
   minLength?: number;
@@ -9,8 +9,8 @@ interface WorryRules {
 export function useWorryInput(rules: WorryRules = {}) {
   const { minLength = 10, maxLength = 1000 } = rules;
 
-  const worry = reactive<WorryInput>({ content: "", category: "" });
-  const error = ref<string>("");
+  const worry = reactive<WorryInput>({ content: '', category: '' });
+  const error = ref<string>('');
 
   const isValid = computed(
     () =>
@@ -19,11 +19,11 @@ export function useWorryInput(rules: WorryRules = {}) {
   );
 
   const validateWorry = (): boolean => {
-    error.value = "";
+    error.value = '';
     const content = worry.content.trim();
 
     if (!content) {
-      error.value = "고민 내용을 입력해주세요.";
+      error.value = '고민 내용을 입력해주세요.';
       return false;
     }
 
@@ -41,9 +41,9 @@ export function useWorryInput(rules: WorryRules = {}) {
   };
 
   const resetWorry = () => {
-    worry.content = "";
-    worry.category = "";
-    error.value = "";
+    worry.content = '';
+    worry.category = '';
+    error.value = '';
   };
 
   return { worry, error, isValid, validateWorry, resetWorry };

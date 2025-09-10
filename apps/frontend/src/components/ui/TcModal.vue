@@ -19,11 +19,22 @@
       >
         <div class="tc-modal__sentinel" tabindex="0" @focus="focusLast" />
 
-        <header class="tc-modal__header" v-if="!hideHeader && ($slots.header || title)">
+        <header
+          class="tc-modal__header"
+          v-if="!hideHeader && ($slots.header || title)"
+        >
           <div class="tc-modal__title" :id="labelId">
             <slot name="header">{{ title }}</slot>
           </div>
-          <button v-if="closable" type="button" class="tc-modal__close" aria-label="닫기" @click="close">×</button>
+          <button
+            v-if="closable"
+            type="button"
+            class="tc-modal__close"
+            aria-label="닫기"
+            @click="close"
+          >
+            ×
+          </button>
         </header>
 
         <section class="tc-modal__body">
@@ -61,7 +72,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'close': [];
+  close: [];
 }>();
 
 const containerRef = ref<HTMLDivElement | null>(null);
@@ -96,7 +107,7 @@ const getFocusable = () => {
     '[tabindex]:not([tabindex="-1"])',
   ].join(',');
   return Array.from(root.querySelectorAll<HTMLElement>(selectors)).filter(
-    (el) =>
+    el =>
       !el.hasAttribute('disabled') &&
       !el.getAttribute('aria-hidden') &&
       !el.classList.contains('tc-modal__sentinel')
@@ -114,7 +125,7 @@ const focusLast = () => {
 
 watch(
   () => props.modelValue,
-  (open) => {
+  open => {
     if (open) {
       previouslyFocused.value = document.activeElement as HTMLElement | null;
       document.body.style.overflow = 'hidden';

@@ -1,14 +1,14 @@
 // Entrypoint for SCSS styles
 // Tip: Once ready to switch, import this in main.ts instead of or alongside existing CSS.
 
-@forward "./_variables";
-@forward "./_mixins";
-@use "./_global";
-@use "./_utilities";
-@use "./_components";
-@use "@/assets/styles/components/typography.scss";
-@use "@/assets/styles/components/buttons.scss";
-@use "@/assets/styles/components/cards.scss";
-@use "@/assets/styles/components/forms.scss";
+@forward './_variables';
+@forward './_mixins';
+@use './_global';
+@use './_utilities';
+@use './_components';
+@use '@/assets/styles/components/typography.scss';
+@use '@/assets/styles/components/buttons.scss';
+@use '@/assets/styles/components/cards.scss';
+@use '@/assets/styles/components/forms.scss';
 /* Import CSS custom properties after SCSS modules */
-@import "@/assets/styles/variables.css";
+@import '@/assets/styles/variables.css';

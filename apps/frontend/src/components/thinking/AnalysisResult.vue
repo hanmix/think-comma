@@ -185,7 +185,7 @@
               </div>
               <p class="reason-detail">{{ r.detail }}</p>
               <div class="reason-related" v-if="r.relatedQuestions?.length">
-                관련 문항: Q{{ r.relatedQuestions.join(", Q") }}
+                관련 문항: Q{{ r.relatedQuestions.join(', Q') }}
               </div>
             </div>
           </div>
@@ -196,7 +196,7 @@
     <!-- Choice History Toggle -->
     <div class="history-toggle">
       <TcButton variant="outline" size="lg" @click="toggleChoiceHistory">
-        📋 {{ showHistory ? "선택 과정 숨기기" : "내 선택 과정 보기" }}
+        📋 {{ showHistory ? '선택 과정 숨기기' : '내 선택 과정 보기' }}
       </TcButton>
     </div>
 
@@ -287,11 +287,11 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard } from "@/components/ui";
-import { useResultDerivations } from "@/composables/useResultDerivations";
-import type { AnalysisResult, Question } from "@/types/thinking";
-import { computed, ref } from "vue";
-import "./AnalysisResult.scss";
+import { TcButton, TcCard } from '@/components/ui';
+import { useResultDerivations } from '@/composables/useResultDerivations';
+import type { AnalysisResult, Question } from '@/types/thinking';
+import { computed, ref } from 'vue';
+import './AnalysisResult.scss';
 
 interface Props {
   result: AnalysisResult;
@@ -302,8 +302,8 @@ interface Props {
 }
 
 interface Emits {
-  (event: "restart"): void;
-  (event: "back"): void;
+  (event: 'restart'): void;
+  (event: 'back'): void;
 }
 
 const props = defineProps<Props>();
@@ -320,7 +320,7 @@ const toggleChoiceHistory = () => {
 const confidencePercent = Math.round((props.result.confidence || 0) * 100);
 
 function getQuestionText(id: number) {
-  const q = props.questions?.find((q) => q.id === id);
+  const q = props.questions?.find(q => q.id === id);
   if (q) return `${q.text}`;
 }
 
@@ -329,9 +329,9 @@ type GuideStep = { title: string; description: string };
 const guideSteps: GuideStep[] = (
   props.result.actionGuide?.steps?.length
     ? props.result.actionGuide.steps
-    : (props.result.actionSteps || []).map((s) => ({
+    : (props.result.actionSteps || []).map(s => ({
         title: s,
-        description: "",
+        description: '',
       }))
 ) as GuideStep[];
 
@@ -341,22 +341,22 @@ const nextSuggestion: string | undefined =
 const aLabel = computed(
   () =>
     props.choiceALabel ??
-    (props.result.recommendedChoice === "A"
+    (props.result.recommendedChoice === 'A'
       ? props.result.recommendedChoiceLabel
       : props.result.otherChoiceLabel)
 );
 const bLabel = computed(
   () =>
     props.choiceBLabel ??
-    (props.result.recommendedChoice === "B"
+    (props.result.recommendedChoice === 'B'
       ? props.result.recommendedChoiceLabel
       : props.result.otherChoiceLabel)
 );
 const recommendedLabel = computed(() =>
-  props.result.recommendedChoice === "A" ? aLabel.value : bLabel.value
+  props.result.recommendedChoice === 'A' ? aLabel.value : bLabel.value
 );
 const otherLabel = computed(() =>
-  props.result.recommendedChoice === "A" ? bLabel.value : aLabel.value
+  props.result.recommendedChoice === 'A' ? bLabel.value : aLabel.value
 );
 
 const scoreALabel = computed(() =>

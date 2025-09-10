@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { generateText } from '../lib/openai';
 import { env } from '../config/env';
+import { generateText } from '../lib/openai';
 
 const ChatMessageSchema = z.object({
   role: z.enum(['user', 'assistant', 'system']),
@@ -27,7 +27,8 @@ chatRouter.post('/chat', async (req, res) => {
     // Dev fallback if no API key is configured
     if (!env.OPENAI_API_KEY) {
       return res.status(200).json({
-        content: '(dev) No OPENAI_API_KEY set. Please configure apps/backend/.env',
+        content:
+          '(dev) No OPENAI_API_KEY set. Please configure apps/backend/.env',
         model: payload.model,
       });
     }

@@ -112,15 +112,15 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcTextarea } from "@/components/ui";
-import TcSelect from "@/components/ui/TcSelect.vue";
-import { useWorryInput } from "@/composables/useWorryInput";
-import type { WorryInput } from "@/types/thinking";
-import { computed, ref } from "vue";
-import "./WorryInput.scss";
+import { TcButton, TcCard, TcTextarea } from '@/components/ui';
+import TcSelect from '@/components/ui/TcSelect.vue';
+import { useWorryInput } from '@/composables/useWorryInput';
+import type { WorryInput } from '@/types/thinking';
+import { computed, ref } from 'vue';
+import './WorryInput.scss';
 
 interface Emits {
-  (event: "submit", worry: WorryInput): void;
+  (event: 'submit', worry: WorryInput): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -135,14 +135,14 @@ const isLoading = ref<boolean>(false);
 const uid = Math.random().toString(36).slice(2, 8);
 // 카테고리 옵션 (공통 Select의 options prop 사용)
 const categoryOptions = [
-  { value: "career", label: "진로/취업" },
-  { value: "relationship", label: "연애/인간관계" },
-  { value: "business", label: "창업/사업" },
-  { value: "life", label: "인생/라이프스타일" },
-  { value: "study", label: "학업/자기계발" },
-  { value: "family", label: "가족" },
-  { value: "money", label: "돈/재정" },
-  { value: "other", label: "기타" },
+  { value: 'career', label: '진로/취업' },
+  { value: 'relationship', label: '연애/인간관계' },
+  { value: 'business', label: '창업/사업' },
+  { value: 'life', label: '인생/라이프스타일' },
+  { value: 'study', label: '학업/자기계발' },
+  { value: 'family', label: '가족' },
+  { value: 'money', label: '돈/재정' },
+  { value: 'other', label: '기타' },
 ];
 // categoryId는 공통 Select 컴포넌트가 자체적으로 처리
 const countId = `worry-count-${uid}`;
@@ -158,6 +158,6 @@ const handleSubmit = async () => {
   // 즉시 상위로 제출 이벤트를 전달하고, 상위 컴포넌트에서 API 호출/모달 제어를 수행합니다.
   // 이 버튼은 중복 클릭 방지를 위해 잠시 비활성화됩니다.
   isLoading.value = true;
-  emit("submit", { ...worry });
+  emit('submit', { ...worry });
 };
 </script>

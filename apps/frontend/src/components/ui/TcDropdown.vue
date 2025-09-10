@@ -47,9 +47,9 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownOption } from "@/composables/useDropdown";
-import { ref, watch } from "vue";
-import "./TcDropdown.scss";
+import type { DropdownOption } from '@/composables/useDropdown';
+import { ref, watch } from 'vue';
+import './TcDropdown.scss';
 
 interface Props {
   open: boolean;
@@ -58,19 +58,19 @@ interface Props {
   placeholderLabel?: string;
   placeholderValue?: string;
   showPlaceholder?: boolean;
-  direction?: "down" | "up";
+  direction?: 'down' | 'up';
   listboxId?: string;
   labelledby?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   open: false,
-  modelValue: "",
+  modelValue: '',
   options: () => [],
-  placeholderLabel: "선택",
-  placeholderValue: "",
+  placeholderLabel: '선택',
+  placeholderValue: '',
   showPlaceholder: true,
-  direction: "down" as const,
+  direction: 'down' as const,
 });
 
 const emit = defineEmits<{
@@ -83,18 +83,18 @@ const listEl = ref<HTMLElement | null>(null);
 
 watch(
   () => props.open,
-  (val) => {
+  val => {
     if (val) {
       // focus list for keyboard access
       requestAnimationFrame(() => listEl.value?.focus());
-      const idx = props.options.findIndex((o) => o.value === props.modelValue);
+      const idx = props.options.findIndex(o => o.value === props.modelValue);
       activeIndex.value = idx >= 0 ? idx : 0;
     }
   }
 );
 
 function emitSelect(val: string) {
-  emit("select", val);
+  emit('select', val);
 }
 
 function setActive(idx: number) {
@@ -102,7 +102,7 @@ function setActive(idx: number) {
   if (props.options[idx]?.disabled) return;
   activeIndex.value = idx;
   const el = listEl.value?.querySelector<HTMLElement>(`[data-index="${idx}"]`);
-  el?.scrollIntoView({ block: "nearest" });
+  el?.scrollIntoView({ block: 'nearest' });
 }
 
 function moveActive(delta: number) {
@@ -117,16 +117,16 @@ function moveActive(delta: number) {
 }
 
 function onOverlayKeydown(e: KeyboardEvent) {
-  if (e.key === "ArrowDown") moveActive(1);
-  else if (e.key === "ArrowUp") moveActive(-1);
-  else if (e.key === "Home") setActive(0);
-  else if (e.key === "End") setActive(props.options.length - 1);
-  else if (e.key === "Enter") {
+  if (e.key === 'ArrowDown') moveActive(1);
+  else if (e.key === 'ArrowUp') moveActive(-1);
+  else if (e.key === 'Home') setActive(0);
+  else if (e.key === 'End') setActive(props.options.length - 1);
+  else if (e.key === 'Enter') {
     const idx = activeIndex.value;
     if (idx >= 0 && idx < props.options.length) {
       const opt = props.options[idx];
       if (!opt.disabled) emitSelect(opt.value);
     }
-  } else if (e.key === "Escape") emit("requestClose");
+  } else if (e.key === 'Escape') emit('requestClose');
 }
 </script>

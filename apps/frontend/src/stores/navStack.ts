@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { reactive } from "vue";
-import type { RouteLocationRaw } from "vue-router";
-import type { StackId } from "@/types/navigation";
+import type { StackId } from '@/types/navigation';
+import { defineStore } from 'pinia';
+import { reactive } from 'vue';
+import type { RouteLocationRaw } from 'vue-router';
 
 /**
  * 네비게이션 스택 스토어 (Pinia / Setup Store)
@@ -9,7 +9,7 @@ import type { StackId } from "@/types/navigation";
  * - 사용처: composable(useNavStack), navStackSync(router.afterEach)에서 접근합니다.
  */
 
-export const useNavStackStore = defineStore("navStack", () => {
+export const useNavStackStore = defineStore('navStack', () => {
   /**
    * 스택 목록: 스택 ID별 라우트 목적지 배열
    * - 각 요소는 해당 시점의 목적지(RouteLocationRaw)
@@ -40,7 +40,7 @@ export const useNavStackStore = defineStore("navStack", () => {
   const push = (stackId: StackId, to: RouteLocationRaw, pos?: number) => {
     ensureStack(stackId);
     stacks[stackId].push(to);
-    positions[stackId].push(pos ?? (window.history.state?.position ?? 0));
+    positions[stackId].push(pos ?? window.history.state?.position ?? 0);
   };
 
   /**
@@ -53,7 +53,7 @@ export const useNavStackStore = defineStore("navStack", () => {
     ensureStack(stackId);
     if (stacks[stackId].length === 0) {
       stacks[stackId].push(to);
-      positions[stackId].push(pos ?? (window.history.state?.position ?? 0));
+      positions[stackId].push(pos ?? window.history.state?.position ?? 0);
     } else {
       stacks[stackId][stacks[stackId].length - 1] = to;
       if (pos !== undefined) {
@@ -82,7 +82,7 @@ export const useNavStackStore = defineStore("navStack", () => {
    */
   const setRoot = (stackId: StackId, to: RouteLocationRaw, pos?: number) => {
     stacks[stackId] = [to];
-    positions[stackId] = [pos ?? (window.history.state?.position ?? 0)];
+    positions[stackId] = [pos ?? window.history.state?.position ?? 0];
   };
 
   /**

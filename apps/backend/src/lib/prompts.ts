@@ -3,8 +3,8 @@ export interface BuildQuestionsInput {
 }
 
 export function buildQuestionsPrompt({ worry }: BuildQuestionsInput) {
-  const category = worry.category ? `\n- 카테고리: ${worry.category}` : "";
-  const content = worry.content.replace(/\n/g, " ");
+  const category = worry.category ? `\n- 카테고리: ${worry.category}` : '';
+  const content = worry.content.replace(/\n/g, ' ');
 
   return `
   당신은 사용자의 고민을 들어주는 고민상담사 입니다.
@@ -80,9 +80,9 @@ export interface BuildAnalysisInput {
   questions: Array<{
     id: number;
     text: string;
-    choices: Array<{ id: "A" | "B"; content: string; description?: string }>;
+    choices: Array<{ id: 'A' | 'B'; content: string; description?: string }>;
   }>;
-  responses: Array<{ questionId: number; answer: "A" | "B" }>;
+  responses: Array<{ questionId: number; answer: 'A' | 'B' }>;
 }
 
 export function buildAnalysisPrompt({
@@ -91,17 +91,15 @@ export function buildAnalysisPrompt({
   responses,
 }: BuildAnalysisInput) {
   const qLines = questions
-    .map((q) => {
-      const a = q.choices.find((c) => c.id === "A");
-      const b = q.choices.find((c) => c.id === "B");
+    .map(q => {
+      const a = q.choices.find(c => c.id === 'A');
+      const b = q.choices.find(c => c.id === 'B');
       return `- Q${q.id}. ${q.text}\n  A) ${a?.content}${
-        a?.description ? ` (${a.description})` : ""
-      }\n  B) ${b?.content}${b?.description ? ` (${b.description})` : ""}`;
+        a?.description ? ` (${a.description})` : ''
+      }\n  B) ${b?.content}${b?.description ? ` (${b.description})` : ''}`;
     })
-    .join("\n");
-  const rLines = responses
-    .map((r) => `Q${r.questionId}: ${r.answer}`)
-    .join(", ");
+    .join('\n');
+  const rLines = responses.map(r => `Q${r.questionId}: ${r.answer}`).join(', ');
 
   return `다음 고민과 A/B 선택형 질문-응답 결과를 바탕으로 종합 분석을 수행하세요.
 UI에 바로 매핑 가능한 JSON만 출력하세요(추가 텍스트 금지). 한국어로 작성합니다.
@@ -133,8 +131,8 @@ UI에 바로 매핑 가능한 JSON만 출력하세요(추가 텍스트 금지). 
   "personalityTraits": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ],
   "decisionFactors": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ]
   ;
-  고민 내용: ${worry.content.replace(/\n/g, " ")}${
-    worry.category ? `\n카테고리: ${worry.category}` : ""
+  고민 내용: ${worry.content.replace(/\n/g, ' ')}${
+    worry.category ? `\n카테고리: ${worry.category}` : ''
   }
 
 질문 목록:
@@ -166,8 +164,8 @@ export interface BuildFramingInput {
 }
 
 export function buildFramingPrompt({ worry }: BuildFramingInput) {
-  const content = worry.content.replace(/\n/g, " ");
-  const category = worry.category ? `\n카테고리: ${worry.category}` : "";
+  const content = worry.content.replace(/\n/g, ' ');
+  const category = worry.category ? `\n카테고리: ${worry.category}` : '';
   return `당신은 사용자의 고민을 A vs B 구조로 명확히 잡아주는 코치입니다. 한국어로 간결하게 작성하세요.
 
 아래 JSON 스키마에 맞춘 JSON만 출력하세요(추가 텍스트 금지):

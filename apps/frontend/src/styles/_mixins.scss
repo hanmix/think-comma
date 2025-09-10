@@ -1,7 +1,7 @@
 // Responsive mixins and helpers
-@use "./_variables" as *;
-@use "sass:map";
-@use "sass:math";
+@use './_variables' as *;
+@use 'sass:map';
+@use 'sass:math';
 
 // Breakpoint map
 $breakpoints: (

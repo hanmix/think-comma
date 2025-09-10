@@ -1,5 +1,5 @@
-@use "@/styles/_variables.scss" as *;
-@use "@/styles/_mixins.scss" as *;
+@use '@/styles/_variables.scss' as *;
+@use '@/styles/_mixins.scss' as *;
 
 .intro-framing {
   max-width: 820px;
@@ -38,11 +38,22 @@
   color: #fff;
   font-weight: 800;
 }
-.ab-badge.a { background: var(--tc-color-primary-blue); }
-.ab-badge.b { background: var(--tc-color-primary-green); }
+.ab-badge.a {
+  background: var(--tc-color-primary-blue);
+}
+.ab-badge.b {
+  background: var(--tc-color-primary-green);
+}
 
-.ab-title { margin: 0; color: var(--tc-color-primary-navy); }
-.ab-hint { margin: 2px 0 0 0; color: var(--tc-color-secondary-gray); font-size: var(--tc-font-size-sm); }
+.ab-title {
+  margin: 0;
+  color: var(--tc-color-primary-navy);
+}
+.ab-hint {
+  margin: 2px 0 0 0;
+  color: var(--tc-color-secondary-gray);
+  font-size: var(--tc-font-size-sm);
+}
 
 .cta {
   margin: var(--tc-spacing-lg) 0;
@@ -50,5 +61,8 @@
   color: var(--tc-color-primary-navy);
 }
 
-.actions { display: flex; gap: var(--tc-spacing-md); justify-content: center; }
-
+.actions {
+  display: flex;
+  gap: var(--tc-spacing-md);
+  justify-content: center;
+}

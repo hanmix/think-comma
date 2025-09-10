@@ -1,4 +1,4 @@
-import { ref, computed, watch, onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
 export interface DropdownOption {
   value: string;
@@ -17,19 +17,21 @@ export interface UseDropdownParams {
 export function useDropdown(params: UseDropdownParams) {
   const open = ref(false);
   const activeIndex = ref<number>(-1);
-  const direction = ref<"down" | "up">("down");
+  const direction = ref<'down' | 'up'>('down');
 
-  const triggerId = `tc-dropdown-trigger-${Math.random().toString(36).slice(2, 9)}`;
-  const listboxId = `tc-dropdown-list-${Math.random().toString(36).slice(2, 9)}`;
+  const triggerId = `tc-dropdown-trigger-${Math.random()
+    .toString(36)
+    .slice(2, 9)}`;
+  const listboxId = `tc-dropdown-list-${Math.random()
+    .toString(36)
+    .slice(2, 9)}`;
 
   const triggerEl = ref<HTMLElement | null>(null);
   const overlayEl = ref<HTMLElement | null>(null);
   const rootEl = ref<HTMLElement | null>(null);
 
-  const selectedOption = computed(() =>
-    params
-      .options()
-      .find((o) => o.value === (params.value() ?? "")) || null
+  const selectedOption = computed(
+    () => params.options().find(o => o.value === (params.value() ?? '')) || null
   );
 
   function updateDirection() {
@@ -38,11 +40,11 @@ export function useDropdown(params: UseDropdownParams) {
     const rect = t.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const mh = params.maxHeight ? params.maxHeight() : 320;
-    direction.value = spaceBelow < mh && rect.top > spaceBelow ? "up" : "down";
+    direction.value = spaceBelow < mh && rect.top > spaceBelow ? 'up' : 'down';
   }
 
   function setInitialActive() {
-    const idx = params.options().findIndex((o) => o.value === params.value());
+    const idx = params.options().findIndex(o => o.value === params.value());
     activeIndex.value = idx >= 0 ? idx : 0;
   }
 
@@ -74,7 +76,7 @@ export function useDropdown(params: UseDropdownParams) {
     const container = overlayEl.value;
     if (!container) return;
     const el = container.querySelector<HTMLElement>(`[data-index="${idx}"]`);
-    el?.scrollIntoView({ block: "nearest" });
+    el?.scrollIntoView({ block: 'nearest' });
   }
 
   function moveActive(delta: number) {
@@ -105,26 +107,26 @@ export function useDropdown(params: UseDropdownParams) {
 
   function onTriggerKeydown(e: KeyboardEvent) {
     if (params.disabled && params.disabled()) return;
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       if (!open.value) openMenu();
-      else moveActive(e.key === "ArrowDown" ? 1 : -1);
-    } else if (e.key === "Enter" || e.key === " ") {
+      else moveActive(e.key === 'ArrowDown' ? 1 : -1);
+    } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       open.value ? commitActive() : openMenu();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       closeMenu();
     }
   }
 
   function onOverlayKeydown(e: KeyboardEvent) {
     if (!open.value) return;
-    if (e.key === "ArrowDown") moveActive(1);
-    else if (e.key === "ArrowUp") moveActive(-1);
-    else if (e.key === "Home") setActive(0);
-    else if (e.key === "End") setActive(params.options().length - 1);
-    else if (e.key === "Enter") commitActive();
-    else if (e.key === "Escape") closeMenu();
+    if (e.key === 'ArrowDown') moveActive(1);
+    else if (e.key === 'ArrowUp') moveActive(-1);
+    else if (e.key === 'Home') setActive(0);
+    else if (e.key === 'End') setActive(params.options().length - 1);
+    else if (e.key === 'Enter') commitActive();
+    else if (e.key === 'Escape') closeMenu();
   }
 
   function onWindowResize() {
@@ -135,57 +137,63 @@ export function useDropdown(params: UseDropdownParams) {
   }
   function onDocMouseDown(e: MouseEvent) {
     const path = e.composedPath() as EventTarget[];
-    if (!path.includes(triggerEl.value as any) && !path.includes(overlayEl.value as any)) {
+    if (
+      !path.includes(triggerEl.value as any) &&
+      !path.includes(overlayEl.value as any)
+    ) {
       closeMenu();
     }
   }
   function addGlobalListeners() {
-    window.addEventListener("resize", onWindowResize);
-    window.addEventListener("scroll", onWindowScroll, true);
-    document.addEventListener("mousedown", onDocMouseDown, true);
+    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('scroll', onWindowScroll, true);
+    document.addEventListener('mousedown', onDocMouseDown, true);
   }
   function removeGlobalListeners() {
-    window.removeEventListener("resize", onWindowResize);
-    window.removeEventListener("scroll", onWindowScroll, true);
-    document.removeEventListener("mousedown", onDocMouseDown, true);
+    window.removeEventListener('resize', onWindowResize);
+    window.removeEventListener('scroll', onWindowScroll, true);
+    document.removeEventListener('mousedown', onDocMouseDown, true);
   }
 
-  watch(open, (val) => {
+  watch(open, val => {
     if (val) updateDirection();
   });
 
   onBeforeUnmount(() => removeGlobalListeners());
 
   // Headless helper props (optional)
-  const getTriggerProps = () => ({
-    id: triggerId,
-    role: "combobox",
-    "aria-autocomplete": "list",
-    "aria-haspopup": "listbox",
-    "aria-expanded": open.value ? "true" : "false",
-    "aria-controls": open.value ? listboxId : undefined,
-    onClick: toggle,
-    onKeydown: onTriggerKeydown,
-  } as const);
+  const getTriggerProps = () =>
+    ({
+      id: triggerId,
+      role: 'combobox',
+      'aria-autocomplete': 'list',
+      'aria-haspopup': 'listbox',
+      'aria-expanded': open.value ? 'true' : 'false',
+      'aria-controls': open.value ? listboxId : undefined,
+      onClick: toggle,
+      onKeydown: onTriggerKeydown,
+    } as const);
 
-  const getListboxProps = () => ({
-    id: listboxId,
-    role: "listbox",
-    "aria-labelledby": triggerId,
-    onKeydown: onOverlayKeydown,
-  } as const);
+  const getListboxProps = () =>
+    ({
+      id: listboxId,
+      role: 'listbox',
+      'aria-labelledby': triggerId,
+      onKeydown: onOverlayKeydown,
+    } as const);
 
-  const getOptionProps = (option: DropdownOption, index: number) => ({
-    role: "option",
-    "aria-selected": option.value === params.value() ? "true" : "false",
-    "aria-disabled": option.disabled ? "true" : undefined,
-    "data-index": index,
-    onMousemove: () => (activeIndex.value = index),
-    onMousedown: (e: MouseEvent) => {
-      e.preventDefault();
-      if (!option.disabled) selectValue(option.value);
-    },
-  } as const);
+  const getOptionProps = (option: DropdownOption, index: number) =>
+    ({
+      role: 'option',
+      'aria-selected': option.value === params.value() ? 'true' : 'false',
+      'aria-disabled': option.disabled ? 'true' : undefined,
+      'data-index': index,
+      onMousemove: () => (activeIndex.value = index),
+      onMousedown: (e: MouseEvent) => {
+        e.preventDefault();
+        if (!option.disabled) selectValue(option.value);
+      },
+    } as const);
 
   return {
     // state
@@ -216,4 +224,3 @@ export function useDropdown(params: UseDropdownParams) {
     getOptionProps,
   };
 }
-

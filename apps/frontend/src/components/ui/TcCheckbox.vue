@@ -1,5 +1,8 @@
 <template>
-  <label class="tc-cluster" style="gap: var(--tc-spacing-2); align-items: center;">
+  <label
+    class="tc-cluster"
+    style="gap: var(--tc-spacing-2); align-items: center"
+  >
     <input
       type="checkbox"
       class="tc-checkbox"
@@ -7,7 +10,9 @@
       :disabled="disabled"
       @change="onChange"
     />
-    <span class="tc-small-text"><slot>{{ label }}</slot></span>
+    <span class="tc-small-text"
+      ><slot>{{ label }}</slot></span
+    >
   </label>
 </template>
 
@@ -30,4 +35,3 @@ const onChange = (e: Event) => {
   emit('update:modelValue', target.checked);
 };
 </script>
-

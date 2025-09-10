@@ -32,7 +32,10 @@
   border-bottom: 1px solid $border-primary;
 }
 
-.tc-modal__title { font-weight: 700; color: $color-primary-navy; }
+.tc-modal__title {
+  font-weight: 700;
+  color: $color-primary-navy;
+}
 
 .tc-modal__close {
   border: none;
@@ -42,10 +45,24 @@
   cursor: pointer;
   color: $color-secondary-gray;
 }
-.tc-modal__close:hover { color: $color-primary-blue; }
+.tc-modal__close:hover {
+  color: $color-primary-blue;
+}
 
-.tc-modal__body { padding: $spacing-lg; }
-.tc-modal__footer { padding: $spacing-md $spacing-lg; border-top: 1px solid $border-primary; display: flex; gap: $spacing-md; justify-content: flex-end; }
+.tc-modal__body {
+  padding: $spacing-lg;
+}
+.tc-modal__footer {
+  padding: $spacing-md $spacing-lg;
+  border-top: 1px solid $border-primary;
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-end;
+}
 
-.tc-modal__sentinel { width: 0; height: 0; overflow: hidden; position: absolute; }
-
+.tc-modal__sentinel {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+}

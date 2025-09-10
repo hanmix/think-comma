@@ -1,19 +1,16 @@
 <template>
-  <div
-    :class="cardClasses"
-    @click="handleClick"
-  >
+  <div :class="cardClasses" @click="handleClick">
     <header v-if="title || $slots.header" class="tc-card__header">
       <slot name="header">
         <h3 v-if="title" class="tc-card__title">{{ title }}</h3>
         <p v-if="subtitle" class="tc-card__subtitle">{{ subtitle }}</p>
       </slot>
     </header>
-    
+
     <div class="tc-card__body">
       <slot />
     </div>
-    
+
     <footer v-if="$slots.footer" class="tc-card__footer">
       <slot name="footer" />
     </footer>
@@ -24,7 +21,14 @@
 import { computed } from 'vue';
 
 interface TcCardProps {
-  variant?: 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+  variant?:
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   size?: 'sm' | 'md' | 'lg';
   title?: string;
   subtitle?: string;

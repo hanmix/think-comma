@@ -1,17 +1,17 @@
 // ThinkComma Thinking Components
 
-export { default as WorryInput } from './WorryInput.vue';
-export { default as QuestionFlow } from './QuestionFlow.vue';
 export { default as AnalysisResult } from './AnalysisResult.vue';
+export { default as QuestionFlow } from './QuestionFlow.vue';
 export { default as ThinkingProcess } from './ThinkingProcess.vue';
+export { default as WorryInput } from './WorryInput.vue';
 
 // Re-export types
 export type {
-  WorryInput as WorryInputType,
-  Question,
-  UserResponse,
-  PersonalityTrait,
-  DecisionFactor,
   AnalysisResult as AnalysisResultType,
-  ThinkingSession
+  DecisionFactor,
+  PersonalityTrait,
+  Question,
+  ThinkingSession,
+  UserResponse,
+  WorryInput as WorryInputType,
 } from '@/types/thinking';
