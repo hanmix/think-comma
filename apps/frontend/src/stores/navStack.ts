@@ -1,4 +1,4 @@
-import type { StackId } from '@/types/navigation';
+import type { StackId } from '@/types';
 import { defineStore } from 'pinia';
 import { reactive } from 'vue';
 import type { RouteLocationRaw } from 'vue-router';
@@ -10,6 +10,16 @@ import type { RouteLocationRaw } from 'vue-router';
  */
 
 export const useNavStackStore = defineStore('navStack', () => {
+  const getHistoryPosition = () => {
+    if (typeof window === 'undefined') return 0;
+    const state = window.history.state;
+    if (typeof state === 'object' && state !== null && 'position' in state) {
+      const position = (state as { position?: unknown }).position;
+      return typeof position === 'number' ? position : 0;
+    }
+    return 0;
+  };
+
   /**
    * 스택 목록: 스택 ID별 라우트 목적지 배열
    * - 각 요소는 해당 시점의 목적지(RouteLocationRaw)
@@ -22,13 +32,19 @@ export const useNavStackStore = defineStore('navStack', () => {
    */
   const positions = reactive<Record<StackId, number[]>>({});
 
-  /**
-   * 스택/포지션 초기화 보장
-   * @param stackId 스택 식별자
-   */
-  const ensureStack = (stackId: StackId) => {
+  const getStack = (stackId: StackId) => {
     if (!stacks[stackId]) stacks[stackId] = [];
+    return stacks[stackId]!;
+  };
+
+  const getPositions = (stackId: StackId) => {
     if (!positions[stackId]) positions[stackId] = [];
+    return positions[stackId]!;
+  };
+
+  const ensureStack = (stackId: StackId) => {
+    getStack(stackId);
+    getPositions(stackId);
   };
 
   /**
@@ -38,9 +54,10 @@ export const useNavStackStore = defineStore('navStack', () => {
    * @param pos 명시적 브라우저 position (미지정 시 window.history.state.position 사용)
    */
   const push = (stackId: StackId, to: RouteLocationRaw, pos?: number) => {
-    ensureStack(stackId);
-    stacks[stackId].push(to);
-    positions[stackId].push(pos ?? window.history.state?.position ?? 0);
+    const stack = getStack(stackId);
+    const posList = getPositions(stackId);
+    stack.push(to);
+    posList.push(pos ?? getHistoryPosition());
   };
 
   /**
@@ -50,14 +67,15 @@ export const useNavStackStore = defineStore('navStack', () => {
    * @param pos 명시적 브라우저 position
    */
   const replace = (stackId: StackId, to: RouteLocationRaw, pos?: number) => {
-    ensureStack(stackId);
-    if (stacks[stackId].length === 0) {
-      stacks[stackId].push(to);
-      positions[stackId].push(pos ?? window.history.state?.position ?? 0);
+    const stack = getStack(stackId);
+    const posList = getPositions(stackId);
+    if (stack.length === 0) {
+      stack.push(to);
+      posList.push(pos ?? getHistoryPosition());
     } else {
-      stacks[stackId][stacks[stackId].length - 1] = to;
+      stack[stack.length - 1] = to;
       if (pos !== undefined) {
-        positions[stackId][positions[stackId].length - 1] = pos;
+        posList[posList.length - 1] = pos;
       }
     }
   };
@@ -67,10 +85,11 @@ export const useNavStackStore = defineStore('navStack', () => {
    * @param stackId 스택 식별자
    */
   const pop = (stackId: StackId) => {
-    ensureStack(stackId);
-    if (stacks[stackId].length > 1) {
-      stacks[stackId].pop();
-      positions[stackId].pop();
+    const stack = getStack(stackId);
+    const posList = getPositions(stackId);
+    if (stack.length > 1) {
+      stack.pop();
+      posList.pop();
     }
   };
 
@@ -82,7 +101,7 @@ export const useNavStackStore = defineStore('navStack', () => {
    */
   const setRoot = (stackId: StackId, to: RouteLocationRaw, pos?: number) => {
     stacks[stackId] = [to];
-    positions[stackId] = [pos ?? window.history.state?.position ?? 0];
+    positions[stackId] = [pos ?? getHistoryPosition()];
   };
 
   /**
@@ -101,9 +120,8 @@ export const useNavStackStore = defineStore('navStack', () => {
    * @param length 남길 길이
    */
   const trimToLength = (stackId: StackId, length: number) => {
-    ensureStack(stackId);
-    stacks[stackId] = stacks[stackId].slice(0, length);
-    positions[stackId] = positions[stackId].slice(0, length);
+    stacks[stackId] = getStack(stackId).slice(0, length);
+    positions[stackId] = getPositions(stackId).slice(0, length);
   };
 
   return {

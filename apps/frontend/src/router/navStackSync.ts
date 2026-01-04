@@ -1,5 +1,5 @@
 import { useNavStackStore } from '@/stores/navStack';
-import { DEFAULT_STACK_ID } from '@/types/navigation';
+import { DEFAULT_STACK_ID } from '@/types';
 import type { RouteLocationNormalized, Router } from 'vue-router';
 
 /**
@@ -52,6 +52,7 @@ export function installNavStackSync(router: Router) {
     store.ensureStack(stackId);
 
     const positions = store.positions[stackId];
+    if (!positions) return;
     const lastPos = positions[positions.length - 1];
 
     if (isRoot) {
@@ -81,6 +82,7 @@ export function installNavStackSync(router: Router) {
       store.replace(stackId, toLoc(to), pos);
     } else {
       // back: trim to this position if it exists; otherwise reset
+
       const idx = positions.findIndex(p => p === pos);
       if (idx !== -1) {
         store.trimToLength(stackId, idx + 1);
