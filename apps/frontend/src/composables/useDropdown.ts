@@ -101,7 +101,7 @@ export function useDropdown(params: UseDropdownParams) {
     const opts = params.options();
     if (idx < 0 || idx >= opts.length) return;
     const opt = opts[idx];
-    if (opt.disabled) return;
+    if (!opt || opt.disabled) return;
     selectValue(opt.value);
   }
 
@@ -172,7 +172,7 @@ export function useDropdown(params: UseDropdownParams) {
       'aria-controls': open.value ? listboxId : undefined,
       onClick: toggle,
       onKeydown: onTriggerKeydown,
-    } as const);
+    }) as const;
 
   const getListboxProps = () =>
     ({
@@ -180,7 +180,7 @@ export function useDropdown(params: UseDropdownParams) {
       role: 'listbox',
       'aria-labelledby': triggerId,
       onKeydown: onOverlayKeydown,
-    } as const);
+    }) as const;
 
   const getOptionProps = (option: DropdownOption, index: number) =>
     ({
@@ -193,7 +193,7 @@ export function useDropdown(params: UseDropdownParams) {
         e.preventDefault();
         if (!option.disabled) selectValue(option.value);
       },
-    } as const);
+    }) as const;
 
   return {
     // state

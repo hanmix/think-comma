@@ -54,7 +54,7 @@ import './TcDropdown.scss';
 interface Props {
   open: boolean;
   modelValue?: string;
-  options?: DropdownOption[];
+  options: DropdownOption[];
   placeholderLabel?: string;
   placeholderValue?: string;
   showPlaceholder?: boolean;
@@ -125,7 +125,8 @@ function onOverlayKeydown(e: KeyboardEvent) {
     const idx = activeIndex.value;
     if (idx >= 0 && idx < props.options.length) {
       const opt = props.options[idx];
-      if (!opt.disabled) emitSelect(opt.value);
+      if (!opt || opt.disabled) return;
+      emitSelect(opt.value);
     }
   } else if (e.key === 'Escape') emit('requestClose');
 }

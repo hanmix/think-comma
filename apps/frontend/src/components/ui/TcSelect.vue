@@ -96,7 +96,7 @@ interface Props {
   success?: string;
   disabled?: boolean;
   required?: boolean;
-  options?: DropdownOption[];
+  options: DropdownOption[];
   placeholderLabel?: string;
   placeholderValue?: string;
   showPlaceholder?: boolean;
