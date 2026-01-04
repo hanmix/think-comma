@@ -1,14 +1,6 @@
-import type {
-  AnalysisResult as AnalysisResultType,
-  Question,
-  ThinkingSession,
-  UserResponse,
-  WorryInput as WorryInputType,
-} from '@/types/thinking';
+import type { ThinkingSession, ThinkingState } from '@/types';
 import { defineStore } from 'pinia';
 import { computed, reactive } from 'vue';
-
-export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';
 
 /**
  * 고민/질문/분석 플로우 상태 스토어 (Pinia / Setup Store)
@@ -17,18 +9,17 @@ export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';
  * - reset: 플로우 초기화 액션
  */
 export const useThinkingStore = defineStore('thinking', () => {
-  const state = reactive({
-    currentStep: 'input' as ProcessStep,
+  const state = reactive<ThinkingState>({
+    currentStep: 'input',
     isLoading: false,
-    error: '' as string,
-    loadingMessage: '' as string,
-
-    sessionId: '' as string,
-    worryInput: null as WorryInputType | null,
-    questions: [] as Question[],
-    responses: [] as UserResponse[],
-    analysisResult: null as AnalysisResultType | null,
-    framingIntro: null as import('@/types/thinking').FramingIntro | null,
+    error: '',
+    loadingMessage: '',
+    sessionId: '',
+    worryInput: null,
+    questions: [],
+    responses: [],
+    analysisResult: null,
+    framingIntro: null,
   });
 
   const currentSession = computed<Partial<ThinkingSession>>(() => ({

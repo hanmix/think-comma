@@ -88,3 +88,18 @@ export interface ThinkingSession {
   createdAt: Date;
   completedAt?: Date;
 }
+
+export type ThinkingState = {
+  currentStep: 'input' | 'intro' | 'questions' | 'result';
+  isLoading: boolean;
+  error: string;
+  loadingMessage: string;
+  sessionId: string;
+  worryInput: WorryInput | null;
+  questions: Question[];
+  responses: UserResponse[];
+  analysisResult: AnalysisResult | null;
+  framingIntro: FramingIntro | null;
+};
+
+export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';

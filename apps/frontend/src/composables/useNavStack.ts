@@ -1,7 +1,7 @@
 import router from '@/router';
 import { useNavStackStore } from '@/stores/navStack';
-import type { StackId } from '@/types/navigation';
-import { DEFAULT_STACK_ID } from '@/types/navigation';
+import type { StackId } from '@/types';
+import { DEFAULT_STACK_ID } from '@/types';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import type { RouteLocationRaw, Router } from 'vue-router';

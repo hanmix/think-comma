@@ -113,7 +113,7 @@ import {
 } from '@/components/thinking';
 import { TcButton, TcCard, TcDialog } from '@/components/ui';
 import { useThinkingFlow } from '@/composables/useThinkingFlow';
-import type { WorryInput as WorryInputType } from '@/types/thinking';
+import type { WorryInput as WorryInputType } from '@/types';
 import { onMounted, ref, watch } from 'vue';
 import IntroFraming from './IntroFraming.vue';
 import './ThinkingProcess.scss';

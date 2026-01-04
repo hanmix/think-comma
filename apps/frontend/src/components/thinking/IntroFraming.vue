@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { TcButton, TcCard } from '@/components/ui';
-import type { FramingIntro } from '@/types/thinking';
+import type { FramingIntro } from '@/types';
 import './IntroFraming.scss';
 
 defineProps<{ framing: FramingIntro }>();

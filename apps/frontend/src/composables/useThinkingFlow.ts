@@ -4,7 +4,7 @@ import type {
   ThinkingSession,
   UserResponse,
   WorryInput as WorryInputType,
-} from '@/types/thinking';
+} from '@/types';
 import { storeToRefs } from 'pinia';
 
 export function useThinkingFlow() {

@@ -9,7 +9,7 @@ import type {
   Question,
   UserResponse,
   WorryInput,
-} from '@/types/thinking';
+} from '@/types';
 
 class AIService {
   private baseUrl =

@@ -115,7 +115,7 @@
 import { TcButton, TcCard, TcTextarea } from '@/components/ui';
 import TcSelect from '@/components/ui/TcSelect.vue';
 import { useWorryInput } from '@/composables/useWorryInput';
-import type { WorryInput } from '@/types/thinking';
+import type { WorryInput } from '@/types';
 import { computed, ref } from 'vue';
 import './WorryInput.scss';
 

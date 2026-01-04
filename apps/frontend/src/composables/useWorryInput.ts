@@ -1,4 +1,4 @@
-import type { WorryInput } from '@/types/thinking';
+import type { WorryInput } from '@/types';
 import { computed, reactive, ref } from 'vue';
 
 interface WorryRules {

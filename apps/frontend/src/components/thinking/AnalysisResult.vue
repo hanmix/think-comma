@@ -289,7 +289,7 @@
 <script setup lang="ts">
 import { TcButton, TcCard } from '@/components/ui';
 import { useResultDerivations } from '@/composables/useResultDerivations';
-import type { AnalysisResult, Question } from '@/types/thinking';
+import type { AnalysisResult, Question } from '@/types';
 import { computed, ref } from 'vue';
 import './AnalysisResult.scss';
 

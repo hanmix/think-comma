@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { TcCard, TcDialog } from '@/components/ui';
 import { useQuestionProgress } from '@/composables/useQuestionProgress';
-import type { Question, UserResponse } from '@/types/thinking';
+import type { Question, UserResponse } from '@/types';
 import { onBeforeUnmount, ref, watch } from 'vue';
 import './QuestionFlow.scss';
 

@@ -1,4 +1,4 @@
-import type { AnalysisResult } from '@/types/thinking';
+import type { AnalysisResult } from '@/types';
 import { computed } from 'vue';
 
 export function useResultDerivations(result: AnalysisResult) {

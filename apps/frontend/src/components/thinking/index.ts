@@ -14,4 +14,4 @@ export type {
   ThinkingSession,
   UserResponse,
   WorryInput as WorryInputType,
-} from '@/types/thinking';
+} from '@/types';
