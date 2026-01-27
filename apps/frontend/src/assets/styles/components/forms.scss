@@ -57,6 +57,7 @@
   resize: vertical;
   min-height: 100px;
   transition: all 0.2s ease;
+  resize: none;
 }
 .tc-textarea:focus {
   outline: none;

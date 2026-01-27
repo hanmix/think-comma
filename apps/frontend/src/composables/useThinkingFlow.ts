@@ -1,76 +1,87 @@
-import { aiService } from '@/services/aiService';
-import { useThinkingStore, type ProcessStep } from '@/stores/thinking';
-import type {
-  ThinkingSession,
-  UserResponse,
-  WorryInput as WorryInputType,
-} from '@/types';
+import { aiClient } from '@/services/aiClient';
+import { useNavStackStore } from '@/stores/navStack';
+import { useThinkingStore } from '@/stores/thinking';
+import type { UserResponse, WorryInput } from '@/types';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 
 export function useThinkingFlow() {
   const store = useThinkingStore();
   const { currentSession } = storeToRefs(store);
   const state = store.state;
-  const { reset } = store;
+  const router = useRouter();
+  const navStore = useNavStackStore();
+  const {
+    reset,
+    setLoading,
+    setError,
+    setSessionId,
+    setWorryInput,
+    setFramingIntro,
+    setQuestions,
+    setResponses,
+    setAnalysisResult,
+  } = store;
+
+  const flowRoutes = {
+    input: 'flow-input',
+    intro: 'flow-intro',
+    questions: 'flow-questions',
+    result: 'flow-result',
+  } as const;
 
   const generateSessionId = (): string => {
-    return `session-${Date.now()}-${Math.random()
-      .toString(36)
-      .substring(2, 11)}`;
+    return `session-${Date.now()}-${crypto.getRandomValues(new Uint32Array(1))[0]}`;
   };
 
-  const goToStep = (step: ProcessStep) => {
-    state.currentStep = step;
-    state.error = '';
+  const navigateToStep = (step: keyof typeof flowRoutes) => {
+    const target = flowRoutes[step];
+    if (router.currentRoute.value.name !== target) {
+      router.push({ name: target });
+    }
   };
 
-  const handleWorrySubmit = async (worry: WorryInputType) => {
+  const handleWorrySubmit = async (worry: WorryInput) => {
     try {
-      state.worryInput = worry;
-      state.sessionId = generateSessionId();
-      state.isLoading = true;
-      state.loadingMessage = 'AI가 고민을 구조화하고 있어요...';
-      const framing = await aiService.generateFraming(worry, state.sessionId);
-      state.framingIntro = framing;
-      state.currentStep = 'intro';
+      setWorryInput(worry);
+      setSessionId(generateSessionId());
+      setLoading(true, 'AI가 고민을 구조화하고 있어요...');
+      const framing = await aiClient.generateFraming(worry, state.sessionId);
+      setFramingIntro(framing);
+      navigateToStep('intro');
     } catch (err) {
-      state.error = '초기 구성 중 오류가 발생했습니다. 다시 시도해주세요.';
+      setError('초기 구성 중 오류가 발생했습니다. 다시 시도해주세요.');
       console.error('Intro framing error:', err);
     } finally {
-      state.isLoading = false;
-      state.loadingMessage = '';
+      setLoading(false);
     }
   };
 
   const startQuestions = async () => {
     try {
       if (!state.worryInput) throw new Error('고민 정보가 없습니다.');
-      state.isLoading = true;
-      state.loadingMessage = 'AI가 질문을 준비하고 있습니다...';
-      const generatedQuestions = await aiService.generateQuestions(
+      setLoading(true, 'AI가 질문을 준비하고 있습니다...');
+      const generatedQuestions = await aiClient.generateQuestions(
         state.worryInput
       );
-      state.questions = generatedQuestions;
-      state.currentStep = 'questions';
+      setQuestions(generatedQuestions);
+      navigateToStep('questions');
     } catch (err) {
-      state.error = '질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.';
+      setError('질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
       console.error('Question generation error:', err);
     } finally {
-      state.isLoading = false;
-      state.loadingMessage = '';
+      setLoading(false);
     }
   };
 
   const handleQuestionsComplete = async (userResponses: UserResponse[]) => {
     try {
-      state.isLoading = true;
-      state.loadingMessage = 'AI가 당신의 답변을 종합 분석하고 있습니다...';
-
-      state.responses = userResponses;
+      setLoading(true, 'AI가 당신의 답변을 종합 분석하고 있습니다...');
+      setResponses(userResponses);
 
       if (!state.worryInput) throw new Error('고민 정보를 찾을 수 없습니다.');
 
-      const result = await aiService.generateAnalysis(
+      const result = await aiClient.generateAnalysis(
         state.worryInput,
         state.questions,
         userResponses,
@@ -81,25 +92,40 @@ export function useThinkingFlow() {
         state.sessionId
       );
 
-      state.analysisResult = result;
-      state.currentStep = 'result';
+      setAnalysisResult(result);
+      navigateToStep('result');
     } catch (err) {
-      state.error = '분석 중 오류가 발생했습니다. 다시 시도해주세요.';
+      setError('분석 중 오류가 발생했습니다. 다시 시도해주세요.');
       console.error('Analysis generation error:', err);
     } finally {
-      state.isLoading = false;
-      state.loadingMessage = '';
+      setLoading(false);
     }
   };
 
   const retryCurrentStep = () => {
-    state.error = '';
+    setError('');
     switch (state.currentStep) {
       case 'input':
-        break;
-      case 'questions':
         if (state.worryInput) {
           handleWorrySubmit(state.worryInput);
+        } else {
+          navigateToStep('input');
+        }
+        break;
+      case 'intro':
+        if (!state.worryInput) {
+          navigateToStep('input');
+        } else if (!state.framingIntro) {
+          handleWorrySubmit(state.worryInput);
+        } else {
+          startQuestions();
+        }
+        break;
+      case 'questions':
+        if (state.worryInput && state.responses.length > 0) {
+          handleQuestionsComplete(state.responses);
+        } else {
+          startQuestions();
         }
         break;
       case 'result':
@@ -110,39 +136,20 @@ export function useThinkingFlow() {
     }
   };
 
-  const restartProcess = () => {
+  const restartProcess = (step: keyof typeof flowRoutes = 'input') => {
     reset();
-  };
-
-  const saveSession = () => {
-    if (state.sessionId && currentSession.value) {
-      localStorage.setItem(
-        `thinking-session-${state.sessionId}`,
-        JSON.stringify(currentSession.value)
-      );
-    }
-  };
-
-  const loadSession = (id: string): Partial<ThinkingSession> | null => {
-    try {
-      const savedSession = localStorage.getItem(`thinking-session-${id}`);
-      return savedSession ? JSON.parse(savedSession) : null;
-    } catch (err) {
-      console.error('Error loading session:', err);
-      return null;
-    }
+    navStore.requestSkipConfirm();
+    navigateToStep(step);
   };
 
   return {
     state,
     currentSession,
-    goToStep,
+    goToStep: (step: keyof typeof flowRoutes) => navigateToStep(step),
     handleWorrySubmit,
     startQuestions,
     handleQuestionsComplete,
     retryCurrentStep,
     restartProcess,
-    saveSession,
-    loadSession,
   };
 }

@@ -24,14 +24,14 @@
         <div class="question-header">
           <div class="question-number">Q{{ currentQuestionIndex + 1 }}</div>
           <h3 class="question-text">
-            {{ currentQuestion.text }}
+            {{ currentQuestion?.text }}
           </h3>
         </div>
       </template>
 
       <div class="choices-container">
         <div
-          v-for="choice in currentQuestion.choices"
+          v-for="choice in currentQuestion?.choices"
           :key="choice.id"
           class="choice-option"
           :class="{
@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
 import { TcCard, TcDialog } from '@/components/ui';
-import { useQuestionProgress } from '@/composables/useQuestionProgress';
+import { useQuestionProgress } from '@/composables';
 import type { Question, UserResponse } from '@/types';
 import { onBeforeUnmount, ref, watch } from 'vue';
 import './QuestionFlow.scss';
@@ -112,12 +112,8 @@ const {
   responses,
   currentQuestion,
   progressPercentage,
-  remainingTime,
-  isLastQuestion,
   selectChoice,
   goToNextQuestion: goToNextQuestionCore,
-  goToPreviousQuestion,
-  goToQuestion,
 } = useQuestionProgress(props.questions, props.initialResponses || []);
 
 const isAnalyzing = ref<boolean>(false);

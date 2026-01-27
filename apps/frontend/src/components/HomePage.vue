@@ -19,7 +19,7 @@
       >
         ThinkComma는 복잡한 고민을 구조화하고, 상황 맞춤형 질문과 분석을 통해
         오늘 바로 실행 가능한 해결책을 제시합니다. 아래 버튼을 눌러
-        체험해보세요.
+        확인해보세요.
       </p>
     </header>
 
@@ -29,22 +29,12 @@
       <TcButton
         variant="primary"
         size="lg"
-        @click="goExample"
+        @click="resolveProblem"
         @pointerdown="prefetchExampleOnIntent"
         @keydown.enter="prefetchExampleOnIntent"
         @keydown.space.prevent="prefetchExampleOnIntent"
       >
-        체험하기
-      </TcButton>
-      <TcButton
-        variant="secondary"
-        size="lg"
-        @click="goChat"
-        @pointerdown="prefetchDesignOnIntent"
-        @keydown.enter="prefetchDesignOnIntent"
-        @keydown.space.prevent="prefetchDesignOnIntent"
-      >
-        AI와 대화하기
+        고민 해결하러 가기
       </TcButton>
       <TcButton
         variant="outline"
@@ -125,11 +115,11 @@ import { useRouter } from 'vue-router';
 import './HomePage.scss';
 
 const router = useRouter();
-const goExample = () => router.push({ name: 'example' });
+const resolveProblem = () => router.push({ name: 'main' });
 const goDesign = () => router.push({ name: 'design' });
-const goChat = () => router.push({ name: 'chat' });
 
 type NetworkInformation = { saveData?: boolean; effectiveType?: string };
+
 const shouldPrefetch = (): boolean => {
   const conn = (navigator as any).connection as NetworkInformation | undefined;
   if (!conn) return true; // Unknown network: assume ok
@@ -142,7 +132,7 @@ const shouldPrefetch = (): boolean => {
 const prefetchExampleOnIntent = () => {
   if (!shouldPrefetch()) return;
   // Prefetch route and the heavy flow component on user intent
-  void import('@/views/ExamplePage.vue');
+  void import('@/views/MainPage.vue');
   void import('@/components/thinking/ThinkingProcess.vue');
 };
 

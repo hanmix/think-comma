@@ -4,5 +4,5 @@
 </template>
 
 <script setup lang="ts">
-import { TcNavBar } from "@/components/ui";
+import { TcNavBar } from '@/components/ui';
 </script>

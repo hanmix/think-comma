@@ -31,20 +31,22 @@
 
 <script setup lang="ts">
 import { TcButton, TcLogo } from '@/components/ui';
-import { useNavStack } from '@/composables/useNavStack';
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import './TcNavBar.scss';
 
 const router = useRouter();
-const { canGoBack, pop, popToRoot } = useNavStack();
+const route = useRoute();
+const canGoBack = computed(
+  () => window.history.length > 1 && route.fullPath !== '/main'
+);
 
 const goBack = () => {
-  if (canGoBack.value) pop();
-  else router.push({ name: 'home' });
+  if (canGoBack.value) router.back();
+  else router.push({ name: 'main' });
 };
 
 const goHome = () => {
-  // 앱스러운 동작: 현재 스택을 루트(홈)까지 pop
-  popToRoot();
+  router.push({ name: 'main' });
 };
 </script>

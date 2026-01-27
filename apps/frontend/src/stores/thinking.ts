@@ -1,4 +1,13 @@
-import type { ThinkingSession, ThinkingState } from '@/types';
+import type {
+  AnalysisResult,
+  FramingIntro,
+  ProcessStep,
+  Question,
+  ThinkingSession,
+  ThinkingState,
+  UserResponse,
+  WorryInput,
+} from '@/types';
 import { defineStore } from 'pinia';
 import { computed, reactive } from 'vue';
 
@@ -45,5 +54,56 @@ export const useThinkingStore = defineStore('thinking', () => {
     state.framingIntro = null;
   };
 
-  return { state, currentSession, reset };
+  const goToStep = (step: ProcessStep) => {
+    state.currentStep = step;
+    state.error = '';
+  };
+
+  const setLoading = (isLoading: boolean, message = '') => {
+    state.isLoading = isLoading;
+    state.loadingMessage = isLoading ? message : '';
+  };
+
+  const setError = (message: string) => {
+    state.error = message;
+  };
+
+  const setSessionId = (sessionId: string) => {
+    state.sessionId = sessionId;
+  };
+
+  const setWorryInput = (worry: WorryInput | null) => {
+    state.worryInput = worry;
+  };
+
+  const setFramingIntro = (framing: FramingIntro | null) => {
+    state.framingIntro = framing;
+  };
+
+  const setQuestions = (questions: Question[]) => {
+    state.questions = questions;
+  };
+
+  const setResponses = (responses: UserResponse[]) => {
+    state.responses = responses;
+  };
+
+  const setAnalysisResult = (result: AnalysisResult | null) => {
+    state.analysisResult = result;
+  };
+
+  return {
+    state,
+    currentSession,
+    reset,
+    goToStep,
+    setLoading,
+    setError,
+    setSessionId,
+    setWorryInput,
+    setFramingIntro,
+    setQuestions,
+    setResponses,
+    setAnalysisResult,
+  };
 });

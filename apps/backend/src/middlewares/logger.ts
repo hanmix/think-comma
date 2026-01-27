@@ -8,6 +8,15 @@ import pino from 'pino';
 // Config
 // ----------------------------
 const LOG_DIR = path.join(process.cwd(), 'logs');
+// ----------------------------
+// Log level
+// trace (10)
+// debug (20)
+// info (30)
+// warn (40)
+// error (50)
+// fatal (60)
+// ----------------------------
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 // KST is UTC+9 (no DST)
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;

@@ -1,8 +1,29 @@
 <template>
   <div class="thinking-process">
+    <!-- Error State -->
+    <div v-if="state.error && !state.isLoading" class="error-container">
+      <TcCard variant="error" size="lg" class="error-card">
+        <template #header>
+          <h3>⚠️ 오류가 발생했습니다</h3>
+        </template>
+        <p>{{ state.error }}</p>
+        <template #footer>
+          <div class="error-actions">
+            <TcButton variant="primary" @click="retryCurrentStep">
+              다시 시도
+            </TcButton>
+            <TcButton variant="ghost" @click="restartProcess()">
+              처음부터 다시
+            </TcButton>
+          </div>
+        </template>
+      </TcCard>
+    </div>
+
     <!-- Step 1: Worry Input -->
     <WorryInput
-      v-if="state.currentStep === 'input'"
+      v-else-if="state.currentStep === 'input'"
+      :initial-worry="state.worryInput"
       @submit="handleWorrySubmit"
     />
 
@@ -35,7 +56,7 @@
       :questions="state.questions"
       :choice-a-label="state.framingIntro?.choiceALabel"
       :choice-b-label="state.framingIntro?.choiceBLabel"
-      @restart="restartProcess"
+      @restart="() => restartProcess('intro')"
       @back="goToStep('questions')"
     />
 
@@ -50,25 +71,6 @@
       </TcCard>
     </div>
 
-    <!-- Error State -->
-    <div v-else-if="state.error" class="error-container">
-      <TcCard variant="error" size="lg" class="error-card">
-        <template #header>
-          <h3>⚠️ 오류가 발생했습니다</h3>
-        </template>
-        <p>{{ state.error }}</p>
-        <template #footer>
-          <div class="error-actions">
-            <TcButton variant="primary" @click="retryCurrentStep">
-              다시 시도
-            </TcButton>
-            <TcButton variant="ghost" @click="restartProcess">
-              처음부터 다시
-            </TcButton>
-          </div>
-        </template>
-      </TcCard>
-    </div>
     <!-- Generating Questions Modal: same look-and-feel as QuestionFlow -->
     <TcDialog
       :modelValue="
@@ -116,9 +118,8 @@ import { useThinkingFlow } from '@/composables/useThinkingFlow';
 import type { WorryInput as WorryInputType } from '@/types';
 import { onMounted, ref, watch } from 'vue';
 import IntroFraming from './IntroFraming.vue';
-import './ThinkingProcess.scss';
-// Import QuestionFlow styles to reuse analyzing modal look
 import './QuestionFlow.scss';
+import './ThinkingProcess.scss';
 
 const props = defineProps<{
   initialWorry?: WorryInputType | null;
@@ -134,8 +135,6 @@ const {
   startQuestions,
   retryCurrentStep,
   restartProcess,
-  saveSession,
-  loadSession,
 } = useThinkingFlow();
 
 // Generating-questions modal progress (match QuestionFlow speed/style)
@@ -219,7 +218,5 @@ defineExpose({
   restartProcess,
   goToStep,
   currentSession,
-  saveSession,
-  loadSession,
 });
 </script>
