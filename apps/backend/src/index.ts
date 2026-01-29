@@ -4,6 +4,7 @@ import { errorMiddleware } from './middlewares/error';
 import { loggerMiddleware } from './middlewares/logger';
 import { rateLimitMiddleware } from './middlewares/rateLimit';
 import { requestIdMiddleware } from './middlewares/requestId';
+import { anonIdMiddleware } from './middlewares/anonId';
 import { analysisRouter } from './routes/analysis';
 import { chatRouter } from './routes/chat';
 import { framingRouter } from './routes/framing';
@@ -15,6 +16,7 @@ const port = 4000;
 
 app.use(express.json({ limit: '1mb' }));
 app.use(requestIdMiddleware);
+app.use(anonIdMiddleware);
 app.use(loggerMiddleware);
 app.use(corsMiddleware());
 app.use(rateLimitMiddleware);

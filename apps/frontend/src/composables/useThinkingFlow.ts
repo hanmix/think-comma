@@ -15,7 +15,7 @@ export function useThinkingFlow() {
     reset,
     setLoading,
     setError,
-    setSessionId,
+    setContextId,
     setWorryInput,
     setFramingIntro,
     setQuestions,
@@ -30,10 +30,6 @@ export function useThinkingFlow() {
     result: 'flow-result',
   } as const;
 
-  const generateSessionId = (): string => {
-    return `session-${Date.now()}-${crypto.getRandomValues(new Uint32Array(1))[0]}`;
-  };
-
   const navigateToStep = (step: keyof typeof flowRoutes) => {
     const target = flowRoutes[step];
     if (router.currentRoute.value.name !== target) {
@@ -44,9 +40,9 @@ export function useThinkingFlow() {
   const handleWorrySubmit = async (worry: WorryInput) => {
     try {
       setWorryInput(worry);
-      setSessionId(generateSessionId());
       setLoading(true, 'AI가 고민을 구조화하고 있어요...');
-      const framing = await aiClient.generateFraming(worry, state.sessionId);
+      const { framing, contextId } = await aiClient.generateFraming(worry);
+      setContextId(contextId);
       setFramingIntro(framing);
       navigateToStep('intro');
     } catch (err) {
@@ -60,6 +56,7 @@ export function useThinkingFlow() {
   const startQuestions = async () => {
     try {
       if (!state.worryInput) throw new Error('고민 정보가 없습니다.');
+      if (!state.contextId) throw new Error('contextId가 없습니다.');
       setLoading(true, 'AI가 질문을 준비하고 있습니다...');
       const generatedQuestions = await aiClient.generateQuestions(
         state.worryInput
@@ -80,6 +77,7 @@ export function useThinkingFlow() {
       setResponses(userResponses);
 
       if (!state.worryInput) throw new Error('고민 정보를 찾을 수 없습니다.');
+      if (!state.contextId) throw new Error('contextId가 없습니다.');
 
       const result = await aiClient.generateAnalysis(
         state.worryInput,
@@ -88,8 +86,7 @@ export function useThinkingFlow() {
         {
           choiceALabel: state.framingIntro?.choiceALabel,
           choiceBLabel: state.framingIntro?.choiceBLabel,
-        },
-        state.sessionId
+        }
       );
 
       setAnalysisResult(result);

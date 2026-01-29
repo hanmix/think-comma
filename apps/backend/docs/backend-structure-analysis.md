@@ -85,6 +85,7 @@
   - 입력
     - `worry.content` (필수)
     - `worry.category` (선택)
+    - `contextId` (필수, `x-context-id` 헤더)
   - 동작 흐름
     1. 입력 검증
     2. AI 기반 질문 생성 시도
@@ -92,47 +93,45 @@
        - `generateJSON`으로 AI 응답을 JSON으로 받도록 요청
        - 스키마(`AIQuestionsSchema`) 검증
        - 실패 시 normalize 로직으로 최대 10개 질문을 강제 추출
-    3. AI가 실패할 경우 폴백 로직 실행
-       - `buildQuestions` 함수에서
-         - 카테고리별 기본 질문
-         - 입력 텍스트 패턴 기반 질문
-         - 공통 질문
-       - 총 10개 질문으로 자름
+    3. AI 실패 시 에러 응답
   - 응답 포맷
-    - `{ source: 'ai' | 'ai-normalized' | 'fallback', questions: [...] }`
+    - `{ source: 'ai' | 'ai-normalized', questions: [...] }`
 
 ### 4.4 Analysis
 
 - `analysis.ts` (`POST /api/analyze`)
   - 입력
     - `worry`, `questions`, `responses`
-    - 선택적으로 사용자 제공 라벨(`labels`)과 `sessionId`
+    - `contextId` (필수, `x-context-id` 헤더)
+    - 사용자 제공 라벨(`labels`)
   - 동작 흐름
     1. 입력 검증
     2. AI 분석 시도
        - `buildAnalysisPrompt`로 프롬프트 생성
        - `generateJSON`으로 구조화 결과 요청
        - `confidence`를 0~1 / 0~100 형태 모두 허용
-       - AI가 라벨을 단순 “A/B”로 반환하는 경우 보정
-       - 사용자 제공 라벨이 있을 경우 우선 적용
-    3. AI 실패 시 폴백 분석
-       - 응답 A/B 개수를 단순 비교
-       - 추천 선택, 성향, 행동 가이드 텍스트를 고정 템플릿으로 생성
+       - 사용자 제공 라벨이 있으면 우선 적용
+    3. AI 실패 시 에러 응답
   - 응답 포맷
-    - `{ source: 'ai' | 'fallback', result: {...} }`
+    - `{ source: 'ai', result: {...} }`
 
 ### 4.5 Framing
 
 - `framing.ts` (`POST /api/framing`)
-  - 입력: `worry` + 선택적 `sessionId`
+  - 입력: `worry`
   - 동작 흐름
     1. 입력 검증
     2. AI 프레이밍 시도
        - `buildFramingPrompt` 사용
-       - 라벨이 A/B처럼 의미 없는 값이면 카테고리 기반 폴백 라벨 적용
-    3. AI 실패 시 기본 라벨/문구 사용
+    3. AI 실패 시 에러 응답
   - 응답 포맷
-    - `{ source: 'ai' | 'fallback', framing: {...} }`
+    - `{ source: 'ai', framing: {...}, contextId }`
+
+### 4.6 Identity
+
+- 익명 사용자 식별: `anon_id` 쿠키
+- 작업/세션 식별: `contextId` (헤더 전달)
+- `contextId`는 `anon_id`와 매핑되어 검증됨
 
 ## 5) 라이브러리 레이어 (`src/lib`)
 
@@ -211,4 +210,3 @@
 5. OpenAI 호출 시도 → 실패 시 폴백 로직 적용
 6. 결과를 JSON 응답으로 반환
 7. 미처리 에러는 `errorMiddleware`에서 일괄 처리
-

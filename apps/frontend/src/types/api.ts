@@ -1,5 +1,13 @@
+import { FramingIntro } from '@/types/thinking';
+
 export interface ApiResponse<T> {
-  data: T;
+  isSuccess: boolean;
+  code?: number;
   message?: string;
-  success: boolean;
+  data: T;
+}
+
+export interface FramingDTO {
+  framing: FramingIntro;
+  contextId: string;
 }

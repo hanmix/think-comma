@@ -23,7 +23,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     isLoading: false,
     error: '',
     loadingMessage: '',
-    sessionId: '',
+    contextId: '',
     worryInput: null,
     questions: [],
     responses: [],
@@ -32,7 +32,7 @@ export const useThinkingStore = defineStore('thinking', () => {
   });
 
   const currentSession = computed<Partial<ThinkingSession>>(() => ({
-    id: state.sessionId,
+    contextId: state.contextId,
     worry: state.worryInput || undefined,
     questions: state.questions,
     responses: state.responses,
@@ -46,7 +46,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     state.isLoading = false;
     state.error = '';
     state.loadingMessage = '';
-    state.sessionId = '';
+    state.contextId = '';
     state.worryInput = null;
     state.questions = [];
     state.responses = [];
@@ -68,8 +68,8 @@ export const useThinkingStore = defineStore('thinking', () => {
     state.error = message;
   };
 
-  const setSessionId = (sessionId: string) => {
-    state.sessionId = sessionId;
+  const setContextId = (contextId: string) => {
+    state.contextId = contextId;
   };
 
   const setWorryInput = (worry: WorryInput | null) => {
@@ -99,7 +99,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     goToStep,
     setLoading,
     setError,
-    setSessionId,
+    setContextId,
     setWorryInput,
     setFramingIntro,
     setQuestions,

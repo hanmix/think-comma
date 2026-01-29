@@ -1,23 +1,48 @@
+import { useThinkingStore } from '@/stores/thinking';
 import type {
   AnalysisResult,
+  ApiResponse,
+  FramingDTO,
   FramingIntro,
   Question,
   UserResponse,
   WorryInput,
 } from '@/types';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
+const axiosInstance = axios.create({
+  baseURL: baseUrl,
+  withCredentials: true,
+});
 
-const requestApi = async <T>(path: string, body: any): Promise<T> => {
+axiosInstance.interceptors.request.use(config => {
   try {
-    const resp = await axios.post<T>(`${baseUrl}${path}`, body);
+    const store = useThinkingStore();
+    const contextId = store?.state?.contextId;
+    if (contextId) {
+      config.headers = config.headers || {};
+      if (!('x-context-id' in config.headers)) {
+        config.headers['x-context-id'] = contextId;
+      }
+    }
+  } catch {
+    // no-op: store may not be ready during early init
+  }
+  return config;
+});
+
+const requestApi = async <T>(
+  apiConfig: AxiosRequestConfig
+): Promise<ApiResponse<T>> => {
+  try {
+    const resp = await axiosInstance(apiConfig);
     return resp.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
       const message =
-        (error.response?.data as any)?.error ||
+        (error.response?.data as any)?.message ||
         (status ? `HTTP ${status}` : error.message);
       throw new Error(message);
     }
@@ -26,43 +51,47 @@ const requestApi = async <T>(path: string, body: any): Promise<T> => {
 };
 
 const generateQuestions = async (worry: WorryInput): Promise<Question[]> => {
-  const data = await requestApi<{ questions: Question[] }>(
-    '/api/generate-questions',
-    { worry }
-  );
-  return data.questions;
+  const res = await requestApi<{ questions: Question[] }>({
+    url: '/api/generate-questions',
+    method: 'post',
+    data: { worry },
+  });
+
+  return res.data.questions;
 };
 
 const generateFraming = async (
-  worry: WorryInput,
-  sessionId?: string
-): Promise<FramingIntro> => {
-  const data = await requestApi<{ framing: FramingIntro }>('/api/framing', {
-    worry,
-    sessionId,
+  worry: WorryInput
+): Promise<{ framing: FramingIntro; contextId: string }> => {
+  const res = await requestApi<FramingDTO>({
+    url: '/api/framing',
+    method: 'post',
+    data: { worry },
   });
-  return data.framing;
+  return res.data;
 };
 
 const generateAnalysis = async (
   worry: WorryInput,
   questions: Question[],
   responses: UserResponse[],
-  labels?: { choiceALabel?: string; choiceBLabel?: string },
-  sessionId?: string
+  labels?: { choiceALabel?: string; choiceBLabel?: string }
 ): Promise<AnalysisResult> => {
   const payloadResponses = responses.map(r => ({
     questionId: r.questionId,
     answer: r.selectedChoice,
   }));
-  const data = await requestApi<{ result: AnalysisResult }>('/api/analyze', {
-    worry,
-    questions,
-    responses: payloadResponses,
-    labels,
-    sessionId,
+  const res = await requestApi<{ result: AnalysisResult }>({
+    url: '/api/analyze',
+    method: 'post',
+    data: {
+      worry,
+      questions,
+      responses: payloadResponses,
+      labels,
+    },
   });
-  return { ...data.result, responses };
+  return { ...res.data.result, responses };
 };
 
 export const aiService = {

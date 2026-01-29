@@ -4,10 +4,14 @@ import { ZodError } from 'zod';
 export const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof ZodError) {
     return res.status(400).json({
-      error: 'Invalid request',
-      issues: err.issues,
+      isSuccess: false,
+      message: 'Invalid request',
+      data: { issues: err.issues },
     });
   }
   const status = (err && (err.status || err.statusCode)) || 500;
-  res.status(status).json({ error: err?.message || 'Internal Server Error' });
+  res.status(status).json({
+    isSuccess: false,
+    message: err?.message || 'Internal Server Error',
+  });
 };

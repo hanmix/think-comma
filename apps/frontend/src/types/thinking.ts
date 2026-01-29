@@ -80,7 +80,7 @@ export interface FramingIntro {
 }
 
 export interface ThinkingSession {
-  id: string;
+  contextId: string;
   worry: WorryInput;
   questions: Question[];
   responses: UserResponse[];
@@ -94,7 +94,7 @@ export type ThinkingState = {
   isLoading: boolean;
   error: string;
   loadingMessage: string;
-  sessionId: string;
+  contextId: string;
   worryInput: WorryInput | null;
   questions: Question[];
   responses: UserResponse[];

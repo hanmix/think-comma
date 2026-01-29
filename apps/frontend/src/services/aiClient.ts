@@ -10,15 +10,13 @@ import { aiService } from './aiService';
 type AiClient = {
   generateQuestions: (worry: WorryInput) => Promise<Question[]>;
   generateFraming: (
-    worry: WorryInput,
-    sessionId?: string
-  ) => Promise<FramingIntro>;
+    worry: WorryInput
+  ) => Promise<{ framing: FramingIntro; contextId: string }>;
   generateAnalysis: (
     worry: WorryInput,
     questions: Question[],
     responses: UserResponse[],
-    labels?: { choiceALabel?: string; choiceBLabel?: string },
-    sessionId?: string
+    labels?: { choiceALabel?: string; choiceBLabel?: string }
   ) => Promise<AnalysisResult>;
 };
 
