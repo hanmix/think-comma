@@ -1,15 +1,7 @@
 import dotenv from 'dotenv';
-import { z } from 'zod';
+import { EnvSchema } from '../schemas/env';
 
 dotenv.config();
-
-const EnvSchema = z.object({
-  OPENAI_API_KEY: z.string().optional(),
-  OPENAI_BASE_URL: z.string().url().optional(),
-  OPENAI_MODEL: z.string().optional().default('gpt-3.5-turbo'),
-  TIMEOUT_MS: z.string().optional(),
-  CORS_ORIGIN: z.string().optional(),
-});
 
 const parsed = EnvSchema.safeParse(process.env);
 if (!parsed.success) {

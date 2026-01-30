@@ -2,6 +2,7 @@ import { aiClient } from '@/services/aiClient';
 import { useNavStackStore } from '@/stores/navStack';
 import { useThinkingStore } from '@/stores/thinking';
 import type { UserResponse, WorryInput } from '@/types';
+import { getErrorMessage, toApiError } from '@/utils';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 
@@ -46,7 +47,13 @@ export function useThinkingFlow() {
       setFramingIntro(framing);
       navigateToStep('intro');
     } catch (err) {
-      setError('초기 구성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      const apiErr = toApiError(err);
+      setError(
+        getErrorMessage(
+          apiErr?.code,
+          '초기 구성 중 오류가 발생했습니다. 다시 시도해주세요.'
+        )
+      );
       console.error('Intro framing error:', err);
     } finally {
       setLoading(false);
@@ -64,7 +71,13 @@ export function useThinkingFlow() {
       setQuestions(generatedQuestions);
       navigateToStep('questions');
     } catch (err) {
-      setError('질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+      const apiErr = toApiError(err);
+      setError(
+        getErrorMessage(
+          apiErr?.code,
+          '질문 생성 중 오류가 발생했습니다. 다시 시도해주세요.'
+        )
+      );
       console.error('Question generation error:', err);
     } finally {
       setLoading(false);
@@ -92,7 +105,13 @@ export function useThinkingFlow() {
       setAnalysisResult(result);
       navigateToStep('result');
     } catch (err) {
-      setError('분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+      const apiErr = toApiError(err);
+      setError(
+        getErrorMessage(
+          apiErr?.code,
+          '분석 중 오류가 발생했습니다. 다시 시도해주세요.'
+        )
+      );
       console.error('Analysis generation error:', err);
     } finally {
       setLoading(false);

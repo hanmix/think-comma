@@ -8,6 +8,7 @@ import type {
   UserResponse,
   WorryInput,
 } from '@/types';
+import { ApiError } from '@/utils';
 import axios, { AxiosRequestConfig } from 'axios';
 
 const baseUrl = 'http://localhost:4000';
@@ -41,10 +42,10 @@ const requestApi = async <T>(
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
+      const data = error.response?.data as any;
       const message =
-        (error.response?.data as any)?.message ||
-        (status ? `HTTP ${status}` : error.message);
-      throw new Error(message);
+        data?.message || (status ? `HTTP ${status}` : error.message);
+      throw new ApiError(message, data?.code, status);
     }
     throw error;
   }

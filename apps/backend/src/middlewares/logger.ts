@@ -78,8 +78,8 @@ function rotateIfNeeded() {
 export const loggerMiddleware: RequestHandler = (req, res, next) => {
   rotateIfNeeded();
   const start = Date.now();
-  const id = (req as any).requestId ?? randomUUID();
-  (req as any).requestId = id;
+  const id = req.requestId ?? randomUUID();
+  req.requestId = id;
 
   baseLogger.info(
     {

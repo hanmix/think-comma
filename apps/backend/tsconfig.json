@@ -4,11 +4,15 @@
     "module": "CommonJS",
     "rootDir": "src",
     "outDir": "dist",
-    "ignoreDeprecations": "5.0",
+    "baseUrl": "src",
     "esModuleInterop": true,
     "strict": true,
     "paths": {
-      "@myorg/shared": ["../../packages/shared/src/index.ts"]
+      "@modules/*": ["modules/*"],
+      "@shared/*": ["shared/*"],
+      "@infra/*": ["infra/*"],
+      "@config/*": ["config/*"],
+      "@middlewares/*": ["middlewares/*"]
     }
   },
   "include": ["src"]

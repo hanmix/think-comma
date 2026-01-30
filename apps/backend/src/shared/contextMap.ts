@@ -9,6 +9,5 @@ export function createContextId(anonId: string): string {
 }
 
 export function hasContextId(id: string, anonId: string): boolean {
-  console.log('contexts: ', contexts);
   return contexts.get(id) === anonId;
 }

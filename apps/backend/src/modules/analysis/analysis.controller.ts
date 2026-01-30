@@ -1,0 +1,27 @@
+import type { RequestHandler } from 'express';
+import { z } from 'zod';
+import {
+  LabelsSchema,
+  QuestionSchema,
+  ResponseSchema,
+  WorrySchema,
+} from '@shared/schemas/api';
+import { generateAnalysisResult } from '@modules/analysis/analysis.service';
+
+export const analyzeController: RequestHandler = async (req, res) => {
+  const body = z
+    .object({
+      worry: WorrySchema,
+      questions: z.array(QuestionSchema),
+      responses: z.array(ResponseSchema),
+      labels: LabelsSchema,
+    })
+    .parse(req.body);
+  const result = await generateAnalysisResult({
+    worry: body.worry,
+    questions: body.questions,
+    responses: body.responses,
+    labels: body.labels,
+  });
+  return res.status(200).json({ isSuccess: true, data: { result } });
+};

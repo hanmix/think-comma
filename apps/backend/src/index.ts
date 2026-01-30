@@ -5,11 +5,11 @@ import { loggerMiddleware } from './middlewares/logger';
 import { rateLimitMiddleware } from './middlewares/rateLimit';
 import { requestIdMiddleware } from './middlewares/requestId';
 import { anonIdMiddleware } from './middlewares/anonId';
-import { analysisRouter } from './routes/analysis';
-import { chatRouter } from './routes/chat';
-import { framingRouter } from './routes/framing';
-import { healthRouter } from './routes/health';
-import { questionsRouter } from './routes/questions';
+import { analysisRouter } from '@modules/analysis/analysis.route';
+import { chatRouter } from '@modules/chat/chat.route';
+import { framingRouter } from '@modules/framing/framing.route';
+import { healthRouter } from '@modules/health/health.route';
+import { questionsRouter } from '@modules/questions/questions.route';
 
 const app = express();
 const port = 4000;

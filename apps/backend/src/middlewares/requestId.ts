@@ -3,6 +3,6 @@ import { randomUUID } from 'node:crypto';
 
 export const requestIdMiddleware: RequestHandler = (req, _res, next) => {
   const hdr = req.header('x-request-id');
-  (req as any).requestId = hdr || randomUUID();
+  req.requestId = hdr || randomUUID();
   next();
 };
