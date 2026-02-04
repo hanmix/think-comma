@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TcCard variant="info" size="lg" class="action-guide">
+    <TcCard size="md" class="action-guide">
       <template #header>
         <h3>💡 구체적 행동 가이드</h3>
         <p class="guide-subtitle">추천하는 3단계 행동 계획</p>
@@ -23,9 +23,11 @@
       </div>
     </TcCard>
 
-    <TcCard v-if="nextSuggestion" variant="info" class="next-suggestion">
+    <TcCard v-if="nextSuggestion" class="next-suggestion">
+      <template #header>
+        <h3>🧠 다음 기회를 위한 제안</h3>
+      </template>
       <div class="next-suggestion-content">
-        <h4>🧠 다음 기회를 위한 제안</h4>
         <p>{{ nextSuggestion }}</p>
       </div>
     </TcCard>

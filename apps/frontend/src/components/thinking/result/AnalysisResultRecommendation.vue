@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TcCard variant="success" size="lg" class="final-result">
+    <TcCard variant="success" size="md" class="final-result">
       <div class="recommendation-content">
         <h2 class="recommendation-title">
           {{ `"${recommendedLabel}"` }}
@@ -24,35 +24,35 @@
         </div>
         <p class="confidence-text">확신도: {{ confidencePercent }}%</p>
       </div>
-    </TcCard>
 
-    <div class="score-comparison">
-      <div
-        class="choice-column"
-        :class="{
-          winner: result.recommendedChoice === 'A',
-          loser: result.recommendedChoice === 'B',
-        }"
-      >
-        <div class="choice-score">{{ result.scoreA }}</div>
-        <div class="choice-label">
-          {{ scoreALabel }}
+      <div class="tc-card score-comparison">
+        <div
+          class="choice-column"
+          :class="{
+            winner: result.recommendedChoice === 'A',
+            loser: result.recommendedChoice === 'B',
+          }"
+        >
+          <div class="choice-score">{{ result.scoreA }}</div>
+          <div class="choice-label">
+            {{ scoreALabel }}
+          </div>
+        </div>
+        <div class="vs-divider">VS</div>
+        <div
+          class="choice-column"
+          :class="{
+            winner: result.recommendedChoice === 'B',
+            loser: result.recommendedChoice === 'A',
+          }"
+        >
+          <div class="choice-score">{{ result.scoreB }}</div>
+          <div class="choice-label">
+            {{ scoreBLabel }}
+          </div>
         </div>
       </div>
-      <div class="vs-divider">VS</div>
-      <div
-        class="choice-column"
-        :class="{
-          winner: result.recommendedChoice === 'B',
-          loser: result.recommendedChoice === 'A',
-        }"
-      >
-        <div class="choice-score">{{ result.scoreB }}</div>
-        <div class="choice-label">
-          {{ scoreBLabel }}
-        </div>
-      </div>
-    </div>
+    </TcCard>
   </div>
 </template>
 

@@ -3,6 +3,7 @@
     <div
       v-if="modelValue"
       class="tc-modal"
+      v-bind="attrs"
       role="dialog"
       aria-modal="true"
       :aria-labelledby="hideHeader ? undefined : labelId"
@@ -52,7 +53,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, useAttrs, watch } from 'vue';
+
+defineOptions({ inheritAttrs: false });
 
 interface Props {
   modelValue: boolean;
@@ -75,9 +78,10 @@ const emit = defineEmits<{
   close: [];
 }>();
 
+const attrs = useAttrs();
 const containerRef = ref<HTMLDivElement | null>(null);
 const previouslyFocused = ref<HTMLElement | null>(null);
-const uid = Math.random().toString(36).slice(2, 8);
+const uid = crypto.getRandomValues(new Uint32Array(1))[0];
 const labelId = `tc-modal-title-${uid}`;
 
 const containerStyle = computed(() => ({ maxWidth: props.width }));

@@ -4,6 +4,8 @@
       :original-worry="originalWorry"
       :recommended-label="recommendedLabel"
       :other-label="otherLabel"
+      :show-history="showHistory"
+      @toggle-history="showHistory = !showHistory"
     />
 
     <AnalysisResultRecommendation
@@ -16,7 +18,11 @@
 
     <AnalysisResultInsights :result="result" />
 
-    <AnalysisResultHistory :result="result" :questions="questions" />
+    <AnalysisResultHistory
+      v-model="showHistory"
+      :result="result"
+      :questions="questions"
+    />
 
     <AnalysisResultActionGuide
       :guide-steps="guideSteps"
@@ -38,7 +44,7 @@
 <script setup lang="ts">
 import { TcButton } from '@/components/ui';
 import type { AnalysisResult, Question } from '@/types';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import './AnalysisResult.scss';
 import AnalysisResultActionGuide from './result/AnalysisResultActionGuide.vue';
 import AnalysisResultHeader from './result/AnalysisResultHeader.vue';
@@ -61,6 +67,8 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+
+const showHistory = ref(false);
 
 const confidencePercent = Math.round((props.result.confidence || 0) * 100);
 
