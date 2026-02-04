@@ -27,12 +27,18 @@ export interface PersonalityTrait {
   name: string;
   score: number;
   level: 'low' | 'medium' | 'high';
+  leansTo: 'A' | 'B' | 'neutral';
+  evidence: string;
+  relatedQuestions?: number[];
 }
 
 export interface DecisionFactor {
   name: string;
   score: number;
   level: 'low' | 'medium' | 'high';
+  side: 'A' | 'B';
+  evidence: string;
+  relatedQuestions?: number[];
 }
 
 export interface ActionGuideStep {

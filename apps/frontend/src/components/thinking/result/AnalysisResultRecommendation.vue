@@ -4,7 +4,7 @@
       <div class="recommendation-content">
         <h2 class="recommendation-title">
           {{ `"${recommendedLabel}"` }}
-          를 추천합니다
+          을 선택하였습니다.
         </h2>
         <p class="recommendation-detail">
           {{ result.summary }}

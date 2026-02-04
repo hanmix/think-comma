@@ -34,9 +34,6 @@ export interface BuildAnalysisInput {
 //     "choiceBLabel": string,
 //     "recommendedChoiceLabel": string,
 //     "otherChoiceLabel": string,
-//     "confidence": number, // 0~1 또는 0~100 (퍼센트)
-//     "scoreA": number,     // A 점수(정수). 가능하면 0~100 퍼센트로 산정
-//     "scoreB": number,     // B 점수(정수). 가능하면 0~100 퍼센트로 산정
 //     "summary": string,    // 한 줄 요약(카드의 부제목처럼 간결하게)
 //     "actionSteps": string[],
 //     "actionGuide": {
@@ -51,8 +48,12 @@ export interface BuildAnalysisInput {
 //       "overview": string,
 //       "keyReasons": [ { "name": string, "detail": string, "weight": number, "relatedQuestions": number[] } ]
 //     },
-//     "personalityTraits": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ],
-//     "decisionFactors": [ { "name": string, "score": number, "level": "low"|"medium"|"high" } ]
+//     "personalityTraits": [
+//       { "name": string, "score": number, "level": "low"|"medium"|"high", "leansTo": "A"|"B"|"neutral", "evidence": string, "relatedQuestions": number[] }
+//     ],
+//     "decisionFactors": [
+//       { "name": string, "score": number, "level": "low"|"medium"|"high", "side": "A"|"B", "evidence": string, "relatedQuestions": number[] }
+//     ]
 //     ;
 //     고민 내용: ${worry.content.replace(/\n/g, ' ')}${
 //       worry.category ? `\n카테고리: ${worry.category}` : ''
@@ -65,8 +66,6 @@ export interface BuildAnalysisInput {
 
 //   요구사항:
 //   - recommendedChoice는 사용자 응답 경향을 반영해 일관되게 산출합니다.
-//   - confidence는 0~100(퍼센트)로 산정하는 것을 권장합니다.
-//   - scoreA/scoreB는 합이 100이 되도록 백분율로 산정합니다.
 //   - actionSteps는 2~4개 간결한 실행 항목으로 작성합니다.
 //   - actionGuide.steps는 UI에 바로 사용 가능한 3단계 계획으로, 각 단계는 굵은 한 줄 제목(title)과 그에 대한 간단한 보충 설명(description)으로 구성합니다.
 //   - actionGuide.nextSuggestion은 사용자가 무리 없이 다음 기회를 만들 수 있도록 돕는 한 줄 제안으로 작성합니다.
@@ -120,9 +119,6 @@ export function buildAnalysisPrompt({
       "choiceBLabel": string,
       "recommendedChoiceLabel": string,
       "otherChoiceLabel": string,
-      "confidence": number,
-      "scoreA": number,
-      "scoreB": number,
       "summary": string,
       "actionSteps": string[],
       "actionGuide": {
@@ -140,10 +136,24 @@ export function buildAnalysisPrompt({
         ]
       },
       "personalityTraits": [
-        { "name": string, "score": number, "level": "low" | "medium" | "high" }
+        {
+          "name": string,
+          "score": number,
+          "level": "low" | "medium" | "high",
+          "leansTo": "A" | "B" | "neutral",
+          "evidence": string,
+          "relatedQuestions": number[]
+        }
       ],
       "decisionFactors": [
-        { "name": string, "score": number, "level": "low" | "medium" | "high" }
+        {
+          "name": string,
+          "score": number,
+          "level": "low" | "medium" | "high",
+          "side": "A" | "B",
+          "evidence": string,
+          "relatedQuestions": number[]
+        }
       ]
     }
 
@@ -157,20 +167,16 @@ export function buildAnalysisPrompt({
     [사용자 응답]
     ${rLines}
 
-    [점수 산정 규칙 — 차트용 필수]
-    - scoreA와 scoreB는 0~100 정수이며, 두 값의 합은 반드시 100이 되도록 산정합니다.
-    - confidence는 별도로 계산하지 않습니다.
-      반드시 scoreA와 scoreB 중 더 큰 값과 동일하게 설정합니다.
-      (예: scoreA=62, scoreB=38 → confidence=62)
-    - rationale.keyReasons.weight는 모두 0~100 정수이며,
-      keyReasons 배열 내 모든 weight의 합은 반드시 100이 되도록 합니다.
+    [추가 점수 규칙 — 차트용]
+    - rationale.keyReasons.weight는 모두 0~100 정수이며, keyReasons 내 모든 weight 합은 반드시 100이 되도록 합니다.
     - personalityTraits.score와 decisionFactors.score도 0~100 기준으로 산정합니다.
+    - personalityTraits.leansTo는 A/B/neutral 중 하나를 반드시 지정합니다.
+    - decisionFactors.side는 A/B 중 하나를 반드시 지정합니다.
+    - evidence에는 해당 판단의 근거를 1문장으로 적습니다.
 
     [분석 요구사항]
-    - recommendedChoice는 score가 더 높은 선택지와 일치해야 합니다.
     - actionSteps는 2~4개의 간결한 실행 항목으로 작성합니다.
-    - actionGuide.steps는 UI에 바로 사용 가능한 3단계 계획으로 작성합니다
-      (각 단계는 title + description 구조).
+    - actionGuide.steps는 UI에 바로 사용 가능한 3단계 계획으로 작성합니다(각 단계 title/description 필수).
     - actionGuide.nextSuggestion은 사용자가 무리 없이 다음 행동으로 이어갈 수 있는 1문장 제안입니다.
 
     [라벨 규칙]

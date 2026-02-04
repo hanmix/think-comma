@@ -1,9 +1,9 @@
-import { ErrorCode } from '@myorg/shared';
 import { jsonParser } from '@infra/openai/jsonParser';
-import { isTrivialChoiceLabel, normalizeConfidence } from '@shared/aiUtils';
-import { createHttpErrorFromCode, isHttpErrorLike } from '@shared/errors';
 import { buildAnalysisPrompt } from '@modules/analysis/analysis.prompts';
 import { AnalysisAIResponseSchema } from '@modules/analysis/analysis.schemas';
+import { ErrorCode } from '@myorg/shared';
+import { isTrivialChoiceLabel, normalizeConfidence } from '@shared/aiUtils';
+import { createHttpErrorFromCode, isHttpErrorLike } from '@shared/errors';
 
 type AnalysisInput = {
   worry: { content: string; category?: string };
@@ -16,13 +16,62 @@ type AnalysisInput = {
   labels?: { choiceALabel?: string; choiceBLabel?: string };
 };
 
+const normalizeLabel = (label?: string): string =>
+  label ? String(label).trim() : '';
+
+const resolveInputLabels = (labels?: {
+  choiceALabel?: string;
+  choiceBLabel?: string;
+}): { inputALabel: string; inputBLabel: string } => ({
+  inputALabel: normalizeLabel(labels?.choiceALabel),
+  inputBLabel: normalizeLabel(labels?.choiceBLabel),
+});
+
+const resolveChoiceLabels = (
+  inputALabel: string,
+  inputBLabel: string,
+  ai: { choiceALabel?: string; choiceBLabel?: string }
+): { choiceALabel: string; choiceBLabel: string } => {
+  if (inputALabel && inputBLabel) {
+    return { choiceALabel: inputALabel, choiceBLabel: inputBLabel };
+  }
+
+  const rawALabel = normalizeLabel(ai.choiceALabel);
+  const rawBLabel = normalizeLabel(ai.choiceBLabel);
+  if (isTrivialChoiceLabel(rawALabel) || isTrivialChoiceLabel(rawBLabel)) {
+    throw createHttpErrorFromCode(502, ErrorCode.INVALID_AI_LABELS);
+  }
+
+  return { choiceALabel: rawALabel, choiceBLabel: rawBLabel };
+};
+
+const weightForQuestionId = (questionId: number): number => {
+  if (questionId <= 3) return 1;
+  if (questionId <= 7) return 2;
+  return 3;
+};
+
+const computeScoresFromResponses = (
+  responses: Array<{ questionId: number; answer: 'A' | 'B' }>
+): { scoreA: number; scoreB: number } => {
+  let WA = 0;
+  let WB = 0;
+  for (const response of responses) {
+    const weight = weightForQuestionId(response.questionId);
+    if (response.answer === 'A') {
+      WA += weight;
+    } else {
+      WB += weight;
+    }
+  }
+  const total = WA + WB;
+  const scoreA = Math.round((WA / total) * 100);
+  const scoreB = 100 - scoreA;
+  return { scoreA, scoreB };
+};
+
 export async function generateAnalysisResult(input: AnalysisInput) {
-  const inputALabel = input.labels?.choiceALabel
-    ? String(input.labels.choiceALabel).trim()
-    : '';
-  const inputBLabel = input.labels?.choiceBLabel
-    ? String(input.labels.choiceBLabel).trim()
-    : '';
+  const { inputALabel, inputBLabel } = resolveInputLabels(input.labels);
 
   if (
     inputALabel &&
@@ -39,35 +88,27 @@ export async function generateAnalysisResult(input: AnalysisInput) {
       responses: input.responses,
     });
     const ai = await jsonParser(prompt, AnalysisAIResponseSchema);
+    const { choiceALabel, choiceBLabel } = resolveChoiceLabels(
+      inputALabel,
+      inputBLabel,
+      ai
+    );
 
-    let choiceALabel = '';
-    let choiceBLabel = '';
-
-    if (inputALabel && inputBLabel) {
-      choiceALabel = inputALabel;
-      choiceBLabel = inputBLabel;
-    } else {
-      const rawALabel = String(ai.choiceALabel || '').trim();
-      const rawBLabel = String(ai.choiceBLabel || '').trim();
-      if (isTrivialChoiceLabel(rawALabel) || isTrivialChoiceLabel(rawBLabel)) {
-        throw createHttpErrorFromCode(502, ErrorCode.INVALID_AI_LABELS);
-      }
-      choiceALabel = rawALabel;
-      choiceBLabel = rawBLabel;
-    }
-
+    const { scoreA, scoreB } = computeScoresFromResponses(input.responses);
+    const recommendedChoice: 'A' | 'B' = scoreA >= scoreB ? 'A' : 'B';
     const recommendedChoiceLabel =
-      ai.recommendedChoice === 'A' ? choiceALabel : choiceBLabel;
+      recommendedChoice === 'A' ? choiceALabel : choiceBLabel;
     const otherChoiceLabel =
-      ai.recommendedChoice === 'A' ? choiceBLabel : choiceALabel;
+      recommendedChoice === 'A' ? choiceBLabel : choiceALabel;
+    const confidence = normalizeConfidence(Math.max(scoreA, scoreB));
 
     return {
-      recommendedChoice: ai.recommendedChoice,
+      recommendedChoice,
       recommendedChoiceLabel,
       otherChoiceLabel,
-      confidence: normalizeConfidence(ai.confidence),
-      scoreA: ai.scoreA,
-      scoreB: ai.scoreB,
+      confidence,
+      scoreA,
+      scoreB,
       personalityTraits: ai.personalityTraits,
       decisionFactors: ai.decisionFactors,
       actionSteps: ai.actionSteps,

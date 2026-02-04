@@ -1,12 +1,12 @@
-import type { RequestHandler } from 'express';
-import { z } from 'zod';
+import { generateAnalysisResult } from '@modules/analysis/analysis.service';
 import {
   LabelsSchema,
   QuestionSchema,
   ResponseSchema,
   WorrySchema,
 } from '@shared/schemas/api';
-import { generateAnalysisResult } from '@modules/analysis/analysis.service';
+import type { RequestHandler } from 'express';
+import { z } from 'zod';
 
 export const analyzeController: RequestHandler = async (req, res) => {
   const body = z
@@ -17,6 +17,7 @@ export const analyzeController: RequestHandler = async (req, res) => {
       labels: LabelsSchema,
     })
     .parse(req.body);
+
   const result = await generateAnalysisResult({
     worry: body.worry,
     questions: body.questions,

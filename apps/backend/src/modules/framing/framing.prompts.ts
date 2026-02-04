@@ -47,8 +47,7 @@ export function buildFramingPrompt({ worry }: BuildFramingInput) {
       "choiceALabel": string,
       "choiceBLabel": string,
       "aHint": string,
-      "bHint": string,
-      "cta": string
+      "bHint": string
     }
 
     [지침]

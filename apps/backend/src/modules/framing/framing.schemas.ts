@@ -6,5 +6,4 @@ export const FramingAIResponseSchema = z.object({
   choiceBLabel: z.string(),
   aHint: z.string(),
   bHint: z.string(),
-  cta: z.string(),
 });

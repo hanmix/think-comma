@@ -6,6 +6,8 @@ import { createHttpErrorFromCode, isHttpErrorLike } from '@shared/errors';
 import { buildFramingPrompt } from '@modules/framing/framing.prompts';
 import { FramingAIResponseSchema } from '@modules/framing/framing.schemas';
 
+const DEFAULT_CTA = '이렇게 설정해서 10개 질문으로 분석해볼까요?';
+
 export async function generateFraming(
   worry: {
     content: string;
@@ -28,8 +30,7 @@ export async function generateFraming(
     }
     const aHint = String(ai.aHint || '').trim();
     const bHint = String(ai.bHint || '').trim();
-    const cta = String(ai.cta || '').trim();
-    if (!aHint || !bHint || !cta) {
+    if (!aHint || !bHint) {
       throw createHttpErrorFromCode(502, ErrorCode.INVALID_AI_HINTS);
     }
     const framing = {
@@ -38,7 +39,7 @@ export async function generateFraming(
       choiceBLabel: ai.choiceBLabel,
       aHint,
       bHint,
-      cta,
+      cta: DEFAULT_CTA,
     } as const;
     const contextId = createContextId(anonId);
     return { framing, contextId } as const;
