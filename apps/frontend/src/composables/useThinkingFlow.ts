@@ -99,7 +99,8 @@ export function useThinkingFlow() {
         {
           choiceALabel: state.framingIntro?.choiceALabel,
           choiceBLabel: state.framingIntro?.choiceBLabel,
-        }
+        },
+        state.framingIntro?.axis
       );
 
       setAnalysisResult(result);

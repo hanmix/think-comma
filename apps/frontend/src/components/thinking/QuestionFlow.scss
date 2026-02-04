@@ -224,60 +224,6 @@
     color: $color-secondary-gray;
   }
 
-  .answers-summary {
-    position: sticky;
-    top: $spacing-xl;
-    right: 0;
-    max-width: 300px;
-    margin-left: auto;
-    background: $color-neutral-light;
-    border: 1px solid $color-neutral-medium;
-    border-radius: 12px;
-    padding: $spacing-md;
-    box-shadow: $shadow-sm;
-  }
-  .answers-summary-title {
-    font-size: $font-size-base;
-    font-weight: 700;
-    color: $color-primary-navy;
-    margin-bottom: $spacing-sm;
-  }
-  .answers-list {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-    max-height: 300px;
-    overflow: auto;
-    padding-right: $spacing-2;
-  }
-  .answers-item {
-    display: flex;
-    align-items: flex-start;
-    gap: $spacing-sm;
-    background: $color-neutral-light;
-    border: 1px solid $color-neutral-medium;
-    border-radius: 8px;
-    padding: $spacing-2;
-  }
-  .answers-item .answer-number {
-    background: $color-primary-blue;
-    color: $color-neutral-white;
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-xs;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  .summary-choice {
-    font-size: $font-size-xs;
-    color: $color-neutral-dark;
-    line-height: 1.4;
-  }
-
   .analyzing-overlay {
     position: fixed;
     top: 0;
@@ -364,12 +310,6 @@
     .nav-buttons {
       flex-direction: column;
       gap: $spacing-sm;
-    }
-    .answers-summary {
-      position: static;
-      transform: none;
-      max-width: none;
-      margin-top: $spacing-lg;
     }
   }
 }

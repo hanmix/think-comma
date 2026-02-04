@@ -76,7 +76,8 @@ const generateAnalysis = async (
   worry: WorryInput,
   questions: Question[],
   responses: UserResponse[],
-  labels?: { choiceALabel?: string; choiceBLabel?: string }
+  labels?: { choiceALabel?: string; choiceBLabel?: string },
+  axis?: FramingIntro['axis']
 ): Promise<AnalysisResult> => {
   const payloadResponses = responses.map(r => ({
     questionId: r.questionId,
@@ -90,6 +91,7 @@ const generateAnalysis = async (
       questions,
       responses: payloadResponses,
       labels,
+      axis,
     },
   });
   return { ...res.data.result, responses };

@@ -11,7 +11,7 @@ export const AnalysisAIResponseSchema = z.object({
   scoreA: z.number().optional(),
   scoreB: z.number().optional(),
 
-  summary: z.string(),
+  guidance: z.string(),
 
   actionSteps: z.array(z.string()),
 
@@ -38,6 +38,13 @@ export const AnalysisAIResponseSchema = z.object({
           relatedQuestions: z.array(z.number()).optional(),
         })
       ),
+    })
+    .optional(),
+
+  axisAlignment: z
+    .object({
+      scoreA: z.number(),
+      scoreB: z.number(),
     })
     .optional(),
 

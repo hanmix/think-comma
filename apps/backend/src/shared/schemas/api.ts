@@ -27,3 +27,13 @@ export const LabelsSchema = z
     choiceBLabel: z.string().optional(),
   })
   .optional();
+
+export const AxisSchema = z
+  .object({
+    axisA: z.string(),
+    axisB: z.string(),
+    rationaleA: z.string(),
+    rationaleB: z.string(),
+    keywords: z.array(z.string()).optional(),
+  })
+  .optional();

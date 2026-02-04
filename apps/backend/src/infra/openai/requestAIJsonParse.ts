@@ -1,7 +1,7 @@
 import type { z } from 'zod';
 import { generateJSON } from '.';
 
-export async function jsonParser<T>(
+export async function requestAIJsonParse<T>(
   prompt: string,
   schema: z.ZodType<T>
 ): Promise<T> {

@@ -1,14 +1,10 @@
 <template>
-  <div>
+  <div class="analysis-recommendation">
     <TcCard variant="success" size="md" class="final-result">
       <div class="recommendation-content">
         <h2 class="recommendation-title">
           {{ `"${recommendedLabel}"` }}
-          을 선택하였습니다.
         </h2>
-        <p class="recommendation-detail">
-          {{ result.summary }}
-        </p>
         <div
           class="confidence-meter"
           role="progressbar"
@@ -25,7 +21,7 @@
         <p class="confidence-text">확신도: {{ confidencePercent }}%</p>
       </div>
 
-      <div class="tc-card score-comparison">
+      <div class="score-comparison">
         <div
           class="choice-column"
           :class="{
@@ -51,6 +47,15 @@
             {{ scoreBLabel }}
           </div>
         </div>
+      </div>
+    </TcCard>
+
+    <TcCard size="md" class="guidance-card">
+      <div class="guidance-content">
+        <p class="guidance-badge">📌 조언</p>
+        <p class="guidance-text">
+          {{ result.guidance }}
+        </p>
       </div>
     </TcCard>
   </div>

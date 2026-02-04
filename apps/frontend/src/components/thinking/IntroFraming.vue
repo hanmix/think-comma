@@ -4,27 +4,33 @@
       <template #header>
         <h3>🧭 고민 구조화</h3>
       </template>
-      <p class="summary tc-readable">{{ framing.summary }}</p>
 
-      <div class="ab-box">
-        <div class="ab-item">
-          <div class="ab-badge a">A</div>
-          <div class="ab-content">
-            <p class="ab-title">
-              <strong>{{ framing.choiceALabel }}</strong>
-            </p>
-            <p class="ab-hint">{{ framing.aHint }}</p>
+      <div class="ab-duel-frame">
+        <div class="ab-frame a">
+          <div class="ab-frame-header">
+            <span class="ab-badge">A</span>
+            <strong class="ab-title">{{ framing.choiceALabel }}</strong>
           </div>
+          <p class="ab-hint">{{ framing.aHint }}</p>
         </div>
-        <div class="ab-item">
-          <div class="ab-badge b">B</div>
-          <div class="ab-content">
-            <p class="ab-title">
-              <strong>{{ framing.choiceBLabel }}</strong>
-            </p>
-            <p class="ab-hint">{{ framing.bHint }}</p>
+        <div class="ab-vs">VS</div>
+        <div class="ab-frame b">
+          <div class="ab-frame-header">
+            <span class="ab-badge">B</span>
+            <strong class="ab-title">{{ framing.choiceBLabel }}</strong>
           </div>
+          <p class="ab-hint">{{ framing.bHint }}</p>
         </div>
+      </div>
+
+      <div v-if="framing.axis.keywords?.length" class="axis-keywords">
+        <p class="axis-keywords-label">주요 키워드</p>
+        <span
+          v-for="keyword in framing.axis.keywords"
+          :key="keyword"
+          class="axis-chip"
+          >{{ keyword }}</span
+        >
       </div>
 
       <p class="cta">{{ framing.cta }}</p>
@@ -44,6 +50,6 @@ import { TcButton, TcCard } from '@/components/ui';
 import type { FramingIntro } from '@/types';
 import './IntroFraming.scss';
 
-defineProps<{ framing: FramingIntro }>();
+const props = defineProps<{ framing: FramingIntro }>();
 defineEmits<{ (e: 'start'): void; (e: 'back'): void }>();
 </script>

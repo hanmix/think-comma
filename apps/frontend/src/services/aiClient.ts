@@ -16,7 +16,8 @@ type AiClient = {
     worry: WorryInput,
     questions: Question[],
     responses: UserResponse[],
-    labels?: { choiceALabel?: string; choiceBLabel?: string }
+    labels?: { choiceALabel?: string; choiceBLabel?: string },
+    axis?: FramingIntro['axis']
   ) => Promise<AnalysisResult>;
 };
 

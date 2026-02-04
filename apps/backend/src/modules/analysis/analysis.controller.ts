@@ -1,5 +1,6 @@
 import { generateAnalysisResult } from '@modules/analysis/analysis.service';
 import {
+  AxisSchema,
   LabelsSchema,
   QuestionSchema,
   ResponseSchema,
@@ -15,6 +16,7 @@ export const analyzeController: RequestHandler = async (req, res) => {
       questions: z.array(QuestionSchema),
       responses: z.array(ResponseSchema),
       labels: LabelsSchema,
+      axis: AxisSchema,
     })
     .parse(req.body);
 
@@ -23,6 +25,7 @@ export const analyzeController: RequestHandler = async (req, res) => {
     questions: body.questions,
     responses: body.responses,
     labels: body.labels,
+    axis: body.axis,
   });
   return res.status(200).json({ isSuccess: true, data: { result } });
 };

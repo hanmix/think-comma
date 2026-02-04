@@ -59,7 +59,7 @@
         <h3>🧩 왜 이런 결과가 나왔나요?</h3>
       </template>
       <div class="reasons-list" v-if="result.rationale?.keyReasons?.length">
-        <p class="tc-readable" v-if="result.rationale?.overview">
+        <p v-if="result.rationale?.overview">
           {{ result.rationale.overview }}
         </p>
         <div

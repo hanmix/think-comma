@@ -1,4 +1,4 @@
-import { jsonParser } from '@infra/openai/jsonParser';
+import { requestAIJsonParse } from '@infra/openai/requestAIJsonParse';
 import { buildAnalysisPrompt } from '@modules/analysis/analysis.prompts';
 import { AnalysisAIResponseSchema } from '@modules/analysis/analysis.schemas';
 import { ErrorCode } from '@myorg/shared';
@@ -14,6 +14,13 @@ type AnalysisInput = {
   }>;
   responses: Array<{ questionId: number; answer: 'A' | 'B' }>;
   labels?: { choiceALabel?: string; choiceBLabel?: string };
+  axis?: {
+    axisA: string;
+    axisB: string;
+    rationaleA: string;
+    rationaleB: string;
+    keywords?: string[];
+  };
 };
 
 const normalizeLabel = (label?: string): string =>
@@ -70,6 +77,20 @@ const computeScoresFromResponses = (
   return { scoreA, scoreB };
 };
 
+const clampScore = (value: number): number =>
+  Math.max(0, Math.min(100, Math.round(value)));
+
+const resolveAxisAlignment = (axisAlignment?: {
+  scoreA?: number;
+  scoreB?: number;
+}): { scoreA: number; scoreB: number } | null => {
+  if (!axisAlignment) return null;
+  const scoreA = Number(axisAlignment.scoreA);
+  const scoreB = Number(axisAlignment.scoreB);
+  if (!Number.isFinite(scoreA) || !Number.isFinite(scoreB)) return null;
+  return { scoreA: clampScore(scoreA), scoreB: clampScore(scoreB) };
+};
+
 export async function generateAnalysisResult(input: AnalysisInput) {
   const { inputALabel, inputBLabel } = resolveInputLabels(input.labels);
 
@@ -86,15 +107,37 @@ export async function generateAnalysisResult(input: AnalysisInput) {
       worry: input.worry,
       questions: input.questions,
       responses: input.responses,
+      axis: input.axis,
     });
-    const ai = await jsonParser(prompt, AnalysisAIResponseSchema);
+    const ai = await requestAIJsonParse(prompt, AnalysisAIResponseSchema);
     const { choiceALabel, choiceBLabel } = resolveChoiceLabels(
       inputALabel,
       inputBLabel,
       ai
     );
+    if (
+      !Array.isArray(ai.personalityTraits) ||
+      ai.personalityTraits.length === 0 ||
+      !Array.isArray(ai.decisionFactors) ||
+      ai.decisionFactors.length === 0
+    ) {
+      throw createHttpErrorFromCode(502, ErrorCode.ANALYSIS_AI_FAILED);
+    }
 
-    const { scoreA, scoreB } = computeScoresFromResponses(input.responses);
+    const responseScores = computeScoresFromResponses(input.responses);
+    const axisAlignment = resolveAxisAlignment(ai.axisAlignment);
+    const responseWeight = 0.7;
+    const axisWeight = 0.3;
+    const blendedScores = axisAlignment
+      ? {
+          scoreA: clampScore(
+            responseScores.scoreA * responseWeight +
+              axisAlignment.scoreA * axisWeight
+          ),
+        }
+      : responseScores;
+    const scoreA = blendedScores.scoreA;
+    const scoreB = 100 - scoreA;
     const recommendedChoice: 'A' | 'B' = scoreA >= scoreB ? 'A' : 'B';
     const recommendedChoiceLabel =
       recommendedChoice === 'A' ? choiceALabel : choiceBLabel;
@@ -109,12 +152,13 @@ export async function generateAnalysisResult(input: AnalysisInput) {
       confidence,
       scoreA,
       scoreB,
+      axisAlignment,
       personalityTraits: ai.personalityTraits,
       decisionFactors: ai.decisionFactors,
       actionSteps: ai.actionSteps,
       actionGuide: ai.actionGuide,
       rationale: ai.rationale,
-      summary: ai.summary,
+      guidance: ai.guidance,
     } as const;
   } catch (aiErr: unknown) {
     if (isHttpErrorLike(aiErr)) {

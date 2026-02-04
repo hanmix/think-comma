@@ -13,7 +13,7 @@
       {{ recommendedLabel }} vs {{ otherLabel }} - 종합 분석 결과
     </p>
 
-    <TcCard class="worry-summary">
+    <TcCard class="worry-guidance">
       <template #header>
         <h3>📝 당신의 고민</h3>
       </template>

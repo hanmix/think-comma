@@ -58,6 +58,10 @@ export interface AnalysisResult {
   confidence: number;
   scoreA: number;
   scoreB: number;
+  axisAlignment?: {
+    scoreA: number;
+    scoreB: number;
+  };
   personalityTraits: PersonalityTrait[];
   decisionFactors: DecisionFactor[];
   actionSteps: string[];
@@ -71,17 +75,24 @@ export interface AnalysisResult {
       relatedQuestions?: number[];
     }>;
   };
-  summary: string;
+  guidance: string;
   responses: UserResponse[];
 }
 
 // Intro framing shown before questions
 export interface FramingIntro {
-  summary: string; // e.g., 이 상황을 구조화해보면 "A vs B"로 정리할 수 있어요.
   choiceALabel: string;
   choiceBLabel: string;
   aHint: string; // e.g., 자리 비어있으면 합석 제안 등
   bHint: string; // e.g., 무리하지 않고 자연스럽게 등
+  axis: {
+    axisName: string;
+    axisA: string;
+    axisB: string;
+    rationaleA: string;
+    rationaleB: string;
+    keywords?: string[];
+  };
   cta: string; // 예: 이렇게 설정해서 10개 질문으로 분석해볼까요?
 }
 
