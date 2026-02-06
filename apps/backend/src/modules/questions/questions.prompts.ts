@@ -1,5 +1,12 @@
 export interface BuildQuestionsInput {
   worry: { content: string; category?: string };
+  axis?: {
+    axisA: string;
+    axisB: string;
+    rationaleA: string;
+    rationaleB: string;
+    keywords?: string[];
+  };
 }
 
 // export function buildQuestionsPrompt({ worry }: BuildQuestionsInput) {
@@ -74,9 +81,17 @@ export interface BuildQuestionsInput {
 //   `;
 // }
 
-export function buildQuestionsPrompt({ worry }: BuildQuestionsInput) {
+export function buildQuestionsPrompt({ worry, axis }: BuildQuestionsInput) {
   const category = (worry.category ?? '').trim();
   const content = worry.content.replace(/\s+/g, ' ').trim();
+  const axisA = axis?.axisA?.trim() ?? '(미지정)';
+  const axisB = axis?.axisB?.trim() ?? '(미지정)';
+  const rationaleA = axis?.rationaleA?.trim() ?? '(미지정)';
+  const rationaleB = axis?.rationaleB?.trim() ?? '(미지정)';
+  const axisKeywords =
+    axis?.keywords?.map(keyword => keyword.trim()).filter(Boolean) ?? [];
+  const axisKeywordsLine =
+    axisKeywords.length > 0 ? axisKeywords.join(', ') : '(없음)';
 
   const categoryBlock = category
     ? `\n- 카테고리: ${category}`
@@ -107,6 +122,18 @@ export function buildQuestionsPrompt({ worry }: BuildQuestionsInput) {
     - choices.description에는 사용자가 공감할 수 있는 맥락/근거를 1문장으로 구체화합니다.
     - 동일 질문을 맥락만 바꿔 반복하지 않도록 합니다.
     - Q8~Q10에서는 단순 감정이 아니라 “기준/우선순위/후회”가 선택을 가르는 축이 되도록 작성합니다.
+
+    [결정 축]
+    - axisA: ${axisA}
+    - axisB: ${axisB}
+    - rationaleA: ${rationaleA}
+    - rationaleB: ${rationaleB}
+    - keywords: ${axisKeywordsLine}
+
+    [축 정합성 규칙]
+    - 모든 질문은 axisA/axisB 중 하나에 직접 연결되어야 합니다.
+    - choices.description에는 해당 축 근거(rationaleA 또는 rationaleB)를 재서술해 반영합니다.
+    - Q1~Q3도 axis와 무관한 감정 질문이 되지 않도록, 판단 기준이 드러나게 작성합니다.
 
     [출력 형식]
     - 반드시 아래 JSON 스키마에 맞춘 JSON 객체만 출력하세요 (추가 텍스트 금지).

@@ -52,7 +52,7 @@
 
     <TcCard size="md" class="guidance-card">
       <div class="guidance-content">
-        <p class="guidance-badge">📌 조언</p>
+        <p class="guidance-badge">📌 한 줄 조언</p>
         <p class="guidance-text">
           {{ result.guidance }}
         </p>

@@ -8,7 +8,10 @@ import type {
 import { aiService } from './aiService';
 
 type AiClient = {
-  generateQuestions: (worry: WorryInput) => Promise<Question[]>;
+  generateQuestions: (
+    worry: WorryInput,
+    axis?: FramingIntro['axis']
+  ) => Promise<Question[]>;
   generateFraming: (
     worry: WorryInput
   ) => Promise<{ framing: FramingIntro; contextId: string }>;

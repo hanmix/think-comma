@@ -51,11 +51,14 @@ const requestApi = async <T>(
   }
 };
 
-const generateQuestions = async (worry: WorryInput): Promise<Question[]> => {
+const generateQuestions = async (
+  worry: WorryInput,
+  axis?: FramingIntro['axis']
+): Promise<Question[]> => {
   const res = await requestApi<{ questions: Question[] }>({
     url: '/api/generate-questions',
     method: 'post',
-    data: { worry },
+    data: { worry, axis },
   });
 
   return res.data.questions;

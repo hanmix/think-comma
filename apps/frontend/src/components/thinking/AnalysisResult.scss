@@ -336,7 +336,7 @@
 }
 .history-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--tc-spacing-md);
   padding: var(--tc-spacing-md);
   background: var(--tc-color-surface-primary);
@@ -365,16 +365,17 @@
 }
 
 .history-content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tc-spacing-xs);
 }
 .history-question {
   font-size: var(--tc-font-size-sm);
   color: var(--tc-color-secondary-gray);
-  margin-bottom: var(--tc-spacing-1);
 }
 .history-choice {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--tc-spacing-sm);
 }
 .choice-badge {

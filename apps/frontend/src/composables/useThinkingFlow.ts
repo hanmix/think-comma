@@ -66,7 +66,8 @@ export function useThinkingFlow() {
       if (!state.contextId) throw new Error('contextId가 없습니다.');
       setLoading(true, 'AI가 질문을 준비하고 있습니다...');
       const generatedQuestions = await aiClient.generateQuestions(
-        state.worryInput
+        state.worryInput,
+        state.framingIntro?.axis
       );
       setQuestions(generatedQuestions);
       navigateToStep('questions');

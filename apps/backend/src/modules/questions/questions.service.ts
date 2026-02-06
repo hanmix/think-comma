@@ -43,12 +43,18 @@ export function normalizeAIQuestions(
   return { questions: normalized };
 }
 
-export async function generateQuestions(worry: {
-  content: string;
-  category?: string;
-}) {
+export async function generateQuestions(
+  worry: { content: string; category?: string },
+  axis?: {
+    axisA: string;
+    axisB: string;
+    rationaleA: string;
+    rationaleB: string;
+    keywords?: string[];
+  }
+) {
   try {
-    const prompt = buildQuestionsPrompt({ worry });
+    const prompt = buildQuestionsPrompt({ worry, axis });
     const jsonData = await generateJSON<unknown>(prompt);
     try {
       const parsed = AIQuestionsSchema.parse(jsonData);
