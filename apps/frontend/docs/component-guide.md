@@ -1,9 +1,18 @@
 # 공통 컴포넌트 사용 가이드
 
-본 문서는 ThinkComma UI 공통 컴포넌트 사용 방법과 권장 패턴을 정리합니다. 모든 컴포넌트는 `@/components/ui` 인덱스를 통해 임포트합니다.
+본 문서는 ThinkComma UI 공통 컴포넌트 사용 방법과 권장 패턴을 정리합니다.  
+모든 컴포넌트는 `@/components/ui` 인덱스를 통해 임포트합니다.
 
-```
-import { TcButton, TcCard, TcSelect, TcTextarea, TcDialog, TcModal, TcNavBar } from '@/components/ui'
+```ts
+import {
+  TcButton,
+  TcCard,
+  TcSelect,
+  TcTextarea,
+  TcDialog,
+  TcModal,
+  TcNavBar,
+} from '@/components/ui'
 ```
 
 ## 버튼: `TcButton`
@@ -12,14 +21,14 @@ import { TcButton, TcCard, TcSelect, TcTextarea, TcDialog, TcModal, TcNavBar } f
   - `size`: `sm | md | lg`
   - `disabled`: 비활성화
 - 예시
-```
+```vue
 <TcButton variant="primary" size="md" @click="doSubmit">제출</TcButton>
 ```
 
 ## 카드: `TcCard`
 - 레이아웃 카드 컨테이너. `#header`, default, `#footer` 슬롯 제공
 - 예시
-```
+```vue
 <TcCard size="lg">
   <template #header>
     <h3>제목</h3>
@@ -42,7 +51,7 @@ import { TcButton, TcCard, TcSelect, TcTextarea, TcDialog, TcModal, TcNavBar } f
   - `options`: `{ value: string; label: string; disabled?: boolean }[]`
   - `placeholderLabel`, `placeholderValue`, `showPlaceholder`
 - 예시
-```
+```vue
 <script setup lang="ts">
 const categoryOptions = [
   { value: 'career', label: '진로/취업' },
@@ -75,7 +84,7 @@ const category = ref('')
   - `select(value)`: 항목 선택
   - `requestClose()`: ESC 등으로 닫기 요청
 - 예시
-```
+```vue
 <script setup lang="ts">
 import { TcDropdown } from '@/components/ui'
 const open = ref(false)
@@ -100,7 +109,7 @@ const opts = [ { value: 'a', label: 'A' }, { value: 'b', label: 'B' } ]
 ## 텍스트영역: `TcTextarea`
 - props: `v-model`, `label`, `placeholder`, `rows`, `helpText`, `error`, `success`, `maxlength`, `textareaClass`
 - 예시
-```
+```vue
 <TcTextarea
   v-model="content"
   label="설명"
@@ -114,7 +123,7 @@ const opts = [ { value: 'a', label: 'A' }, { value: 'b', label: 'B' } ]
 ## 다이얼로그/모달: `TcDialog`, `TcModal`
 - 열림/닫힘은 상위에서 상태로 제어, `@close`로 닫기 핸들링
 - 예시
-```
+```vue
 <TcDialog v-if="open" title="확인" @close="open=false">
   <p>내용</p>
   <template #footer>
@@ -136,4 +145,3 @@ const opts = [ { value: 'a', label: 'A' }, { value: 'b', label: 'B' } ]
 - 입력 컴포넌트: 라벨 필수, 보조 텍스트는 `helpText`로 통일, 에러 시 `error`와 `aria-invalid` 설정
 - 리스트 오버레이: 컨테이너에 `position: relative`, 모바일은 네이티브 컨트롤 고려
 - 접근성: 키보드 탐색(↑/↓/Home/End/Enter/ESC) QA 포함, `aria-describedby`로 카운터/도움말 연결
-

@@ -1,6 +1,7 @@
 # 네비게이션 정책 가이드
 
-본 문서는 웹에서 SwiftUI `NavigationStack`을 모방한 스택 네비게이션 정책과 구현 규칙을 요약합니다. 대상: Vue 3 + Vue Router 4 + Pinia(Setup Store).
+스택 네비게이션 정책과 구현 규칙을 요약합니다.  
+대상: Vue 3 + Vue Router 4 + Pinia(Setup Store).
 
 ## 목적
 - 일관된 라우팅 경험 제공: 뒤로가기/제스처/헤더 버튼/로고 클릭의 의미를 통일
@@ -110,4 +111,3 @@ Q. 왜 `pop()`이 `router.replace`가 아니라 `router.go(-1)`인가요?
 
 Q. 웹과 앱 중 어떤 정책이 기본인가요?
 - A. 기본은 웹 관성 유지(홈에서 뒤로가기 숨김). 앱스러운 경험이 필요할 경우 로고에 `popToRoot()`를 적용하세요.
-

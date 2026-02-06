@@ -1,11 +1,16 @@
 # 아키텍처 개요
 
+프론트엔드의 주요 플로우와 디렉터리 구조를 요약합니다.
+
 ## 전체 흐름(Flow)
-- 입력: `WorryInput` – 사용자의 고민 입력 및 검증
-- 질문: `QuestionFlow` – 10개 A/B 질문, 진행률/네비게이션/접근성
-- 분석: `QuestionFlow` 내 분석 모달(TcDialog) – 진행 단계·프로그레스
-- 결과: `AnalysisResult` – 성향/결정요인/추천/행동계획 (하위 섹션 컴포넌트로 분리)
-- 컨트롤러: `ThinkingProcess` – 단계 전환, 세션/에러/로딩 관리
+1) 입력: `WorryInput` – 사용자의 고민 입력 및 검증  
+2) 프레이밍(1단계): 구조적 축/근거 추출 → `axisA/axisB`, `rationaleA/B`  
+3) 프레이밍(2단계): axis 기반 A/B 라벨·힌트 생성  
+4) 질문: axis 기반 10개 A/B 질문 생성(가중치 순서 유지)  
+5) 분석: axis + 응답을 결합해 성향/결정요인/조언(guidance) 생성  
+6) 점수: 응답 점수(70%) + axis 정합도(30%)로 scoreA/scoreB 산출  
+7) 결과: `AnalysisResult` – 성향/결정요인/추천/행동계획  
+8) 컨트롤러: `ThinkingProcess` – 단계 전환, 세션/에러/로딩 관리
 
 ## 디렉터리 구조 요약
 ```
@@ -37,7 +42,7 @@ src/
 - LocalStorage 활용 (필요 시 교체 용이)
 
 ## 네비게이션(스택 모델)
-- 목표: SwiftUI `NavigationStack` 유사한 스택 기반 내비게이션을 웹에서 모방
+- 목표: 스택 기반 내비게이션을 웹에서 일관되게 구현
 - 구성 요소
   - `src/composables/useNavStack.ts`: `push/replace/pop/popToRoot/resetTo` API 제공, `canGoBack/depth` 계산
   - `src/stores/navStack.ts`: 스택과 히스토리 position 추적(Pinia Setup Store)
@@ -49,12 +54,16 @@ src/
   - 기본 스택 ID는 `main`이며, 홈 라우트는 `isRoot: true`
 
 ## 타입 시스템 (`src/types/thinking.ts`)
-- `WorryInput`, `Question`, `UserResponse`, `AnalysisResult`, `ThinkingSession`
+- `WorryInput`, `Question`, `UserResponse`, `FramingIntro`, `AnalysisResult`, `ThinkingSession`
+- `FramingIntro.axis`: `axisA/axisB`, `rationaleA/B`, `keywords`
+- `AnalysisResult.guidance`, `axisAlignment`
 
 ## 서비스
 - `src/services/aiService.ts`: 네트워크 API 전용 클라이언트
 - `src/services/aiMock.ts`: 목 데이터/도메인 로직(질문/분석/프레이밍)
 - `src/services/aiClient.ts`: `VITE_USE_MOCK_AI`에 따라 실/목 클라이언트 선택
+  - 질문 생성: `worry + axis` 전달
+  - 분석 요청: `worry + questions + responses + labels + axis` 전달
 
 ## 접근성(A11y)
 - 포커스 가시성(`:focus-visible`)과 최소 터치 타깃(44px)
