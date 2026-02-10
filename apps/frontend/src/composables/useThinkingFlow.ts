@@ -24,6 +24,13 @@ export function useThinkingFlow() {
     setAnalysisResult,
   } = store;
 
+  // 빠른 연타로 인한 중복 API 호출을 막기 위한 가드
+  let isWorrySubmitInFlight = false;
+  // 질문 생성 요청이 진행 중일 때 재호출을 막기 위한 가드
+  let isQuestionStartInFlight = false;
+  // 분석 요청이 진행 중일 때 중복 실행을 막기 위한 가드
+  let isAnalysisInFlight = false;
+
   const flowRoutes = {
     input: 'flow-input',
     intro: 'flow-intro',
@@ -39,6 +46,8 @@ export function useThinkingFlow() {
   };
 
   const handleWorrySubmit = async (worry: WorryInput) => {
+    if (isWorrySubmitInFlight) return;
+    isWorrySubmitInFlight = true;
     try {
       setWorryInput(worry);
       setLoading(true, 'AI가 고민을 구조화하고 있어요...');
@@ -57,10 +66,13 @@ export function useThinkingFlow() {
       console.error('Intro framing error:', err);
     } finally {
       setLoading(false);
+      isWorrySubmitInFlight = false;
     }
   };
 
   const startQuestions = async () => {
+    if (isQuestionStartInFlight) return;
+    isQuestionStartInFlight = true;
     try {
       if (!state.worryInput) throw new Error('고민 정보가 없습니다.');
       if (!state.contextId) throw new Error('contextId가 없습니다.');
@@ -82,10 +94,13 @@ export function useThinkingFlow() {
       console.error('Question generation error:', err);
     } finally {
       setLoading(false);
+      isQuestionStartInFlight = false;
     }
   };
 
   const handleQuestionsComplete = async (userResponses: UserResponse[]) => {
+    if (isAnalysisInFlight) return;
+    isAnalysisInFlight = true;
     try {
       setLoading(true, 'AI가 당신의 답변을 종합 분석하고 있습니다...');
       setResponses(userResponses);
@@ -117,6 +132,7 @@ export function useThinkingFlow() {
       console.error('Analysis generation error:', err);
     } finally {
       setLoading(false);
+      isAnalysisInFlight = false;
     }
   };
 

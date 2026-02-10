@@ -3,7 +3,7 @@
     class="question-flow"
     :class="{ 'no-hover': suppressHover, fresh: freshMount }"
   >
-    <!-- Progress Header -->
+    <!-- 진행 헤더 -->
     <div class="progress-header">
       <div class="progress-info">
         <div class="progress-bar">
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- Question Card -->
+    <!-- 질문 카드 -->
     <TcCard size="lg" class="question-card">
       <template #header>
         <div class="question-header">
@@ -57,7 +57,7 @@
       </div>
     </TcCard>
 
-    <!-- Thinking Modal -->
+    <!-- 분석 중 모달 -->
     <TcDialog
       v-model="isAnalyzing"
       title="🤔 AI가 당신의 답변을 분석 중입니다"
@@ -121,6 +121,8 @@ const currentAnalysisStage = ref<number>(0);
 const analysisProgress = ref<number>(0);
 const suppressHover = ref<boolean>(false);
 const freshMount = ref<boolean>(false);
+// 질문 전환 중 빠른 연타를 막기 위한 가드
+let isAdvancing = false;
 
 const analysisStages = [
   '답변 패턴을 분석하고 있습니다...',
@@ -133,31 +135,34 @@ const analysisStages = [
 const goToNextQuestion = async () => {
   const shouldComplete = await goToNextQuestionCore();
   if (shouldComplete) {
-    // Show Thinking Modal while parent runs analyze API
+    // 상위에서 분석 API 호출 동안 모달을 표시
     isAnalyzing.value = true;
     emit('complete', responses.value);
   }
 };
 
-// Select and immediately advance
+// 선택 즉시 다음 질문으로 진행
 const onSelect = async (choice: 'A' | 'B') => {
-  // Play select animation briefly, then advance; suppress hover carry-over
+  if (isAdvancing) return;
+  isAdvancing = true;
+  // 선택 애니메이션을 잠깐 재생한 뒤 진행, hover 잔상 제거
   suppressHover.value = true;
   selectChoice(choice);
   await new Promise(r => setTimeout(r, 180));
-  freshMount.value = true; // disable transitions for the next question's first paint
+  freshMount.value = true; // 다음 질문 첫 렌더에서 트랜지션 비활성화
   await goToNextQuestion();
-  // allow next DOM paint then re-enable transitions/hover
+  // 다음 페인트 후 트랜지션/hover 재활성화
   setTimeout(() => {
     freshMount.value = false;
     suppressHover.value = false;
+    isAdvancing = false;
   }, 50);
 };
 
-// goToPreviousQuestion, goToQuestion are provided by composable
+// goToPreviousQuestion, goToQuestion은 composable에서 제공됨
 
 const runAnalysisProgress = async () => {
-  // staged animation across analysisStages; do not auto-close
+  // 단계별 애니메이션 실행, 자동 닫힘 없음
   currentAnalysisStage.value = 0;
   analysisProgress.value = 0;
   const stages = analysisStages.length;
@@ -166,7 +171,7 @@ const runAnalysisProgress = async () => {
     currentAnalysisStage.value = i;
     const start = (i / stages) * 100;
     const end = ((i + 1) / stages) * 100;
-    const duration = 1500; // match ThinkingProcess/QuestionFlow pacing
+    const duration = 1500; // ThinkingProcess/QuestionFlow과 동일한 페이싱
     const steps = 20;
     const stepDuration = duration / steps;
     const delta = (end - start) / steps;
@@ -176,7 +181,7 @@ const runAnalysisProgress = async () => {
       analysisProgress.value = Math.min(99, start + delta * (j + 1));
     }
   }
-  // hold near-complete if still analyzing
+  // 분석 중이면 100% 직전에서 유지
   while (isAnalyzing.value) {
     await new Promise(r => setTimeout(r, 200));
     analysisProgress.value = Math.min(99, analysisProgress.value + 0.3);
@@ -188,7 +193,7 @@ watch(
   active => {
     if (active) runAnalysisProgress();
     else {
-      // finalize progress and reset for next time
+      // 진행률 마무리 후 다음 실행을 위해 초기화
       analysisProgress.value = 100;
       setTimeout(() => {
         analysisProgress.value = 0;
@@ -199,7 +204,7 @@ watch(
 );
 
 onBeforeUnmount(() => {
-  // stop loops on unmount
+  // 언마운트 시 루프 중단
   isAnalyzing.value = false;
 });
 </script>
