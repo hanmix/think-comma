@@ -3,9 +3,9 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [vue()],
-  base: '/thinkcomma/',
+  base: mode === 'development' ? '/' : '/thinkcomma/',
   optimizeDeps: {
     include: ['@myorg/shared'],
   },
@@ -17,6 +17,7 @@ export default defineConfig({
         '../../packages/shared/src/index.ts'
       ),
     },
+    dedupe: ['vue', 'vue-router', 'pinia'],
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
   },
   build: {
@@ -34,4 +35,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

@@ -8,42 +8,40 @@ import { useNavStackStore } from '@/stores/navStack';
 import { useThinkingStore } from '@/stores/thinking';
 import type { ProcessStep } from '@/types';
 import { DesignSystem, MainPage, ThinkingFlow } from '@/views';
+import FlowLayout from '@/views/FlowLayout.vue';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: { name: 'main' },
-  },
-  {
-    path: '/main',
     name: 'main',
     component: MainPage,
   },
   {
     path: '/flow',
     name: 'flow',
+    component: FlowLayout,
     redirect: { name: 'flow-input' },
     children: [
       {
-        path: '/input',
+        path: 'input',
         name: 'flow-input',
         component: ThinkingFlow,
         meta: { flowStep: 'input' },
       },
       {
-        path: '/intro',
+        path: 'intro',
         name: 'flow-intro',
         component: ThinkingFlow,
         meta: { flowStep: 'intro' },
       },
       {
-        path: '/questions',
+        path: 'questions',
         name: 'flow-questions',
         component: ThinkingFlow,
         meta: { flowStep: 'questions' },
       },
       {
-        path: '/result',
+        path: 'result',
         name: 'flow-result',
         component: ThinkingFlow,
         meta: { flowStep: 'result' },
@@ -58,7 +56,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/thinkcomma/'),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 };

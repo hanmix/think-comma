@@ -108,11 +108,9 @@
 </template>
 
 <script setup lang="ts">
-import {
-  AnalysisResult,
-  QuestionFlow,
-  WorryInput,
-} from '@/components/thinking';
+import AnalysisResult from '@/components/thinking/AnalysisResult.vue';
+import QuestionFlow from '@/components/thinking/QuestionFlow.vue';
+import WorryInput from '@/components/thinking/WorryInput.vue';
 import { TcButton, TcCard, TcDialog } from '@/components/ui';
 import { useThinkingFlow } from '@/composables/useThinkingFlow';
 import type { WorryInput as WorryInputType } from '@/types';
@@ -211,7 +209,9 @@ const tryAutoStart = () => {
   }
 };
 
-onMounted(tryAutoStart);
+onMounted(() => {
+  tryAutoStart();
+});
 watch(() => [props.autoStart, props.initialWorry], tryAutoStart);
 
 defineExpose({
