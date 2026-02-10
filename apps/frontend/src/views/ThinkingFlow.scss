@@ -1,11 +1,11 @@
-/* variables & mixins are auto-injected via Vite */
+/* 변수와 믹스인은 Vite에서 자동 주입됨 */
 
 .flow-root {
   width: 100%;
   padding-left: $spacing-md;
   padding-right: $spacing-md;
 
-  /* Remove horizontal paddings/margins on flow screens */
+  /* 플로우 화면에서 좌우 패딩/마진 제거 */
   :deep(.worry-input),
   :deep(.question-flow),
   :deep(.analysis-result) {
@@ -15,7 +15,7 @@
   }
 }
 
-/* XS phones */
+/* 초소형 폰 */
 @include respond(xs) {
   .flow-root {
     padding-left: $spacing-sm;

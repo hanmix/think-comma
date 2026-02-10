@@ -1,8 +1,8 @@
-// Programmatic utilities built from tokens
+// 토큰 기반 유틸리티
 @use './_variables' as *;
 @use './_mixins' as *;
 
-// Container width variants
+// 컨테이너 너비 변형
 .tc-container--narrow {
   @include container(narrow);
 }
@@ -16,7 +16,7 @@
   @include container(full);
 }
 
-// Spacing scale map
+// 여백 스케일 맵
 $space-scale: (
   0: $spacing-0,
   1: $spacing-1,
@@ -29,9 +29,9 @@ $space-scale: (
   16: $spacing-16,
 );
 
-// Margin/Padding utilities
+// 마진/패딩 유틸리티
 @each $k, $v in $space-scale {
-  // All sides
+  // 전체 방향
   .tc-m-#{$k} {
     margin: $v;
   }
@@ -39,7 +39,7 @@ $space-scale: (
     padding: $v;
   }
 
-  // Axis
+  // 축 방향
   .tc-mx-#{$k} {
     margin-left: $v;
     margin-right: $v;
@@ -57,7 +57,7 @@ $space-scale: (
     padding-bottom: $v;
   }
 
-  // Individual sides
+  // 개별 방향
   .tc-mt-#{$k} {
     margin-top: $v;
   }
@@ -84,7 +84,7 @@ $space-scale: (
   }
 }
 
-// Gap utilities for flex/grid
+// 플렉스/그리드 간격 유틸리티
 @each $k, $v in $space-scale {
   .tc-gap-#{$k} {
     gap: $v;

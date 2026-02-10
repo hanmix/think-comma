@@ -7,7 +7,7 @@
       </p>
     </header>
 
-    <!-- Buttons Showcase -->
+    <!-- 버튼 쇼케이스 -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Buttons</h2>
       <div class="row">
@@ -31,7 +31,7 @@
       </div>
     </section>
 
-    <!-- Cards Showcase -->
+    <!-- 카드 쇼케이스 -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Cards</h2>
       <div class="cards-grid">
@@ -65,7 +65,7 @@
       </div>
     </section>
 
-    <!-- Inputs Showcase -->
+    <!-- 입력 쇼케이스 -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Inputs</h2>
       <div class="inputs-row">
@@ -80,7 +80,7 @@
       </div>
     </section>
 
-    <!-- Typography Showcase -->
+    <!-- 타이포그래피 쇼케이스 -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Typography</h2>
       <div>
@@ -91,7 +91,7 @@
       </div>
     </section>
 
-    <!-- Modal Showcase -->
+    <!-- 모달 쇼케이스 -->
     <section class="ds-section">
       <h2 class="tc-heading-2">Modal</h2>
       <TcButton variant="primary" @click="showModal = true"
@@ -107,7 +107,7 @@
       </TcModal>
     </section>
 
-    <!-- Brand Logo Showcase -->
+    <!-- 브랜드 로고 쇼케이스 -->
     <section class="logo-showcase-section">
       <h2 class="tc-heading-2">브랜드 로고 시스템</h2>
       <p class="tc-body-text showcase-description tc-readable">

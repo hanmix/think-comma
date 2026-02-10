@@ -1,9 +1,9 @@
-// Responsive mixins and helpers
+// 반응형 믹스인과 헬퍼
 @use './_variables' as *;
 @use 'sass:map';
 @use 'sass:math';
 
-// Breakpoint map
+// 브레이크포인트 맵
 $breakpoints: (
   xs: 375px,
   sm: 768px,
@@ -15,16 +15,16 @@ $breakpoints: (
   @return map.get($breakpoints, $key);
 }
 
-// For "down" queries we commonly include the upper bound minus 1px
+// "down" 쿼리는 보통 상한에서 1px을 뺀 값을 사용
 @function bp-down($key) {
   $value: bp($key);
   @if math.unit($value) == px {
     @return ($value - 1px);
   }
-  @return $value; // fallback
+  @return $value; // 폴백
 }
 
-// Usage: @include respond(sm);          // max-width: 767px
+// 사용 예: @include respond(sm);          // max-width: 767px
 //        @include respond(md, up) { }   // min-width: 1024px
 @mixin respond($key, $direction: down) {
   @if $direction == down {
@@ -41,7 +41,7 @@ $breakpoints: (
   }
 }
 
-// Visually hidden utility
+// 시각적으로 숨김 유틸리티
 @mixin sr-only() {
   position: absolute !important;
   width: 1px !important;
@@ -54,8 +54,8 @@ $breakpoints: (
   border: 0 !important;
 }
 
-// Container helper
-// Usage: .tc-container { @include container(); } // default width
+// 컨테이너 헬퍼
+// 사용 예: .tc-container { @include container(); } // 기본 너비
 //        .tc-container--narrow { @include container(narrow); }
 //        .tc-container--wide { @include container(wide); }
 @mixin container($size: default) {

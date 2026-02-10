@@ -28,7 +28,7 @@ axiosInstance.interceptors.request.use(config => {
       }
     }
   } catch {
-    // no-op: store may not be ready during early init
+    // 동작 없음: 초기 로딩 단계에서는 store가 준비되지 않을 수 있음
   }
   return config;
 });

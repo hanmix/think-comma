@@ -122,8 +122,8 @@ type NetworkInformation = { saveData?: boolean; effectiveType?: string };
 
 const shouldPrefetch = (): boolean => {
   const conn = (navigator as any).connection as NetworkInformation | undefined;
-  if (!conn) return true; // Unknown network: assume ok
-  if (conn.saveData) return false; // Respect data saver
+  if (!conn) return true; // 네트워크 정보를 알 수 없으면 허용
+  if (conn.saveData) return false; // 데이터 절약 모드 존중
   const slowTypes = new Set(['slow-2g', '2g']);
   if (conn.effectiveType && slowTypes.has(conn.effectiveType)) return false;
   return true;
@@ -131,7 +131,7 @@ const shouldPrefetch = (): boolean => {
 
 const prefetchExampleOnIntent = () => {
   if (!shouldPrefetch()) return;
-  // Prefetch route and the heavy flow component on user intent
+  // 사용자 의도 감지 시 라우트와 무거운 컴포넌트 프리패치
   void import('@/views/MainPage.vue');
   void import('@/components/thinking/ThinkingProcess.vue');
 };

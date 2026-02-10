@@ -62,8 +62,8 @@ interface Props {
   title?: string;
   closable?: boolean;
   closeOnBackdrop?: boolean;
-  width?: string; // e.g., '600px' or 'min(90vw, 600px)'
-  hideHeader?: boolean; // when true, header is visually hidden (use custom header)
+  width?: string; // 예: '600px' 또는 'min(90vw, 600px)'
+  hideHeader?: boolean; // true면 헤더를 시각적으로 숨김(커스텀 헤더 사용)
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -133,7 +133,7 @@ watch(
     if (open) {
       previouslyFocused.value = document.activeElement as HTMLElement | null;
       document.body.style.overflow = 'hidden';
-      // Defer focus to next tick
+      // 다음 틱으로 포커스 지연
       setTimeout(() => focusFirst(), 0);
     } else {
       document.body.style.overflow = '';

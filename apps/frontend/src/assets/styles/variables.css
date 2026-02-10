@@ -1,33 +1,33 @@
-/* ThinkComma Design System v2.0 */
+/* ThinkComma 디자인 시스템 v2.0 */
 :root {
-  /* Primary Colors */
+  /* 기본 색상 */
   --tc-color-primary-blue: #3498db;
   --tc-color-primary-green: #27ae60;
   --tc-color-primary-navy: #2c3e50;
 
-  /* Secondary Colors - WCAG AA Compliant */
+  /* 보조 색상 - WCAG AA 준수 */
   --tc-color-secondary-light-blue: #2e86c1;
   --tc-color-secondary-mint: #16a085;
   --tc-color-secondary-gray: #7f8c8d;
 
-  /* Status Colors - WCAG AA Compliant */
+  /* 상태 색상 - WCAG AA 준수 */
   --tc-color-status-success: #27ae60;
   --tc-color-status-warning: #e67e22;
   --tc-color-status-error: #e74c3c;
   --tc-color-status-info: #3498db;
 
-  /* Neutral Colors */
+  /* 중립 색상 */
   --tc-color-neutral-white: #ffffff;
   --tc-color-neutral-light: #f8f9fa;
   --tc-color-neutral-medium: #e9ecef;
   --tc-color-neutral-dark: #495057;
 
-  /* Font Families */
+  /* 폰트 패밀리 */
   --tc-font-family-primary:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Pretendard', sans-serif;
   --tc-font-family-mono: 'Monaco', 'Menlo', 'Consolas', monospace;
 
-  /* Font Sizes */
+  /* 폰트 크기 */
   --tc-font-size-xs: 0.75rem;
   --tc-font-size-sm: 0.875rem;
   --tc-font-size-base: 1rem;
@@ -37,7 +37,7 @@
   --tc-font-size-3xl: 1.875rem;
   --tc-font-size-4xl: 2.25rem;
 
-  /* Spacing Scale */
+  /* 여백 스케일 */
   --tc-spacing-0: 0;
   --tc-spacing-1: 0.25rem;
   --tc-spacing-2: 0.5rem;
@@ -48,31 +48,31 @@
   --tc-spacing-12: 3rem;
   --tc-spacing-16: 4rem;
 
-  /* Semantic Spacing */
+  /* 의미 기반 여백 */
   --tc-spacing-xs: var(--tc-spacing-1);
   --tc-spacing-sm: var(--tc-spacing-2);
   --tc-spacing-md: var(--tc-spacing-4);
   --tc-spacing-lg: var(--tc-spacing-6);
   --tc-spacing-xl: var(--tc-spacing-8);
 
-  /* Shadow Tokens */
+  /* 그림자 토큰 */
   --tc-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --tc-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
   --tc-shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
   --tc-shadow-xl: 0 15px 35px rgba(0, 0, 0, 0.2);
 
-  /* Focus shadows for accessibility */
+  /* 접근성용 포커스 그림자 */
   --tc-shadow-focus-primary: 0 0 0 3px rgba(52, 152, 219, 0.1);
   --tc-shadow-focus-success: 0 0 0 3px rgba(39, 174, 96, 0.1);
   --tc-shadow-focus-error: 0 0 0 3px rgba(231, 76, 60, 0.1);
 
-  /* Breakpoints (reference values; cannot use var() in @media) */
-  --tc-bp-xs: 375px; /* iPhone SE (3rd gen) and similar */
-  --tc-bp-sm: 768px; /* Tablet portrait threshold */
-  --tc-bp-md: 1024px; /* Small laptop */
-  --tc-bp-lg: 1440px; /* Large desktop */
+  /* 브레이크포인트(참고 값; @media에서 var() 사용 불가) */
+  --tc-bp-xs: 375px; /* 아이폰 SE(3세대) 등 */
+  --tc-bp-sm: 768px; /* 태블릿 세로 기준 */
+  --tc-bp-md: 1024px; /* 소형 노트북 */
+  --tc-bp-lg: 1440px; /* 대형 데스크톱 */
 
-  /* Surface / Border / Text tokens (mapped to existing palette) */
+  /* 표면/테두리/텍스트 토큰(기존 팔레트에 매핑) */
   --tc-color-surface-primary: var(--tc-color-neutral-white);
   --tc-color-surface-muted: var(--tc-color-neutral-light);
   --tc-color-surface-success: #eaf7f0;
@@ -82,22 +82,22 @@
   --tc-color-border-strong: var(--tc-color-primary-navy);
   --tc-color-text-primary: var(--tc-color-neutral-dark);
   --tc-color-text-secondary: var(--tc-color-secondary-gray);
-  --tc-color-text-tertiary: #9aa3a7; /* slightly lighter than secondary */
+  --tc-color-text-tertiary: #9aa3a7; /* 보조 텍스트보다 약간 밝음 */
 
-  /* Motion tokens */
+  /* 모션 토큰 */
   --tc-motion-fast: 120ms;
   --tc-motion-normal: 200ms;
   --tc-motion-slow: 320ms;
   --tc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --tc-ease-emphasized: cubic-bezier(0.2, 0, 0, 1.2);
 
-  /* Radius scale */
+  /* 라운드 스케일 */
   --tc-radius-sm: 6px;
   --tc-radius-md: 8px;
   --tc-radius-lg: 12px;
   --tc-radius-xl: 20px;
 
-  /* Z-index scale */
+  /* Z-인덱스 스케일 */
   --tc-z-dropdown: 900;
   --tc-z-navbar: 100;
   --tc-z-modal: 1000;

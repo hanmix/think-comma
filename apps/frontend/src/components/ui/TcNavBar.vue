@@ -23,7 +23,7 @@
         />
       </div>
       <div class="nav-right">
-        <!-- Reserved for future actions -->
+        <!-- 향후 액션을 위한 자리 -->
       </div>
     </div>
   </nav>

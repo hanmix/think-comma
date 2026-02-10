@@ -1,8 +1,8 @@
-// Global base styles migrated from assets/styles/main.css
+// assets/styles/main.css에서 옮긴 전역 기본 스타일
 @use './_variables' as *;
 @use './_mixins' as *;
 
-/* Global Reset & Base Styles */
+/* 전역 리셋 및 기본 스타일 */
 *,
 *::before,
 *::after {
@@ -21,13 +21,13 @@ body {
   background: $surface-primary;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // iOS safe area support for small devices
+  // 작은 기기를 위한 iOS 안전 영역 지원
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Base HTML elements */
+/* 기본 HTML 요소 */
 h1,
 h2,
 h3,
@@ -81,13 +81,13 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Focus management for accessibility */
+/* 접근성을 위한 포커스 관리 */
 :focus-visible {
   outline: 2px solid $color-primary-blue;
   outline-offset: 2px;
 }
 
-/* Utility Classes */
+/* 유틸리티 클래스 */
 .tc-container {
   @include container(default);
 }
@@ -96,14 +96,14 @@ a:focus {
   @include sr-only();
 }
 
-/* Brand Comma Highlighting */
+/* 브랜드 콤마 하이라이트 */
 .tc-comma-highlight,
 .tc-brand-comma {
   color: $color-primary-green;
   font-weight: inherit;
 }
 
-/* Color Utilities */
+/* 컬러 유틸리티 */
 .tc-text-primary {
   color: $color-primary-blue;
 }
@@ -126,7 +126,7 @@ a:focus {
   color: $color-secondary-gray;
 }
 
-/* Background Utilities */
+/* 배경 유틸리티 */
 .tc-bg-primary {
   background-color: $color-primary-blue;
 }
@@ -140,9 +140,9 @@ a:focus {
   background-color: $color-neutral-white;
 }
 
-/* Spacing utilities moved to _utilities.scss */
+/* 여백 유틸리티는 _utilities.scss로 이동 */
 
-/* Readability and layout helpers */
+/* 가독성 및 레이아웃 헬퍼 */
 .tc-readable {
   max-width: 65ch;
 }
@@ -174,7 +174,7 @@ a:focus {
   padding-right: env(safe-area-inset-right);
 }
 
-/* Responsive Design */
+/* 반응형 디자인 */
 @include respond(sm, up) {
   .tc-container {
     padding: 0 $spacing-lg;
@@ -191,7 +191,7 @@ a:focus {
   }
 }
 
-/* Ultra-small devices optimization (iPhone SE 3rd gen and similar) */
+/* 초소형 기기 최적화(아이폰 SE 3세대 등) */
 @include respond(xs) {
   h1 {
     font-size: 1.75rem;
@@ -207,7 +207,7 @@ a:focus {
   }
 }
 
-/* Reduced motion support */
+/* 모션 감소 설정 지원 */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

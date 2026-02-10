@@ -1,6 +1,6 @@
-/* ThinkComma Form System (migrated to SCSS) */
+/* ThinkComma 폼 시스템(SCSS로 이전) */
 
-/* Base Input */
+/* 기본 입력 */
 .tc-input {
   width: 100%;
   padding: 12px 16px;
@@ -11,7 +11,7 @@
   background: var(--tc-color-neutral-white);
   color: var(--tc-color-neutral-dark);
   transition: all 0.2s ease;
-  min-height: 44px; /* Accessibility: minimum touch target */
+  min-height: 44px; /* 접근성: 최소 터치 타겟 */
 }
 
 .tc-input:focus {
@@ -30,7 +30,7 @@
   color: var(--tc-color-secondary-gray);
 }
 
-/* Input States */
+/* 입력 상태 */
 .tc-input--error {
   border-color: var(--tc-color-status-error);
 }
@@ -44,7 +44,7 @@
   box-shadow: var(--tc-shadow-focus-success);
 }
 
-/* Textarea */
+/* 텍스트 영역 */
 .tc-textarea {
   width: 100%;
   padding: 12px 16px;
@@ -65,7 +65,7 @@
   box-shadow: var(--tc-shadow-focus-primary);
 }
 
-/* Form Group */
+/* 폼 그룹 */
 .tc-form-group {
   margin-bottom: var(--tc-spacing-md);
 }
@@ -81,7 +81,7 @@
   color: var(--tc-color-status-error);
 }
 
-/* Help Text */
+/* 도움말 텍스트 */
 .tc-form-help {
   margin-top: var(--tc-spacing-1);
   font-size: var(--tc-font-size-xs);
@@ -98,7 +98,7 @@
   color: var(--tc-color-status-success);
 }
 
-/* Select */
+/* 셀렉트 */
 .tc-select {
   width: 100%;
   padding: 12px 16px;
@@ -117,7 +117,7 @@
   box-shadow: var(--tc-shadow-focus-primary);
 }
 
-/* Checkbox & Radio */
+/* 체크박스 & 라디오 */
 .tc-checkbox,
 .tc-radio {
   width: 18px;

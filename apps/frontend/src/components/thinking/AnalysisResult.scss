@@ -1,7 +1,7 @@
 @use '@/styles/_variables.scss' as *;
 @use '@/styles/_mixins.scss' as *;
 
-/* Migrated from SFC style */
+/* SFC 스타일에서 이전 */
 .analysis-result {
   max-width: 900px;
   margin: 0 auto;
@@ -223,7 +223,7 @@
     opacity 0.25s ease;
 }
 .accordion-content.open {
-  max-height: 1000px; /* sufficient for content */
+  max-height: 1000px; /* 콘텐츠에 충분한 높이 */
   opacity: 1;
 }
 .reasons-list {

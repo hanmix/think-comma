@@ -1,6 +1,6 @@
-/* ThinkComma Card System (migrated to SCSS) */
+/* ThinkComma 카드 시스템(SCSS로 이전) */
 
-/* Base Card */
+/* 기본 카드 */
 .tc-card {
   background: var(--tc-color-neutral-white);
   border-radius: 12px;
@@ -15,7 +15,7 @@
   cursor: pointer;
 }
 
-/* Card Header */
+/* 카드 헤더 */
 .tc-card__header {
   margin-bottom: var(--tc-spacing-md);
   padding-bottom: var(--tc-spacing-sm);
@@ -35,20 +35,20 @@
   margin: var(--tc-spacing-1) 0 0 0;
 }
 
-/* Card Body */
+/* 카드 본문 */
 .tc-card__body {
   color: var(--tc-color-neutral-dark);
   line-height: 1.625;
 }
 
-/* Card Footer */
+/* 카드 푸터 */
 .tc-card__footer {
   margin-top: var(--tc-spacing-md);
   padding-top: var(--tc-spacing-sm);
   border-top: 1px solid var(--tc-color-neutral-medium);
 }
 
-/* Card Variants */
+/* 카드 변형 */
 .tc-card--primary {
   border-left: 4px solid var(--tc-color-primary-blue);
 }
@@ -71,7 +71,7 @@
   background: var(--tc-color-surface-error);
 }
 
-/* Card Sizes */
+/* 카드 크기 */
 .tc-card--sm {
   padding: var(--tc-spacing-md);
 }
@@ -82,7 +82,7 @@
   padding: var(--tc-spacing-xl);
 }
 
-/* Mobile-first adjustments (small phones, <= 375px) */
+/* 모바일 우선 조정(작은 폰, <= 375px) */
 @media (max-width: 375px) {
   .tc-card {
     padding: var(--tc-spacing-md);

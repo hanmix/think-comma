@@ -2,7 +2,7 @@ import type { ChatMessage, ChatRequest } from '@myorg/shared';
 import { ref } from 'vue';
 
 interface Options {
-  baseUrl?: string; // e.g., http://localhost:4000
+  baseUrl?: string; // 예: http://localhost:4000
   stream?: boolean;
 }
 
@@ -18,7 +18,7 @@ export function useChat(opts: Options = {}) {
     error.value = '';
     if (!input.trim()) return;
 
-    // push user message
+    // 사용자 메시지 추가
     messages.value.push({ role: 'user', content: input });
     isLoading.value = true;
     try {
@@ -33,7 +33,7 @@ export function useChat(opts: Options = {}) {
       messages.value.push({ role: 'assistant', content: json.content || '' });
     } catch (e: any) {
       if (e?.name === 'AbortError') {
-        // aborted by user; keep partial content
+        // 사용자 중단: 부분 콘텐츠 유지
       } else {
         error.value = e?.message || 'Failed to send message';
       }

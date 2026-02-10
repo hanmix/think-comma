@@ -85,7 +85,7 @@ watch(
   () => props.open,
   val => {
     if (val) {
-      // focus list for keyboard access
+      // 키보드 접근을 위해 리스트에 포커스
       requestAnimationFrame(() => listEl.value?.focus());
       const idx = props.options.findIndex(o => o.value === props.modelValue);
       activeIndex.value = idx >= 0 ? idx : 0;

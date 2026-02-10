@@ -145,13 +145,13 @@ const goToNextQuestion = async () => {
 const onSelect = async (choice: 'A' | 'B') => {
   if (isAdvancing) return;
   isAdvancing = true;
-  // 선택 애니메이션을 잠깐 재생한 뒤 진행, hover 잔상 제거
+  // 선택 애니메이션을 잠깐 재생한 뒤 진행, 호버 잔상 제거
   suppressHover.value = true;
   selectChoice(choice);
   await new Promise(r => setTimeout(r, 180));
   freshMount.value = true; // 다음 질문 첫 렌더에서 트랜지션 비활성화
   await goToNextQuestion();
-  // 다음 페인트 후 트랜지션/hover 재활성화
+  // 다음 페인트 후 트랜지션/호버 재활성화
   setTimeout(() => {
     freshMount.value = false;
     suppressHover.value = false;
@@ -159,7 +159,7 @@ const onSelect = async (choice: 'A' | 'B') => {
   }, 50);
 };
 
-// goToPreviousQuestion, goToQuestion은 composable에서 제공됨
+// goToPreviousQuestion, goToQuestion은 컴포저블에서 제공됨
 
 const runAnalysisProgress = async () => {
   // 단계별 애니메이션 실행, 자동 닫힘 없음

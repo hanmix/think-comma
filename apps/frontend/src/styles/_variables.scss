@@ -1,7 +1,7 @@
-// SCSS Design Tokens for ThinkComma
-// Mirrors existing CSS variables in src/assets/styles/variables.css
+// ThinkComma용 SCSS 디자인 토큰
+// src/assets/styles/variables.css의 CSS 변수와 동일
 
-// Colors
+// 색상
 $color-primary-blue: #3498db;
 $color-primary-green: #27ae60;
 $color-primary-navy: #2c3e50;
@@ -20,7 +20,7 @@ $color-neutral-light: #f8f9fa;
 $color-neutral-medium: #e9ecef;
 $color-neutral-dark: #495057;
 
-// Surfaces / Borders / Text
+// 표면 / 테두리 / 텍스트
 $surface-primary: $color-neutral-white;
 $surface-muted: $color-neutral-light;
 $surface-success: #eaf7f0;
@@ -34,12 +34,12 @@ $text-primary: $color-neutral-dark;
 $text-secondary: $color-secondary-gray;
 $text-tertiary: #9aa3a7;
 
-// Fonts
+// 폰트
 $font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI',
   'Pretendard', sans-serif;
 $font-family-mono: 'Monaco', 'Menlo', 'Consolas', monospace;
 
-// Font sizes
+// 폰트 크기
 $font-size-xs: 0.75rem;
 $font-size-sm: 0.875rem;
 $font-size-base: 1rem;
@@ -49,7 +49,7 @@ $font-size-2xl: 1.5rem;
 $font-size-3xl: 1.875rem;
 $font-size-4xl: 2.25rem;
 
-// Spacing scale
+// 여백 스케일
 $spacing-0: 0;
 $spacing-1: 0.25rem;
 $spacing-2: 0.5rem;
@@ -60,14 +60,14 @@ $spacing-8: 2rem;
 $spacing-12: 3rem;
 $spacing-16: 4rem;
 
-// Semantic spacing
+// 의미 기반 여백
 $spacing-xs: $spacing-1;
 $spacing-sm: $spacing-2;
 $spacing-md: $spacing-4;
 $spacing-lg: $spacing-6;
 $spacing-xl: $spacing-8;
 
-// Shadows
+// 그림자
 $shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
 $shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
 $shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -77,19 +77,19 @@ $shadow-focus-primary: 0 0 0 3px rgba(52, 152, 219, 0.1);
 $shadow-focus-success: 0 0 0 3px rgba(39, 174, 96, 0.1);
 $shadow-focus-error: 0 0 0 3px rgba(231, 76, 60, 0.1);
 
-// Radii
+// 라운드
 $radius-sm: 6px;
 $radius-md: 8px;
 $radius-lg: 12px;
 $radius-xl: 20px;
 
-// Z-index
+// Z-인덱스
 $z-dropdown: 900;
 $z-navbar: 100;
 $z-modal: 1000;
 $z-toast: 1100;
 
-// Motion
+// 모션
 $motion-fast: 120ms;
 $motion-normal: 200ms;
 $motion-slow: 320ms;

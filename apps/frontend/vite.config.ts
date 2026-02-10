@@ -2,7 +2,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
+// Vite 설정 문서: https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [vue()],
   base: mode === 'development' ? '/' : '/thinkcomma/',

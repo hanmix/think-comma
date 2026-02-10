@@ -1,6 +1,6 @@
-/* ThinkComma Button System (migrated to SCSS) */
+/* ThinkComma 버튼 시스템(SCSS로 이전) */
 
-/* Base Button */
+/* 기본 버튼 */
 .tc-button {
   display: inline-flex;
   align-items: center;
@@ -14,7 +14,7 @@
   cursor: pointer;
   border: none;
   transition: all 0.3s ease;
-  min-height: 44px; /* Accessibility: minimum touch target */
+  min-height: 44px; /* 접근성: 최소 터치 타겟 */
 }
 
 .tc-button:disabled {
@@ -23,7 +23,7 @@
   transform: none !important;
 }
 
-/* Primary Button */
+/* 기본(프라이머리) 버튼 */
 .tc-button--primary {
   background: var(--tc-color-primary-blue);
   color: var(--tc-color-neutral-white);
@@ -40,7 +40,7 @@
   box-shadow: var(--tc-shadow-focus-primary);
 }
 
-/* Secondary Button */
+/* 보조(세컨더리) 버튼 */
 .tc-button--secondary {
   background: var(--tc-color-primary-green);
   color: var(--tc-color-neutral-white);
@@ -57,7 +57,7 @@
   box-shadow: var(--tc-shadow-focus-success);
 }
 
-/* Outline Button */
+/* 아웃라인 버튼 */
 .tc-button--outline {
   background: transparent;
   color: var(--tc-color-primary-blue);
@@ -74,7 +74,7 @@
   box-shadow: var(--tc-shadow-focus-primary);
 }
 
-/* Ghost Button */
+/* 고스트 버튼 */
 .tc-button--ghost {
   background: transparent;
   color: var(--tc-color-secondary-gray);
@@ -91,7 +91,7 @@
   box-shadow: var(--tc-shadow-focus-primary);
 }
 
-/* Button Sizes */
+/* 버튼 크기 */
 .tc-button--sm {
   padding: 8px 16px;
   font-size: var(--tc-font-size-sm);
@@ -110,7 +110,7 @@
   min-height: 52px;
 }
 
-/* Mobile-first adjustments */
+/* 모바일 우선 조정 */
 @media (max-width: 375px) {
   .tc-button {
     width: 100%;

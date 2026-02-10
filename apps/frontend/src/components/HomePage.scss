@@ -1,4 +1,4 @@
-/* variables & mixins are auto-injected via Vite */
+/* 변수와 믹스인은 Vite에서 자동 주입됨 */
 @use '@/styles/_components.scss' as *;
 
 .features-section {
@@ -42,7 +42,7 @@
   margin-top: $spacing-lg;
 }
 
-/* Four-step flow cards */
+/* 4단계 플로우 카드 */
 .flow-grid {
   @include auto-grid(240px, $spacing-xl);
   max-width: 1000px;
@@ -67,7 +67,7 @@
   }
 }
 
-/* Dividers */
+/* 구분선 */
 .section-divider {
   @extend .tc-divider;
   @extend .tc-divider--spaced;

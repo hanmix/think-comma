@@ -29,7 +29,7 @@
       :next-suggestion="nextSuggestion"
     />
 
-    <!-- Action Buttons -->
+    <!-- 액션 버튼 -->
     <div class="result-actions">
       <TcButton variant="outline" @click="$emit('restart')">
         🔄 새로운 고민 상담하기
@@ -72,7 +72,7 @@ const showHistory = ref(false);
 
 const confidencePercent = Math.round((props.result.confidence || 0) * 100);
 
-// Derive action guide steps and suggestion with backward compatibility
+// 하위 호환을 고려하여 액션 가이드 단계/추천을 도출
 type GuideStep = { title: string; description: string };
 const guideSteps: GuideStep[] = (
   props.result.actionGuide?.steps?.length
@@ -85,7 +85,7 @@ const guideSteps: GuideStep[] = (
 
 const nextSuggestion: string | undefined =
   props.result.actionGuide?.nextSuggestion;
-// Labels: prefer framing labels passed via props, fallback to result labels
+// 라벨: props로 전달된 프레이밍 라벨 우선, 없으면 결과 라벨 사용
 const aLabel = computed(
   () =>
     props.choiceALabel ??

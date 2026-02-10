@@ -1,4 +1,4 @@
-// ThinkComma UI Components
+// ThinkComma UI 컴포넌트
 export { default as ChatInput } from '../chat/ChatInput.vue';
 export { default as ChatMessages } from '../chat/ChatMessages.vue';
 export { default as TcButton } from './TcButton.vue';

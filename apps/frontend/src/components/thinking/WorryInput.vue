@@ -98,7 +98,7 @@ const { minLength, maxLength, worry, errorText, isValid, validateWorry } =
 const isLoading = ref<boolean>(false);
 const placeholder = ref(getRandomPlaceholder(worry.category));
 
-// Accessibility IDs
+// 접근성 ID
 const uid = useId();
 // 카테고리 옵션 (공통 Select의 options prop 사용)
 

@@ -1,4 +1,4 @@
-/* variables & mixins are auto-injected via Vite */
+/* 변수와 믹스인은 Vite에서 자동 주입됨 */
 @use "@/styles/_components.scss" as *;
 
 .hero-section { @extend .tc-hero; }

@@ -23,7 +23,7 @@ export function useQuestionProgress(
     () => currentQuestionIndex.value === questions.length - 1
   );
 
-  // Keep selected choice in sync with existing response
+  // 기존 응답과 선택 상태를 동기화
   watch(
     [currentQuestionIndex, () => responses.value],
     () => {
@@ -58,10 +58,10 @@ export function useQuestionProgress(
 
   const goToNextQuestion = async () => {
     if (!selectedChoice.value) return false as const;
-    // Persist current selection for this question
+    // 현재 질문의 선택을 저장
     saveCurrentResponse();
     if (isLastQuestion.value) return true as const;
-    // Clear selection BEFORE moving index to avoid selected style carrying over
+    // 선택 스타일이 넘어가지 않도록 인덱스 이동 전에 선택을 초기화
     selectedChoice.value = null;
     await nextTick();
     currentQuestionIndex.value++;
@@ -83,7 +83,7 @@ export function useQuestionProgress(
   };
 
   return {
-    // state
+    // 상태
     currentQuestionIndex,
     selectedChoice,
     responses,
@@ -91,7 +91,7 @@ export function useQuestionProgress(
     progressPercentage,
     remainingTime,
     isLastQuestion,
-    // actions
+    // 액션
     selectChoice,
     saveCurrentResponse,
     goToNextQuestion,

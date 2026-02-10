@@ -1,6 +1,6 @@
 <template>
   <div class="thinking-process">
-    <!-- Error State -->
+    <!-- 에러 상태 -->
     <div v-if="state.error && !state.isLoading" class="error-container">
       <TcCard variant="error" size="lg" class="error-card">
         <template #header>
@@ -20,14 +20,14 @@
       </TcCard>
     </div>
 
-    <!-- Step 1: Worry Input -->
+    <!-- 1단계: 고민 입력 -->
     <WorryInput
       v-else-if="state.currentStep === 'input'"
       :initial-worry="state.worryInput"
       @submit="handleWorrySubmit"
     />
 
-    <!-- Step 2: Intro Framing before questions -->
+    <!-- 2단계: 질문 전 프레이밍 안내 -->
     <IntroFraming
       v-else-if="
         state.currentStep === 'intro' && state.framingIntro && state.worryInput
@@ -37,7 +37,7 @@
       @back="goToStep('input')"
     />
 
-    <!-- Step 3: Question Flow -->
+    <!-- 3단계: 질문 진행 -->
     <QuestionFlow
       v-else-if="
         state.currentStep === 'questions' && state.questions.length > 0
@@ -48,7 +48,7 @@
       @back="goToStep('input')"
     />
 
-    <!-- Step 4: Analysis Result -->
+    <!-- 4단계: 분석 결과 -->
     <AnalysisResult
       v-else-if="state.currentStep === 'result' && state.analysisResult"
       :result="state.analysisResult"
@@ -60,7 +60,7 @@
       @back="goToStep('questions')"
     />
 
-    <!-- Loading State -->
+    <!-- 로딩 상태 -->
     <div v-else-if="state.isLoading" class="loading-container">
       <TcCard size="lg" class="loading-card">
         <div class="loading-content">
@@ -71,7 +71,7 @@
       </TcCard>
     </div>
 
-    <!-- Generating Questions Modal: same look-and-feel as QuestionFlow -->
+    <!-- 질문 생성 모달: QuestionFlow와 동일한 룩앤필 -->
     <TcDialog
       :modelValue="
         state.isLoading &&
@@ -135,7 +135,7 @@ const {
   restartProcess,
 } = useThinkingFlow();
 
-// Generating-questions modal progress (match QuestionFlow speed/style)
+// 질문 생성 모달 진행 표시 (QuestionFlow와 동일한 속도/스타일)
 const genStageIndex = ref<number>(0);
 const genProgress = ref<number>(0);
 const genStages = [
@@ -148,7 +148,7 @@ const genStages = [
 const startGeneratingProgress = async () => {
   genStageIndex.value = 0;
   genProgress.value = 0;
-  // staged, gradual animation (same pacing as QuestionFlow)
+  // 단계적으로 천천히 진행 (QuestionFlow와 동일한 페이싱)
   const totalStages = genStages.length;
   for (let i = 0; i < totalStages; i++) {
     if (
@@ -161,7 +161,7 @@ const startGeneratingProgress = async () => {
     genStageIndex.value = i;
     const start = (i / totalStages) * 100;
     const end = ((i + 1) / totalStages) * 100;
-    const duration = 1500; // 1.5s per stage (QuestionFlow)
+    const duration = 1500; // 단계당 1.5초 (QuestionFlow)
     const steps = 20;
     const stepDuration = duration / steps;
     const stepDelta = (end - start) / steps;
@@ -181,7 +181,7 @@ const startGeneratingProgress = async () => {
 
 const stopGeneratingProgress = () => {
   genProgress.value = 100;
-  // small timeout is fine; dialog closes immediately after step change
+  // 짧은 타임아웃이면 충분함; 단계 변경 직후 모달이 즉시 닫힘
   setTimeout(() => {
     genProgress.value = 0;
     genStageIndex.value = 0;

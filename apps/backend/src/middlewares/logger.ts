@@ -5,11 +5,11 @@ import path from 'path';
 import pino from 'pino';
 
 // ----------------------------
-// Config
+// 설정
 // ----------------------------
 const LOG_DIR = path.join(process.cwd(), 'logs');
 // ----------------------------
-// Log level
+// 로그 레벨
 // trace (10)
 // debug (20)
 // info (30)
@@ -18,11 +18,11 @@ const LOG_DIR = path.join(process.cwd(), 'logs');
 // fatal (60)
 // ----------------------------
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
-// KST is UTC+9 (no DST)
+// KST는 UTC+9(서머타임 없음)
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
 // ----------------------------
-// FS helpers
+// FS 헬퍼
 // ----------------------------
 function ensureLogDir() {
   if (!fs.existsSync(LOG_DIR)) {
@@ -31,7 +31,7 @@ function ensureLogDir() {
 }
 
 function formatKSTDateStamp(dateUTC = new Date()): string {
-  // Convert "now" to KST by adding fixed offset, then format YYYY-MM-DD
+  // 현재 시간을 고정 오프셋으로 KST로 변환한 뒤 YYYY-MM-DD 포맷
   const kst = new Date(dateUTC.getTime() + KST_OFFSET_MS);
   const yyyy = kst.getUTCFullYear();
   const mm = String(kst.getUTCMonth() + 1).padStart(2, '0');
@@ -44,7 +44,7 @@ function logPathFor(dateStamp: string): string {
 }
 
 // ----------------------------
-// Simple daily file destination (no prettifier, no timers)
+// 단순 일자별 파일 목적지(프리티파이어/타이머 없음)
 // ----------------------------
 ensureLogDir();
 
@@ -73,7 +73,7 @@ function rotateIfNeeded() {
 }
 
 // ----------------------------
-// Middleware
+// 미들웨어
 // ----------------------------
 export const loggerMiddleware: RequestHandler = (req, res, next) => {
   rotateIfNeeded();

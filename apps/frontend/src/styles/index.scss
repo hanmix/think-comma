@@ -1,5 +1,5 @@
-// Entrypoint for SCSS styles
-// Tip: Once ready to switch, import this in main.ts instead of or alongside existing CSS.
+// SCSS 스타일 엔트리포인트
+// 팁: 전환 준비가 되면 main.ts에서 기존 CSS 대신/또는 함께 임포트
 
 @forward './_variables';
 @forward './_mixins';
@@ -10,5 +10,5 @@
 @use '@/assets/styles/components/buttons.scss';
 @use '@/assets/styles/components/cards.scss';
 @use '@/assets/styles/components/forms.scss';
-/* Import CSS custom properties after SCSS modules */
+/* SCSS 모듈 뒤에 CSS 커스텀 프로퍼티 임포트 */
 @import '@/assets/styles/variables.css';

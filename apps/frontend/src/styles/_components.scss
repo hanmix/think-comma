@@ -1,19 +1,19 @@
 @use './_variables' as *;
 @use './_mixins' as *;
 
-// Common layout sections
+// 공통 레이아웃 섹션
 .tc-section {
   margin-bottom: $spacing-16;
 }
 
-// Auto-fit grid helper mixin
+// 자동 맞춤 그리드 헬퍼 믹스인
 @mixin auto-grid($min, $gap: $spacing-lg) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
   gap: $gap;
 }
 
-// Showcase card (surface block with top gradient bar)
+// 쇼케이스 카드(상단 그라데이션 바가 있는 표면 블록)
 .tc-showcase-card {
   background: $color-neutral-white;
   border-radius: 20px;
@@ -41,7 +41,7 @@
   }
 }
 
-// Showcase header row
+// 쇼케이스 헤더 행
 .tc-showcase-header {
   display: flex;
   justify-content: space-between;
@@ -49,7 +49,7 @@
   margin-bottom: $spacing-lg;
 }
 
-// Badge style for recommended labels
+// 추천 라벨 배지 스타일
 .tc-badge-recommended {
   background: linear-gradient(45deg, #ff6b6b, #feca57);
   color: $color-neutral-white;
@@ -60,7 +60,7 @@
   box-shadow: $shadow-sm;
 }
 
-// Logo sizes strip
+// 로고 크기 스트립
 .tc-logo-sizes {
   display: flex;
   justify-content: center;
@@ -70,7 +70,7 @@
   flex-wrap: wrap;
 }
 
-// Hero section (landing-style)
+// 히어로 섹션(랜딩 스타일)
 .tc-hero {
   text-align: center;
   padding: $spacing-16 0;
@@ -89,13 +89,13 @@
   margin-top: $spacing-xl;
 }
 
-// Section heading helper
+// 섹션 헤딩 헬퍼
 .tc-section-heading {
   text-align: center;
   margin-bottom: $spacing-xl;
 }
 
-// Gradient divider
+// 그라데이션 구분선
 .tc-divider {
   height: 1px;
   width: 100%;
@@ -116,7 +116,7 @@
   opacity: 0.5;
 }
 
-// Two-column form row that collapses on small screens
+// 작은 화면에서 1열로 바뀌는 2열 폼 행
 .tc-form-row-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -126,7 +126,7 @@
   }
 }
 
-// Generic actions row
+// 공통 액션 행
 .tc-actions-row {
   display: flex;
   gap: $spacing-md;

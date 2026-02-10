@@ -1,4 +1,4 @@
-/* variables & mixins are auto-injected via Vite */
+/* 변수와 믹스인은 Vite에서 자동 주입됨 */
 
 .tc-navbar {
   position: sticky;
@@ -34,11 +34,11 @@
     }
   }
 
-  /* Compact back button styling inside navbar */
+  /* 네브바 내부의 컴팩트 뒤로가기 버튼 스타일 */
   .nav-back-btn.tc-button {
     border: none;
     padding: 6px;
-    min-height: 44px; // iOS touch target
+    min-height: 44px; // iOS 터치 타겟
     font-size: $font-size-base;
     font-weight: 500;
     color: $color-primary-blue;

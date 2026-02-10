@@ -1,6 +1,6 @@
-/* variables & mixins are auto-injected via Vite */
+/* 변수와 믹스인은 Vite에서 자동 주입됨 */
 
-/* Base Logo Styles */
+/* 기본 로고 스타일 */
 .tc-logo {
   display: inline-flex;
   align-items: center;
@@ -27,7 +27,7 @@
     margin-left: 1px;
   }
 
-  /* Size Variants */
+  /* 크기 변형 */
   &--sm {
     width: 32px;
     height: 32px;
@@ -53,7 +53,7 @@
     border-radius: 30px;
   }
 
-  /* Basic Variant - Main Recommended */
+  /* 기본 변형 - 메인 추천 */
   &--basic {
     background: linear-gradient(
       135deg,
@@ -67,7 +67,7 @@
     color: $color-primary-green;
   }
 
-  /* Minimal Variant - Light Theme */
+  /* 미니멀 변형 - 라이트 테마 */
   &--minimal {
     background: linear-gradient(
       135deg,
@@ -82,7 +82,7 @@
     color: $color-primary-green;
   }
 
-  /* Emphasis Variant - Comma Focus */
+  /* 강조 변형 - 콤마 강조 */
   &--emphasis {
     background: linear-gradient(
       135deg,
@@ -98,7 +98,7 @@
     margin-left: 3px;
   }
 
-  /* Gradient Variant - Premium */
+  /* 그라데이션 변형 - 프리미엄 */
   &--gradient {
     background: linear-gradient(
       45deg,
@@ -120,7 +120,7 @@
   }
 }
 
-/* Animations */
+/* 애니메이션 */
 @keyframes gentle-pulse {
   0%,
   100% {
@@ -193,7 +193,7 @@
   animation: gradient-shift 3s ease-in-out infinite;
 }
 
-/* Responsive adjustments */
+/* 반응형 조정 */
 @include respond(sm) {
   .tc-logo--xl {
     width: 100px;

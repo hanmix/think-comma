@@ -79,12 +79,12 @@ export interface AnalysisResult {
   responses: UserResponse[];
 }
 
-// Intro framing shown before questions
+// 질문 시작 전에 보여주는 프레이밍 안내
 export interface FramingIntro {
   choiceALabel: string;
   choiceBLabel: string;
-  aHint: string; // e.g., 자리 비어있으면 합석 제안 등
-  bHint: string; // e.g., 무리하지 않고 자연스럽게 등
+  aHint: string; // 예: 자리 비어있으면 합석 제안 등
+  bHint: string; // 예: 무리하지 않고 자연스럽게 등
   axis: {
     axisName: string;
     axisA: string;

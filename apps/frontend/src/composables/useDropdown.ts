@@ -10,7 +10,7 @@ export interface UseDropdownParams {
   options: () => DropdownOption[];
   value: () => string;
   disabled?: () => boolean;
-  maxHeight?: () => number; // for direction calculation
+  maxHeight?: () => number; // 방향 계산용
   onSelect?: (val: string) => void;
 }
 
@@ -72,7 +72,7 @@ export function useDropdown(params: UseDropdownParams) {
     if (idx < 0 || idx >= opts.length) return;
     if (opts[idx]?.disabled) return;
     activeIndex.value = idx;
-    // scroll into view if overlay present
+    // 오버레이가 있으면 현재 항목이 보이도록 스크롤
     const container = overlayEl.value;
     if (!container) return;
     const el = container.querySelector<HTMLElement>(`[data-index="${idx}"]`);
@@ -161,7 +161,7 @@ export function useDropdown(params: UseDropdownParams) {
 
   onBeforeUnmount(() => removeGlobalListeners());
 
-  // Headless helper props (optional)
+  // 헤드리스 헬퍼 props (선택)
   const getTriggerProps = () =>
     ({
       id: triggerId,
@@ -196,18 +196,18 @@ export function useDropdown(params: UseDropdownParams) {
     }) as const;
 
   return {
-    // state
+    // 상태
     open,
     activeIndex,
     direction,
     selectedOption,
-    // ids & refs
+    // id 및 ref
     triggerId,
     listboxId,
     triggerEl,
     overlayEl,
     rootEl,
-    // actions
+    // 액션
     openMenu,
     closeMenu,
     toggle,
@@ -215,10 +215,10 @@ export function useDropdown(params: UseDropdownParams) {
     moveActive,
     commitActive,
     selectValue,
-    // handlers
+    // 핸들러
     onTriggerKeydown,
     onOverlayKeydown,
-    // headless props helpers
+    // 헤드리스 props 헬퍼
     getTriggerProps,
     getListboxProps,
     getOptionProps,
