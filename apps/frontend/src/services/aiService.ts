@@ -40,6 +40,9 @@ const requestApi = async <T>(
     const resp = await axiosInstance(apiConfig);
     return resp.data;
   } catch (error) {
+    if (axios.isAxiosError(error) && error.code === 'ERR_CANCELED') {
+      throw error;
+    }
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
       const data = error.response?.data as any;
@@ -53,24 +56,28 @@ const requestApi = async <T>(
 
 const generateQuestions = async (
   worry: WorryInput,
-  axis?: FramingIntro['axis']
+  axis?: FramingIntro['axis'],
+  options?: { signal?: AbortSignal }
 ): Promise<Question[]> => {
   const res = await requestApi<{ questions: Question[] }>({
     url: '/api/generate-questions',
     method: 'post',
     data: { worry, axis },
+    signal: options?.signal,
   });
 
   return res.data.questions;
 };
 
 const generateFraming = async (
-  worry: WorryInput
+  worry: WorryInput,
+  options?: { signal?: AbortSignal }
 ): Promise<{ framing: FramingIntro; contextId: string }> => {
   const res = await requestApi<FramingDTO>({
     url: '/api/framing',
     method: 'post',
     data: { worry },
+    signal: options?.signal,
   });
   return res.data;
 };
@@ -80,7 +87,8 @@ const generateAnalysis = async (
   questions: Question[],
   responses: UserResponse[],
   labels?: { choiceALabel?: string; choiceBLabel?: string },
-  axis?: FramingIntro['axis']
+  axis?: FramingIntro['axis'],
+  options?: { signal?: AbortSignal }
 ): Promise<AnalysisResult> => {
   const payloadResponses = responses.map(r => ({
     questionId: r.questionId,
@@ -96,6 +104,7 @@ const generateAnalysis = async (
       labels,
       axis,
     },
+    signal: options?.signal,
   });
   return { ...res.data.result, responses };
 };

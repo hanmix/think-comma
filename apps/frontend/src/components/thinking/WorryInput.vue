@@ -58,10 +58,10 @@
             <TcButton
               variant="primary"
               size="md"
-              :disabled="!isValid || isLoading"
+              :disabled="!isValid || props.isLoading"
               @click="handleSubmit"
             >
-              <span v-if="isLoading">🤔 AI가 질문 생성 중...</span>
+              <span v-if="props.isLoading">🤔 AI가 질문 생성 중...</span>
               <span v-else>🚀 3분 고민 해결 시작하기</span>
             </TcButton>
           </div>
@@ -83,6 +83,7 @@ import './WorryInput.scss';
 
 interface Props {
   initialWorry?: WorryInput | null;
+  isLoading?: boolean;
 }
 
 interface Emits {
@@ -95,7 +96,6 @@ const emit = defineEmits<Emits>();
 
 const { minLength, maxLength, worry, errorText, isValid, validateWorry } =
   useWorryInput();
-const isLoading = ref<boolean>(false);
 const placeholder = ref(getRandomPlaceholder(worry.category));
 
 // 접근성 ID
@@ -133,7 +133,6 @@ const handleSubmit = async () => {
 
   // 즉시 상위로 제출 이벤트를 전달하고, 상위 컴포넌트에서 API 호출/모달 제어를 수행합니다.
   // 이 버튼은 중복 클릭 방지를 위해 잠시 비활성화됩니다.
-  isLoading.value = true;
   emit('submit', { ...worry });
 };
 </script>

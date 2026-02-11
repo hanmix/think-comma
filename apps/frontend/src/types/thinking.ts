@@ -1,12 +1,19 @@
 // ThinkComma - 고민 해결 프로세스 타입 정의
 
+import {
+  FlowRoute,
+  LevelLabel,
+  ProcessStep,
+  RequestKey,
+} from '@/constants/thinking';
+
 export interface WorryInput {
   content: string;
   category?: string;
 }
 
 export interface Choice {
-  id: 'A' | 'B';
+  id: SideType;
   content: string;
   description?: string;
 }
@@ -19,15 +26,15 @@ export interface Question {
 
 export interface UserResponse {
   questionId: number;
-  selectedChoice: 'A' | 'B';
+  selectedChoice: SideType;
   choiceContent: string;
 }
 
 export interface PersonalityTrait {
   name: string;
   score: number;
-  level: 'low' | 'medium' | 'high';
-  leansTo: 'A' | 'B' | 'neutral';
+  level: LevelType;
+  leansTo: SideType | 'neutral';
   evidence: string;
   relatedQuestions?: number[];
 }
@@ -35,8 +42,8 @@ export interface PersonalityTrait {
 export interface DecisionFactor {
   name: string;
   score: number;
-  level: 'low' | 'medium' | 'high';
-  side: 'A' | 'B';
+  level: LevelType;
+  side: SideType;
   evidence: string;
   relatedQuestions?: number[];
 }
@@ -52,7 +59,7 @@ export interface ActionGuide {
 }
 
 export interface AnalysisResult {
-  recommendedChoice: 'A' | 'B';
+  recommendedChoice: SideType;
   recommendedChoiceLabel: string;
   otherChoiceLabel: string;
   confidence: number;
@@ -107,7 +114,7 @@ export interface ThinkingSession {
 }
 
 export type ThinkingState = {
-  currentStep: 'input' | 'intro' | 'questions' | 'result';
+  currentStep: ProcessStepType;
   isLoading: boolean;
   error: string;
   loadingMessage: string;
@@ -119,4 +126,8 @@ export type ThinkingState = {
   framingIntro: FramingIntro | null;
 };
 
-export type ProcessStep = 'input' | 'intro' | 'questions' | 'result';
+export type ProcessStepType = (typeof ProcessStep)[keyof typeof ProcessStep];
+export type LevelType = (typeof LevelLabel)[keyof typeof LevelLabel];
+export type SideType = 'A' | 'B';
+export type RequestKeyType = (typeof RequestKey)[keyof typeof RequestKey];
+export type FlowRouteType = (typeof FlowRoute)[keyof typeof FlowRoute];

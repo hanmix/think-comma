@@ -4,11 +4,10 @@ import {
   type RouteRecordRaw,
 } from 'vue-router';
 
-import { useNavStackStore } from '@/stores/navStack';
-import { useThinkingStore } from '@/stores/thinking';
-import type { ProcessStep } from '@/types';
-import { DesignSystem, MainPage, ThinkingFlow } from '@/views';
-import FlowLayout from '@/views/FlowLayout.vue';
+import { FlowRoute } from '@/constants';
+import { useNavStackStore, useThinkingStore } from '@/stores';
+import type { ProcessStepType } from '@/types';
+import { DesignSystem, FlowLayout, MainPage, ThinkingFlow } from '@/views';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,31 +19,31 @@ const routes: RouteRecordRaw[] = [
     path: '/flow',
     name: 'flow',
     component: FlowLayout,
-    redirect: { name: 'flow-input' },
+    redirect: { name: 'input' },
     children: [
       {
         path: 'input',
-        name: 'flow-input',
+        name: FlowRoute.Input,
         component: ThinkingFlow,
-        meta: { flowStep: 'input' },
+        meta: { flowStep: FlowRoute.Input },
       },
       {
         path: 'intro',
-        name: 'flow-intro',
+        name: FlowRoute.Intro,
         component: ThinkingFlow,
-        meta: { flowStep: 'intro' },
+        meta: { flowStep: FlowRoute.Intro },
       },
       {
         path: 'questions',
-        name: 'flow-questions',
+        name: FlowRoute.Questions,
         component: ThinkingFlow,
-        meta: { flowStep: 'questions' },
+        meta: { flowStep: FlowRoute.Questions },
       },
       {
         path: 'result',
-        name: 'flow-result',
+        name: FlowRoute.Result,
         component: ThinkingFlow,
-        meta: { flowStep: 'result' },
+        meta: { flowStep: FlowRoute.Result },
       },
     ],
   },
@@ -63,7 +62,7 @@ const router = createRouter({
   },
 });
 
-const flowOrder: Record<ProcessStep, number> = {
+const flowOrder: Record<ProcessStepType, number> = {
   input: 0,
   intro: 1,
   questions: 2,
@@ -71,8 +70,8 @@ const flowOrder: Record<ProcessStep, number> = {
 };
 
 router.beforeEach((to, from) => {
-  const toStep = to.meta.flowStep as ProcessStep | undefined;
-  const fromStep = from.meta.flowStep as ProcessStep | undefined;
+  const toStep = to.meta.flowStep as ProcessStepType | undefined;
+  const fromStep = from.meta.flowStep as ProcessStepType | undefined;
 
   const thinkingStore = useThinkingStore();
   const navStore = useNavStackStore();
@@ -83,7 +82,7 @@ router.beforeEach((to, from) => {
     const hasQuestions = thinkingStore.state.questions.length > 0;
     const hasResult = !!thinkingStore.state.analysisResult;
 
-    const stepReadyMap: Record<ProcessStep, boolean> = {
+    const stepReadyMap: Record<ProcessStepType, boolean> = {
       input: true,
       intro: hasWorry && hasIntro,
       questions: hasWorry && hasQuestions,
@@ -91,7 +90,7 @@ router.beforeEach((to, from) => {
     };
 
     if (!stepReadyMap[toStep]) {
-      return { name: 'flow-input' };
+      return { name: FlowRoute.Input };
     }
   }
 
@@ -112,7 +111,7 @@ router.beforeEach((to, from) => {
 });
 
 router.afterEach((to, from) => {
-  const step = to.meta.flowStep as ProcessStep | undefined;
+  const step = to.meta.flowStep as ProcessStepType | undefined;
   const thinkingStore = useThinkingStore();
   const navStore = useNavStackStore();
 

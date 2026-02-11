@@ -24,6 +24,7 @@
     <WorryInput
       v-else-if="state.currentStep === 'input'"
       :initial-worry="state.worryInput"
+      :is-loading="state.isLoading"
       @submit="handleWorrySubmit"
     />
 
@@ -45,6 +46,7 @@
       :questions="state.questions"
       :initial-responses="state.responses"
       @complete="handleQuestionsComplete"
+      @cancel="cancelCurrentStep"
       @back="goToStep('input')"
     />
 
@@ -82,8 +84,9 @@
           ? '🧭 AI가 고민을 구조화하고 있어요'
           : '🤔 AI가 질문을 생성 중입니다'
       "
-      :closable="false"
+      :closable="true"
       :closeOnBackdrop="false"
+      @update:modelValue="onLoadingDialogChange"
     >
       <div class="analyzing-content">
         <div class="thinking-animation">
@@ -133,6 +136,7 @@ const {
   startQuestions,
   retryCurrentStep,
   restartProcess,
+  cancelCurrentStep,
 } = useThinkingFlow();
 
 // 질문 생성 모달 진행 표시 (QuestionFlow와 동일한 속도/스타일)
@@ -186,6 +190,10 @@ const stopGeneratingProgress = () => {
     genProgress.value = 0;
     genStageIndex.value = 0;
   }, 300);
+};
+
+const onLoadingDialogChange = (open: boolean) => {
+  if (!open) cancelCurrentStep();
 };
 
 watch(

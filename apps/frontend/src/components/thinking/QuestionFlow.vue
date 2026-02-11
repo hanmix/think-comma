@@ -61,8 +61,9 @@
     <TcDialog
       v-model="isAnalyzing"
       title="🤔 AI가 당신의 답변을 분석 중입니다"
-      :closable="false"
+      :closable="true"
       :closeOnBackdrop="false"
+      @update:modelValue="onAnalyzeDialogChange"
     >
       <div class="analyzing-content">
         <div class="thinking-animation">
@@ -101,6 +102,7 @@ interface Props {
 interface Emits {
   (event: 'complete', responses: UserResponse[]): void;
   (event: 'back'): void;
+  (event: 'cancel'): void;
 }
 
 const props = defineProps<Props>();
@@ -157,6 +159,12 @@ const onSelect = async (choice: 'A' | 'B') => {
     suppressHover.value = false;
     isAdvancing = false;
   }, 50);
+};
+
+const onAnalyzeDialogChange = (open: boolean) => {
+  if (open) return;
+  isAnalyzing.value = false;
+  emit('cancel');
 };
 
 // goToPreviousQuestion, goToQuestion은 컴포저블에서 제공됨

@@ -127,6 +127,6 @@ import './MainPage.scss';
 const router = useRouter();
 
 const handleGetStarted = () => {
-  router.push({ name: 'flow-input' });
+  router.push({ name: 'input' });
 };
 </script>
