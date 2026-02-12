@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownOption } from '@/composables/useDropdown';
+import type { DropdownOption } from '@/composables';
 import { ref, watch } from 'vue';
 import './TcDropdown.scss';
 

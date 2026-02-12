@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ChatInput, ChatMessages } from '@/components/ui';
-import { useChat } from '@/composables/useChat';
+import { useChat } from '@/composables';
 
 const { messages, isLoading, error, send, stop } = useChat({
   baseUrl: 'http://localhost:4000',

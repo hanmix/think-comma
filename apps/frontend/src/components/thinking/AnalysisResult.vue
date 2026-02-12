@@ -42,9 +42,10 @@
 </template>
 
 <script setup lang="ts">
+import { useAnalysisResult } from '@/composables';
 import { TcButton } from '@/components/ui';
 import type { AnalysisResult, Question } from '@/types';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import './AnalysisResult.scss';
 import AnalysisResultActionGuide from './result/AnalysisResultActionGuide.vue';
 import AnalysisResultHeader from './result/AnalysisResultHeader.vue';
@@ -69,53 +70,17 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const showHistory = ref(false);
-
-const confidencePercent = Math.round((props.result.confidence || 0) * 100);
-
-// 하위 호환을 고려하여 액션 가이드 단계/추천을 도출
-type GuideStep = { title: string; description: string };
-const guideSteps: GuideStep[] = (
-  props.result.actionGuide?.steps?.length
-    ? props.result.actionGuide.steps
-    : (props.result.actionSteps || []).map(s => ({
-        title: s,
-        description: '',
-      }))
-) as GuideStep[];
-
-const nextSuggestion: string | undefined =
-  props.result.actionGuide?.nextSuggestion;
-// 라벨: props로 전달된 프레이밍 라벨 우선, 없으면 결과 라벨 사용
-const aLabel = computed(
-  () =>
-    props.choiceALabel ??
-    (props.result.recommendedChoice === 'A'
-      ? props.result.recommendedChoiceLabel
-      : props.result.otherChoiceLabel)
-);
-const bLabel = computed(
-  () =>
-    props.choiceBLabel ??
-    (props.result.recommendedChoice === 'B'
-      ? props.result.recommendedChoiceLabel
-      : props.result.otherChoiceLabel)
-);
-const recommendedLabel = computed(() =>
-  props.result.recommendedChoice === 'A' ? aLabel.value : bLabel.value
-);
-const otherLabel = computed(() =>
-  props.result.recommendedChoice === 'A' ? bLabel.value : aLabel.value
-);
-
-const scoreALabel = computed(() =>
-  props.result.scoreA >= props.result.scoreB
-    ? recommendedLabel.value
-    : otherLabel.value
-);
-const scoreBLabel = computed(() =>
-  props.result.scoreB > props.result.scoreA
-    ? recommendedLabel.value
-    : otherLabel.value
-);
+const {
+  confidencePercent,
+  guideSteps,
+  nextSuggestion,
+  recommendedLabel,
+  otherLabel,
+  scoreALabel,
+  scoreBLabel,
+} = useAnalysisResult(props.result, {
+  choiceALabel: props.choiceALabel,
+  choiceBLabel: props.choiceBLabel,
+});
 
 </script>

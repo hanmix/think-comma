@@ -72,13 +72,11 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcTextarea } from '@/components/ui';
-import TcSelect from '@/components/ui/TcSelect.vue';
-import { useWorryInput } from '@/composables/useWorryInput';
+import { TcButton, TcCard, TcSelect, TcTextarea } from '@/components/ui';
+import { useWorryInput } from '@/composables';
 import { categoryOptions } from '@/constants';
 import type { WorryInput } from '@/types';
-import { getRandomPlaceholder } from '@/utils/';
-import { computed, ref, useId, watch } from 'vue';
+import { computed, useId } from 'vue';
 import './WorryInput.scss';
 
 interface Props {
@@ -94,9 +92,16 @@ const props = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
-const { minLength, maxLength, worry, errorText, isValid, validateWorry } =
-  useWorryInput();
-const placeholder = ref(getRandomPlaceholder(worry.category));
+const {
+  minLength,
+  maxLength,
+  worry,
+  placeholder,
+  errorText,
+  isValid,
+  validateWorry,
+  bindInitialWorry,
+} = useWorryInput();
 
 // 접근성 ID
 const uid = useId();
@@ -110,23 +115,7 @@ const describedBy = computed(() => {
   return countId;
 });
 
-watch(
-  () => props.initialWorry,
-  value => {
-    if (!value) return;
-    worry.content = value.content;
-    worry.category = value.category || '';
-  },
-  { immediate: true }
-);
-
-watch(
-  () => worry.category,
-  value => {
-    placeholder.value = getRandomPlaceholder(value);
-  },
-  { immediate: true }
-);
+bindInitialWorry(() => props.initialWorry);
 
 const handleSubmit = async () => {
   if (!validateWorry()) return;

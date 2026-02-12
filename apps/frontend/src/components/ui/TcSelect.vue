@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDropdown, type DropdownOption } from '@/composables/useDropdown';
+import { useDropdown, type DropdownOption } from '@/composables';
 import { computed } from 'vue';
 import './TcSelect.scss';
 

@@ -5,7 +5,7 @@ import {
   LevelLabel,
   ProcessStep,
   RequestKey,
-} from '@/constants/thinking';
+} from '@/constants';
 
 export interface WorryInput {
   content: string;

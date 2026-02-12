@@ -1,4 +1,4 @@
-import { FramingIntro } from '@/types/thinking';
+import type { FramingIntro } from '@/types';
 import type { ErrorCodeType } from '@myorg/shared';
 
 export interface ApiResponse<T> {

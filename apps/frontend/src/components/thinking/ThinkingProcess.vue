@@ -1,6 +1,5 @@
 <template>
   <div class="thinking-process">
-    <!-- 에러 상태 -->
     <div v-if="state.error && !state.isLoading" class="error-container">
       <TcCard variant="error" size="lg" class="error-card">
         <template #header>
@@ -20,7 +19,6 @@
       </TcCard>
     </div>
 
-    <!-- 1단계: 고민 입력 -->
     <WorryInput
       v-else-if="state.currentStep === 'input'"
       :initial-worry="state.worryInput"
@@ -28,7 +26,6 @@
       @submit="handleWorrySubmit"
     />
 
-    <!-- 2단계: 질문 전 프레이밍 안내 -->
     <IntroFraming
       v-else-if="
         state.currentStep === 'intro' && state.framingIntro && state.worryInput
@@ -38,7 +35,6 @@
       @back="goToStep('input')"
     />
 
-    <!-- 3단계: 질문 진행 -->
     <QuestionFlow
       v-else-if="
         state.currentStep === 'questions' && state.questions.length > 0
@@ -50,7 +46,6 @@
       @back="goToStep('input')"
     />
 
-    <!-- 4단계: 분석 결과 -->
     <AnalysisResult
       v-else-if="state.currentStep === 'result' && state.analysisResult"
       :result="state.analysisResult"
@@ -62,7 +57,6 @@
       @back="goToStep('questions')"
     />
 
-    <!-- 로딩 상태 -->
     <div v-else-if="state.isLoading" class="loading-container">
       <TcCard size="lg" class="loading-card">
         <div class="loading-content">
@@ -73,12 +67,8 @@
       </TcCard>
     </div>
 
-    <!-- 질문 생성 모달: QuestionFlow와 동일한 룩앤필 -->
     <TcDialog
-      :modelValue="
-        state.isLoading &&
-        (state.currentStep === 'input' || state.currentStep === 'intro')
-      "
+      :modelValue="isGeneratingDialogActive"
       :title="
         state.currentStep === 'input'
           ? '🧭 AI가 고민을 구조화하고 있어요'
@@ -111,13 +101,14 @@
 </template>
 
 <script setup lang="ts">
-import AnalysisResult from '@/components/thinking/AnalysisResult.vue';
-import QuestionFlow from '@/components/thinking/QuestionFlow.vue';
-import WorryInput from '@/components/thinking/WorryInput.vue';
+import {
+  AnalysisResult,
+  QuestionFlow,
+  WorryInput,
+} from '@/components/thinking';
 import { TcButton, TcCard, TcDialog } from '@/components/ui';
-import { useThinkingFlow } from '@/composables/useThinkingFlow';
+import { useThinkingFlow } from '@/composables';
 import type { WorryInput as WorryInputType } from '@/types';
-import { onMounted, ref, watch } from 'vue';
 import IntroFraming from './IntroFraming.vue';
 import './QuestionFlow.scss';
 import './ThinkingProcess.scss';
@@ -130,97 +121,25 @@ const props = defineProps<{
 const {
   state,
   currentSession,
+  genStages,
+  genStageIndex,
+  genProgress,
+  isGeneratingDialogActive,
   goToStep,
   handleWorrySubmit,
   handleQuestionsComplete,
   startQuestions,
   retryCurrentStep,
   restartProcess,
+  onLoadingDialogChange,
+  bindAutoStart,
   cancelCurrentStep,
 } = useThinkingFlow();
 
-// 질문 생성 모달 진행 표시 (QuestionFlow와 동일한 속도/스타일)
-const genStageIndex = ref<number>(0);
-const genProgress = ref<number>(0);
-const genStages = [
-  '고민의 핵심을 파악하고 있습니다...',
-  '맥락과 우선순위를 정리하고 있습니다...',
-  '맞춤형 질문 후보를 생성하고 있습니다...',
-  '질문의 흐름과 난이도를 구성하고 있습니다...',
-  '완성 중입니다... 곧 시작할게요!',
-];
-const startGeneratingProgress = async () => {
-  genStageIndex.value = 0;
-  genProgress.value = 0;
-  // 단계적으로 천천히 진행 (QuestionFlow와 동일한 페이싱)
-  const totalStages = genStages.length;
-  for (let i = 0; i < totalStages; i++) {
-    if (
-      !(
-        state.isLoading &&
-        (state.currentStep === 'input' || state.currentStep === 'intro')
-      )
-    )
-      break;
-    genStageIndex.value = i;
-    const start = (i / totalStages) * 100;
-    const end = ((i + 1) / totalStages) * 100;
-    const duration = 1500; // 단계당 1.5초 (QuestionFlow)
-    const steps = 20;
-    const stepDuration = duration / steps;
-    const stepDelta = (end - start) / steps;
-    for (let j = 0; j < steps; j++) {
-      if (
-        !(
-          state.isLoading &&
-          (state.currentStep === 'input' || state.currentStep === 'intro')
-        )
-      )
-        break;
-      await new Promise(r => setTimeout(r, stepDuration));
-      genProgress.value = Math.min(99, start + stepDelta * (j + 1));
-    }
-  }
-};
-
-const stopGeneratingProgress = () => {
-  genProgress.value = 100;
-  // 짧은 타임아웃이면 충분함; 단계 변경 직후 모달이 즉시 닫힘
-  setTimeout(() => {
-    genProgress.value = 0;
-    genStageIndex.value = 0;
-  }, 300);
-};
-
-const onLoadingDialogChange = (open: boolean) => {
-  if (!open) cancelCurrentStep();
-};
-
-watch(
-  () =>
-    state.isLoading &&
-    (state.currentStep === 'input' || state.currentStep === 'intro'),
-  active => {
-    if (active) startGeneratingProgress();
-    else stopGeneratingProgress();
-  }
-);
-
-const tryAutoStart = () => {
-  if (
-    props.autoStart &&
-    props.initialWorry &&
-    state.currentStep === 'input' &&
-    !state.isLoading
-  ) {
-    handleWorrySubmit(props.initialWorry);
-  }
-};
-
-onMounted(() => {
-  tryAutoStart();
+bindAutoStart({
+  autoStart: () => props.autoStart,
+  initialWorry: () => props.initialWorry,
 });
-watch(() => [props.autoStart, props.initialWorry], tryAutoStart);
 
 defineExpose({
   restartProcess,

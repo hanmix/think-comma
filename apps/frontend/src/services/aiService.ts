@@ -1,4 +1,4 @@
-import { useThinkingStore } from '@/stores/thinking';
+import { useThinkingStore } from '@/stores';
 import type {
   AnalysisResult,
   ApiResponse,

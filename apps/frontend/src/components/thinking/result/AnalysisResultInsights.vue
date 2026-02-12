@@ -85,9 +85,9 @@
 
 <script setup lang="ts">
 import { TcCard } from '@/components/ui';
-import { useResultDerivations } from '@/composables/useResultDerivations';
+import { useAnalysisResult } from '@/composables';
 import type { AnalysisResult } from '@/types';
 
 const props = defineProps<{ result: AnalysisResult }>();
-const { getLevelText } = useResultDerivations(props.result);
+const { getLevelText } = useAnalysisResult(props.result);
 </script>
