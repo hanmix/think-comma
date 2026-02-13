@@ -20,26 +20,27 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-interface TcCardProps {
-  variant?:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'info'
-    | 'success'
-    | 'warning'
-    | 'error';
-  size?: 'sm' | 'md' | 'lg';
-  title?: string;
-  subtitle?: string;
-  hoverable?: boolean;
-}
-
-const props = withDefaults(defineProps<TcCardProps>(), {
-  variant: 'default',
-  size: 'md',
-  hoverable: false,
-});
+const props = withDefaults(
+  defineProps<{
+    variant?:
+      | 'default'
+      | 'primary'
+      | 'secondary'
+      | 'info'
+      | 'success'
+      | 'warning'
+      | 'error';
+    size?: 'sm' | 'md' | 'lg';
+    title?: string;
+    subtitle?: string;
+    hoverable?: boolean;
+  }>(),
+  {
+    variant: 'default',
+    size: 'md',
+    hoverable: false,
+  }
+);
 
 const emit = defineEmits<{
   click: [event: MouseEvent];

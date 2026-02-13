@@ -17,16 +17,17 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  modelValue?: boolean;
-  label?: string;
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
-  disabled: false,
-});
+withDefaults(
+  defineProps<{
+    modelValue?: boolean;
+    label?: string;
+    disabled?: boolean;
+  }>(),
+  {
+    modelValue: false,
+    disabled: false,
+  }
+);
 
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>();
 

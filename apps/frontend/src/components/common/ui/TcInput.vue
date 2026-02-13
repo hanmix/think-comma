@@ -35,26 +35,27 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-interface TcInputProps {
-  modelValue?: string;
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
-  label?: string;
-  placeholder?: string;
-  helpText?: string;
-  error?: string;
-  success?: string;
-  disabled?: boolean;
-  readonly?: boolean;
-  required?: boolean;
-}
-
-const props = withDefaults(defineProps<TcInputProps>(), {
-  modelValue: '',
-  type: 'text',
-  disabled: false,
-  readonly: false,
-  required: false,
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string;
+    type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
+    label?: string;
+    placeholder?: string;
+    helpText?: string;
+    error?: string;
+    success?: string;
+    disabled?: boolean;
+    readonly?: boolean;
+    required?: boolean;
+  }>(),
+  {
+    modelValue: '',
+    type: 'text',
+    disabled: false,
+    readonly: false,
+    required: false,
+  }
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcLogo } from '@/components/ui';
+import { TcButton, TcLogo } from '@/components/common/ui';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import './TcNavBar.scss';

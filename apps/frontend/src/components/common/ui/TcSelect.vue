@@ -87,30 +87,31 @@ import { useDropdown, type DropdownOption } from '@/composables';
 import { computed } from 'vue';
 import './TcSelect.scss';
 
-interface Props {
-  modelValue?: string;
-  label?: string;
-  placeholder?: string;
-  helpText?: string;
-  error?: string;
-  success?: string;
-  disabled?: boolean;
-  required?: boolean;
-  options: DropdownOption[];
-  placeholderLabel?: string;
-  placeholderValue?: string;
-  showPlaceholder?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  disabled: false,
-  required: false,
-  options: () => [],
-  placeholderLabel: '선택',
-  placeholderValue: '',
-  showPlaceholder: true,
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string;
+    label?: string;
+    placeholder?: string;
+    helpText?: string;
+    error?: string;
+    success?: string;
+    disabled?: boolean;
+    required?: boolean;
+    options: DropdownOption[];
+    placeholderLabel?: string;
+    placeholderValue?: string;
+    showPlaceholder?: boolean;
+  }>(),
+  {
+    modelValue: '',
+    disabled: false,
+    required: false,
+    options: () => [],
+    placeholderLabel: '선택',
+    placeholderValue: '',
+    showPlaceholder: true,
+  }
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];

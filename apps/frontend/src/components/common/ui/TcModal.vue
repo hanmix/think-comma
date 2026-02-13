@@ -57,21 +57,22 @@ import { computed, onMounted, onUnmounted, ref, useAttrs, watch } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 
-interface Props {
-  modelValue: boolean;
-  title?: string;
-  closable?: boolean;
-  closeOnBackdrop?: boolean;
-  width?: string; // 예: '600px' 또는 'min(90vw, 600px)'
-  hideHeader?: boolean; // true면 헤더를 시각적으로 숨김(커스텀 헤더 사용)
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  closable: true,
-  closeOnBackdrop: true,
-  width: 'min(92vw, 600px)',
-  hideHeader: false,
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean;
+    title?: string;
+    closable?: boolean;
+    closeOnBackdrop?: boolean;
+    width?: string; // 예: '600px' 또는 'min(90vw, 600px)'
+    hideHeader?: boolean; // true면 헤더를 시각적으로 숨김(커스텀 헤더 사용)
+  }>(),
+  {
+    closable: true,
+    closeOnBackdrop: true,
+    width: 'min(92vw, 600px)',
+    hideHeader: false,
+  }
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];

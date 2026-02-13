@@ -88,29 +88,24 @@
 </template>
 
 <script setup lang="ts">
-import { TcCard, TcDialog } from '@/components/ui';
+import { TcCard, TcDialog } from '@/components/common/ui';
 import { useQuestionProgress } from '@/composables';
 import type { Question, UserResponse } from '@/types';
 import './QuestionFlow.scss';
 
-interface Props {
+const props = defineProps<{
   questions: Question[];
   initialResponses?: UserResponse[];
-}
-
-interface Emits {
+}>();
+const emit = defineEmits<{
   (event: 'complete', responses: UserResponse[]): void;
   (event: 'back'): void;
   (event: 'cancel'): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
+}>();
 
 const {
   currentQuestionIndex,
   selectedChoice,
-  responses,
   currentQuestion,
   progressPercentage,
   isAnalyzing,

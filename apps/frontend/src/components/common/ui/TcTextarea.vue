@@ -61,36 +61,37 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-interface Props {
-  modelValue?: string;
-  label?: string;
-  placeholder?: string;
-  helpText?: string;
-  errorText?: string;
-  success?: string;
-  disabled?: boolean;
-  readonly?: boolean;
-  required?: boolean;
-  rows?: number | string;
-  minLength?: number | string;
-  maxlength?: number | string;
-  ariaDescribedby?: string;
-  ariaInvalid?: boolean;
-  textareaClass?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
-  disabled: false,
-  readonly: false,
-  required: false,
-  rows: 4,
-  minLength: undefined,
-  maxlength: undefined,
-  ariaDescribedby: undefined,
-  ariaInvalid: undefined,
-  textareaClass: '',
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string;
+    label?: string;
+    placeholder?: string;
+    helpText?: string;
+    errorText?: string;
+    success?: string;
+    disabled?: boolean;
+    readonly?: boolean;
+    required?: boolean;
+    rows?: number | string;
+    minLength?: number | string;
+    maxlength?: number | string;
+    ariaDescribedby?: string;
+    ariaInvalid?: boolean;
+    textareaClass?: string;
+  }>(),
+  {
+    modelValue: '',
+    disabled: false,
+    readonly: false,
+    required: false,
+    rows: 4,
+    minLength: undefined,
+    maxlength: undefined,
+    ariaDescribedby: undefined,
+    ariaInvalid: undefined,
+    textareaClass: '',
+  }
+);
 
 const emit = defineEmits<{
   'update:modelValue': [value: string];

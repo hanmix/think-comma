@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcModal } from '@/components/ui';
+import { TcModal } from '@/components/common/ui';
 import type { AnalysisResult, Question } from '@/types';
 import { computed } from 'vue';
 

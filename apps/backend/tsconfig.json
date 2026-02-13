@@ -4,15 +4,15 @@
     "module": "CommonJS",
     "rootDir": "src",
     "outDir": "dist",
-    "baseUrl": "src",
     "esModuleInterop": true,
     "strict": true,
     "paths": {
-      "@modules/*": ["modules/*"],
-      "@shared/*": ["shared/*"],
-      "@infra/*": ["infra/*"],
-      "@config/*": ["config/*"],
-      "@middlewares/*": ["middlewares/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@config/*": ["./src/config/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "types/*": ["./src/types/*"]
     }
   },
   "include": ["src"]

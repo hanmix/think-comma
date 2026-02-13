@@ -42,8 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { TcButton } from '@/components/common/ui';
 import { useAnalysisResult } from '@/composables';
-import { TcButton } from '@/components/ui';
 import type { AnalysisResult, Question } from '@/types';
 import { ref } from 'vue';
 import './AnalysisResult.scss';
@@ -53,21 +53,13 @@ import AnalysisResultHistory from './result/AnalysisResultHistory.vue';
 import AnalysisResultInsights from './result/AnalysisResultInsights.vue';
 import AnalysisResultRecommendation from './result/AnalysisResultRecommendation.vue';
 
-interface Props {
+const props = defineProps<{
   result: AnalysisResult;
   originalWorry: string;
   questions?: Question[];
   choiceALabel?: string;
   choiceBLabel?: string;
-}
-
-interface Emits {
-  (event: 'restart'): void;
-  (event: 'back'): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
+}>();
 
 const showHistory = ref(false);
 const {
@@ -82,5 +74,4 @@ const {
   choiceALabel: props.choiceALabel,
   choiceBLabel: props.choiceBLabel,
 });
-
 </script>

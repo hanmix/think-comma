@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcCard } from '@/components/ui';
+import { TcCard } from '@/components/common/ui';
 import type { AnalysisResult } from '@/types';
 
 defineProps<{

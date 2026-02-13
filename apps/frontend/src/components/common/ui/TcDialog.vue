@@ -28,19 +28,20 @@ import { computed } from 'vue';
 import TcCard from './TcCard.vue';
 import TcModal from './TcModal.vue';
 
-interface Props {
-  modelValue: boolean;
-  title?: string;
-  closable?: boolean;
-  closeOnBackdrop?: boolean;
-  width?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  closable: true,
-  closeOnBackdrop: true,
-  width: 'min(92vw, 600px)',
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue: boolean;
+    title?: string;
+    closable?: boolean;
+    closeOnBackdrop?: boolean;
+    width?: string;
+  }>(),
+  {
+    closable: true,
+    closeOnBackdrop: true,
+    width: 'min(92vw, 600px)',
+  }
+);
 
 const emit = defineEmits<{ 'update:modelValue': [val: boolean] }>();
 const proxyValue = computed({

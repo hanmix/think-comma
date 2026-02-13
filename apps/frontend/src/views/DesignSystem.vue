@@ -177,7 +177,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcInput, TcLogo, TcModal } from '@/components/ui';
+import { TcButton, TcCard, TcInput, TcLogo, TcModal } from '@/components/common/ui';
 import { ref } from 'vue';
 import './DesignSystem.scss';
 const showModal = ref(false);

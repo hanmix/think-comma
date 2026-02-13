@@ -46,10 +46,10 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard } from '@/components/ui';
+import { TcButton, TcCard } from '@/components/common/ui';
 import type { FramingIntro } from '@/types';
 import './IntroFraming.scss';
 
-const props = defineProps<{ framing: FramingIntro }>();
+defineProps<{ framing: FramingIntro }>();
 defineEmits<{ (e: 'start'): void; (e: 'back'): void }>();
 </script>

@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard } from '@/components/ui';
+import { TcButton, TcCard } from '@/components/common/ui';
 import { useRouter } from 'vue-router';
 import './HomePage.scss';
 

@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcCard } from '@/components/ui';
+import { TcCard } from '@/components/common/ui';
 
 defineProps<{
   guideSteps: Array<{ title: string; description: string }>;

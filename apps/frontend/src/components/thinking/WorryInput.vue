@@ -72,25 +72,21 @@
 </template>
 
 <script setup lang="ts">
-import { TcButton, TcCard, TcSelect, TcTextarea } from '@/components/ui';
+import { TcButton, TcCard, TcSelect, TcTextarea } from '@/components/common/ui';
 import { useWorryInput } from '@/composables';
 import { categoryOptions } from '@/constants';
 import type { WorryInput } from '@/types';
 import { computed, useId } from 'vue';
 import './WorryInput.scss';
 
-interface Props {
+const props = defineProps<{
   initialWorry?: WorryInput | null;
   isLoading?: boolean;
-}
+}>();
 
-interface Emits {
+const emit = defineEmits<{
   (event: 'submit', worry: WorryInput): void;
-}
-
-const props = defineProps<Props>();
-
-const emit = defineEmits<Emits>();
+}>();
 
 const {
   minLength,

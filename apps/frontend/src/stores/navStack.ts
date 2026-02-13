@@ -1,4 +1,4 @@
-import type { ProcessStep } from '@/types';
+import type { ProcessStepType } from '@/types';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -8,11 +8,11 @@ import { computed, ref } from 'vue';
  */
 
 export const useNavStackStore = defineStore('navStack', () => {
-  const flowStep = ref<ProcessStep>('input');
+  const flowStep = ref<ProcessStepType>('input');
   const isFlowInProgress = computed(() => flowStep.value !== 'input');
   const skipConfirmNext = ref(false);
 
-  const setFlowStep = (step: ProcessStep) => {
+  const setFlowStep = (step: ProcessStepType) => {
     flowStep.value = step;
   };
 

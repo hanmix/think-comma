@@ -15,13 +15,12 @@
     "emitDeclarationOnly": false,
     "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": false,
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
 
     // 경로
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@myorg/shared": ["../../packages/shared/src/index.ts"]
+      "@/*": ["./src/*"],
+      "@myorg/shared": ["./../../packages/shared/src/index.ts"]
     },
 
     // import 선호 설정

@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { TcCard } from '@/components/ui';
+import { TcCard } from '@/components/common/ui';
 import { useAnalysisResult } from '@/composables';
 import type { AnalysisResult } from '@/types';
 

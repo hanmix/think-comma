@@ -12,19 +12,20 @@
 import { computed } from 'vue';
 import './TcLogo.scss';
 
-interface TcLogoProps {
-  variant?: 'basic' | 'minimal' | 'emphasis' | 'gradient';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  animated?: boolean;
-  clickable?: boolean;
-}
-
-const props = withDefaults(defineProps<TcLogoProps>(), {
-  variant: 'basic',
-  size: 'md',
-  animated: true,
-  clickable: false,
-});
+const props = withDefaults(
+  defineProps<{
+    variant?: 'basic' | 'minimal' | 'emphasis' | 'gradient';
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    animated?: boolean;
+    clickable?: boolean;
+  }>(),
+  {
+    variant: 'basic',
+    size: 'md',
+    animated: true,
+    clickable: false,
+  }
+);
 
 const emit = defineEmits<{
   click: [event: MouseEvent];

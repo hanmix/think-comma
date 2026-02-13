@@ -51,27 +51,28 @@ import type { DropdownOption } from '@/composables';
 import { ref, watch } from 'vue';
 import './TcDropdown.scss';
 
-interface Props {
-  open: boolean;
-  modelValue?: string;
-  options: DropdownOption[];
-  placeholderLabel?: string;
-  placeholderValue?: string;
-  showPlaceholder?: boolean;
-  direction?: 'down' | 'up';
-  listboxId?: string;
-  labelledby?: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  open: false,
-  modelValue: '',
-  options: () => [],
-  placeholderLabel: '선택',
-  placeholderValue: '',
-  showPlaceholder: true,
-  direction: 'down' as const,
-});
+const props = withDefaults(
+  defineProps<{
+    open: boolean;
+    modelValue?: string;
+    options: DropdownOption[];
+    placeholderLabel?: string;
+    placeholderValue?: string;
+    showPlaceholder?: boolean;
+    direction?: 'down' | 'up';
+    listboxId?: string;
+    labelledby?: string;
+  }>(),
+  {
+    open: false,
+    modelValue: '',
+    options: () => [],
+    placeholderLabel: '선택',
+    placeholderValue: '',
+    showPlaceholder: true,
+    direction: 'down' as const,
+  }
+);
 
 const emit = defineEmits<{
   select: [value: string];

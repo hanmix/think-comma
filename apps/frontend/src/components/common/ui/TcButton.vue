@@ -12,19 +12,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-interface TcButtonProps {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<TcButtonProps>(), {
-  variant: 'primary',
-  size: 'md',
-  type: 'button',
-  disabled: false,
-});
+const props = withDefaults(
+  defineProps<{
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+  }>(),
+  {
+    variant: 'primary',
+    size: 'md',
+    type: 'button',
+    disabled: false,
+  }
+);
 
 const emit = defineEmits<{
   click: [event: MouseEvent];

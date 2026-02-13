@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatInput, ChatMessages } from '@/components/ui';
+import { ChatInput, ChatMessages } from '@/components/chat';
 import { useChat } from '@/composables';
 
 const { messages, isLoading, error, send, stop } = useChat({

@@ -19,17 +19,18 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  modelValue?: string | number;
-  value: string | number;
-  name: string;
-  label?: string;
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  disabled: false,
-});
+withDefaults(
+  defineProps<{
+    modelValue?: string | number;
+    value: string | number;
+    name: string;
+    label?: string;
+    disabled?: boolean;
+  }>(),
+  {
+    disabled: false,
+  }
+);
 
 const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>();
 

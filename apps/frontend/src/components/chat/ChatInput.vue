@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const props = defineProps<{ disabled?: boolean }>();
+defineProps<{ disabled?: boolean }>();
 const emit = defineEmits<{ submit: [text: string] }>();
 
 const input = ref('');

@@ -5,9 +5,12 @@
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:backend": "pnpm --filter backend dev",
     "dev": "pnpm -r run dev",
-    "build": "pnpm -r run build",
+    "build": "pnpm run type-check && pnpm -r run build",
     "build:frontend": "pnpm --filter frontend build",
-    "build:backend": "pnpm --filter backend build"
+    "build:backend": "pnpm --filter backend build",
+    "type-check:frontend": "pnpm --filter frontend type-check",
+    "type-check:backend": "pnpm --filter backend type-check",
+    "type-check": "pnpm run type-check:frontend && pnpm run type-check:backend"
   },
   "dependencies": {
     "axios": "^1.13.3",

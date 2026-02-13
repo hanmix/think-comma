@@ -1,7 +1,7 @@
 import type {
   AnalysisResult,
   FramingIntro,
-  ProcessStep,
+  ProcessStepType,
   Question,
   ThinkingSession,
   ThinkingState,
@@ -54,7 +54,7 @@ export const useThinkingStore = defineStore('thinking', () => {
     state.framingIntro = null;
   };
 
-  const goToStep = (step: ProcessStep) => {
+  const goToStep = (step: ProcessStepType) => {
     state.currentStep = step;
     state.error = '';
   };

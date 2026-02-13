@@ -106,7 +106,7 @@ import {
   QuestionFlow,
   WorryInput,
 } from '@/components/thinking';
-import { TcButton, TcCard, TcDialog } from '@/components/ui';
+import { TcButton, TcCard, TcDialog } from '@/components/common/ui';
 import { useThinkingFlow } from '@/composables';
 import type { WorryInput as WorryInputType } from '@/types';
 import IntroFraming from './IntroFraming.vue';
