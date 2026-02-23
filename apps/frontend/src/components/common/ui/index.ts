@@ -1,4 +1,3 @@
-// ThinkComma UI 컴포넌트
 export { default as TcButton } from './TcButton.vue';
 export { default as TcCard } from './TcCard.vue';
 export { default as TcCheckbox } from './TcCheckbox.vue';

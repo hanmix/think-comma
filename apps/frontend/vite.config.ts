@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => ({
     extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
   },
   build: {
+    emptyOutDir: true,
     commonjsOptions: {
       include: [/node_modules/, /packages\/shared\/src/],
     },
